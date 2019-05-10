@@ -1,0 +1,47 @@
+﻿
+
+front.hps.pay.merchantNoticeAdd.service.businessInterface=com.sumapay.hps.biz.pay.service.MerchantNoticeService
+
+
+# 清结算系统添加
+biz.settlement.queue=com.sumapay.mq.queue.trade.settlement
+
+biz.settlement.processor.package=com.sumapay.hps.biz.settlement.processor
+
+sumapay.dataSource.mysql.jndiName=jdbc/sumapay
+
+
+
+###渠道对账系统添加mq
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare exchange name=com.sumapay.mq.exchange.channelcheck type=direct durable=true
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.channelcheck
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.channelcheck destination=com.sumapay.mq.queue.channelcheck routing_key=channelcheck
+
+
+sumapay.channelcheck.queue=com.sumapay.mq.queue.channelcheck
+sumapay.channelcheck.trade.exchange=com.sumapay.mq.exchange.channelcheck
+channelcheck.mq.replyTo.queue=amq.direct://com.sumapay.mq.exchange.channelcheck/channelcheck
+
+
+#调度系统添加参数（sumapayex ）需要添加channelCheck的ha配置
+channelcheck.springremote.proxy.server=192.161.14.92:8787  
+channelcheck.getChannelCheckRecord.service.haproxy.urls=http://${channelcheck.springremote.proxy.server}/channelCheck/remote/getBankCheckRecordRemoteService
+channelcheck.getChannelCheckRecord.service.businessInterface=com.sumavision.ecommerce.plateform.core.finance.bankcheck.service.GetUpdateBankCheckRecordService
+
+channelcheck.channelCheckProcess.service.proxy.urls=http://${channelcheck.springremote.proxy.server}/channelCheck/remote/bankCheckProcessRemoteService
+channelcheck.channelCheckProcess.service.businessInterface=com.sumavision.ecommerce.plateform.core.finance.bankcheck.service.BankCheckProcessService
+
+
+###渠道获取对账单，调度文件中替换文件内容（将原有bankCheck调度拿下来一份，直接替换内容重新上传，client包保持不变用bankCheck）：
+bankcheck.getBankCheckRecord.service.haproxy.urls 为channelcheck.getChannelCheckRecord.service.haproxy.urls
+bankcheck.getBankCheckRecord.service.businessInterface为channelcheck.getChannelCheckRecord.service.businessInterface
+同时替换文件内容中所有BankCheck为ChannelCheck
+
+
+#银行对账（需要单独配置dubbo）
+在/sumapayex/config/下添加文件：dubbo-config.properties
+
+#账务系统（需要单独配置dubbo）
+在/sumapayex/config/下添加文件：dubbo-config.properties
+#保存商户通知系统（需要单独配置dubbo）
+在/sumapayex/config/下添加文件：dubbo-config.properties

@@ -1,0 +1,6 @@
+﻿ASP_S_20170006
+AP.2.0.6.0和AP.2.5.5.0
+
+domain已经打了，AP.2.0.0-sumapay-6
+冯宗亮(F07959698B24对话) 10:59:28
+2.5建domain的话，使用tvpay2domainap6用户

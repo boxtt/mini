@@ -1,0 +1,63 @@
+﻿
+gfsh>describe member --name=/merchant-HA1-53bc0735-5bee-4682-9a16-85b3d49add56
+Name        : /merchant-HA1-53bc0735-5bee-4682-9a16-85b3d49add56
+Id          : HA1(/merchant-HA1-53bc0735-5bee-4682-9a16-85b3d49add56:32055):1036
+6
+Host        : HA1
+Regions     : MerchantSpringSessions
+
+PID         : 32055
+Groups      :
+Used Heap   : 366M
+Max Heap    : 742M
+Working Dir : /home/glassfish/SUNWappserver/domains/pl/config
+Log file    : /home/glassfish/SUNWappserver/domains/pl/logs/gemfire.log
+Locators    : 192.161.14.94[10301]
+
+
+gfsh>put --key=('123T') --value=('hello1') --region=MerchantSpringSessions
+Result      : true
+Key Class   : java.lang.String
+Key         : ('123T')
+Value Class : java.lang.String
+Old Value   : <NULL>
+
+gfsh>create region --name=regions --type=REPLICATE_PERSISTENT
+                      Member                       | Status
+-------------------------------------------------- | ---------------------------
+------------------------------------------------------
+/merchant-HA1-53bc0735-5bee-4682-9a16-85b3d49add56 | Region "/regions" created o
+n "/merchant-HA1-53bc0735-5bee-4682-9a16-85b3d49add56"
+
+gfsh>list regions
+List of regions
+----------------------
+MerchantSpringSessions
+
+gfsh>query --query ='select * from /MerchantSpringSessions'
+
+Result     : true
+startCount : 0
+endCount   : 20
+Rows       : 0
+
+
+NEXT_STEP_NAME : END
+
+
+gfsh>list members
+                       Name                        | Id
+-------------------------------------------------- | ---------------------------
+----------------------------------------
+/merchant-HA1-53bc0735-5bee-4682-9a16-85b3d49add56 | HA1(/merchant-HA1-53bc0735-
+5bee-4682-9a16-85b3d49add56:32055):10366
+
+
+
+gfsh>describe connection
+Connection Endpoints
+--------------------
+192.161.14.94[10331]
+
+gfsh>version
+v7.0.2

@@ -1,0 +1,39 @@
+﻿请求流水：	20170205023331016
+P2P平台商户编码：CSSH	
+通知地址：	http://192.161.14.94:8080/merchant
+交易日期：	20170205
+交易时间：	131111
+合作单位编号：	800105
+合作单位渠道：	000005
+徽商交易流水号：	20170125061720010
+标的编号：	0027
+产品描述：	1111111
+借款人电子账号：	9930040070070000025
+借款金额（元）：2	
+付息方式：	0：到期与本金一起归还； 1：每月固定日期支付； 2：每月不确定日期支付；
+项目期限:	25
+预期年化收益率:	1300000
+利息每月支付日:	2 付息方式为1时必填； 若设置日期大于月份最后一天时，则为该月最后一天支付
+担保人电子账号:	6236640010000150242	
+名义借款人电子账号:	6236640010000150242
+保留域:	12312
+merKey:	CSSH_KEY
+signature:	 d73c80183f8a7ff318ce21fa7ba5ebbe
+
+
+
+[2017-02-05T10:34:03.235+0800] [glassfish 4.0] [INFO] [] [] [tid: _ThreadID=550 _ThreadName=Thread-3] [timeMillis: 1486262043235] [levelValue: 800] [[
+  2017-02-05 10:34:03,235 [INFO ] [biz.hsbdepository] [com.sumapay.biz.hsbdepository.processor.HsbCommunicateBackgroundProcessor] - 徽商2.0后台接口通信，输出参数:{SEQNO=20170125061720010, STATE=1, INTPAYDAY=21, COINSTCHANNEL=000005, NOTICE_URL=http://192.161.14.94:8080/merchant, REQUEST_ID=20170205023331016, COINSTCODE=800105, RETCODE=00000000, TRADE_START_TIME=Sun Feb 05 02:39:56 CST 2017, bankcode=on, domain=192.161.14.96:8080, encoding=GBK, CARDNBR=9930040070070000025, PROD_DESC=1111111, REQUEST_TYPE=4, merKey=CSSH_KEY, NAME=武孟梦, RESERVED=, CLIENT_ID=20170205023331016, TRXDATE=20170205, AMOUNT=2, YIELD=1300000, TRADE_LOC=INNER_MERCHANT_SUMA, TRADE_USER=_BUSINESS_SUMA_USER, TRADE_PROCESS=__BUSINESS_SUMA_GW, TRXTIME=131111, paystyle=bidInformationInput, TRADE_CODE=HS0018, FUPROD=0027, LOAN_TERM=25, INPDATE=20170205, BANK_CODE=hsb2_depository, INTTYPE=0, METHOD=PLA-CON-029, connectorName=hsb2_depository, MER_INFO=<map>
+  <entry>
+    <string>noticeurl</string>
+    <string>http://192.161.14.94:8080/merchant</string>
+  </entry>
+</map>, REQUEST_CHANNEL_TYPE=0, MERCHANT_ID=104, MERCHANT_CODE=CSSH, RETMSG=, NAME_SU=, ACTION_RESULT=0}]]
+
+[2017-02-05T10:34:03.236+0800] [glassfish 4.0] [INFO] [] [] [tid: _ThreadID=550 _ThreadName=Thread-3] [timeMillis: 1486262043236] [levelValue: 800] [[
+  2017-02-05 10:34:03,236 [INFO ] [biz.hsbdepository] [com.sumapay.biz.trade.controller.impl.TransactionControllerImpl] - 交易[HS0018]处理结果为:{SEQNO=20170125061720010, STATE=1, INTPAYDAY=21, COINSTCHANNEL=000005, NOTICE_URL=http://192.161.14.94:8080/merchant, REQUEST_ID=20170205023331016, COINSTCODE=800105, RETCODE=00000000, TRADE_START_TIME=Sun Feb 05 02:39:56 CST 2017, bankcode=on, domain=192.161.14.96:8080, encoding=GBK, CARDNBR=9930040070070000025, PROD_DESC=1111111, REQUEST_TYPE=4, merKey=CSSH_KEY, NAME=武孟梦, RESERVED=, CLIENT_ID=20170205023331016, TRXDATE=20170205, AMOUNT=2, YIELD=1300000, TRADE_LOC=INNER_MERCHANT_SUMA, TRADE_USER=_BUSINESS_SUMA_USER, TRADE_PROCESS=__BUSINESS_SUMA_GW, TRXTIME=131111, paystyle=bidInformationInput, TRADE_CODE=HS0018, FUPROD=0027, LOAN_TERM=25, INPDATE=20170205, BANK_CODE=hsb2_depository, INTTYPE=0, METHOD=PLA-CON-029, connectorName=hsb2_depository, MER_INFO=<map>
+  <entry>
+    <string>noticeurl</string>
+    <string>http://192.161.14.94:8080/merchant</string>
+  </entry>
+</map>, REQUEST_CHANNEL_TYPE=0, MERCHANT_ID=104, MERCHANT_CODE=CSSH, RETMSG=, NAME_SU=, ACTION_RESULT=0}]]

@@ -1,0 +1,1 @@
+﻿{"returnCode":1,"code":0,"body":"{"appId":"wxf088cc8f4c48f416","timeStamp":"1447731332","nonceStr":"1135328275","package":"prepay_id=12312","signType":"MD5","paySign":"EBEF702C66360CEF1FE63BE133C8A33A"}"}

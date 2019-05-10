@@ -1,0 +1,48 @@
+﻿[2017-02-05T10:34:03.235+0800] [glassfish 4.0] [INFO] [] [] [tid: _ThreadID=550 _ThreadName=Thread-3] [timeMillis: 1486262043235] [levelValue: 800] [[
+  2017-02-05 10:34:03,235 [INFO ] [biz.hsbdepository] [com.sumapay.biz.hsbdepository.processor.HsbCommunicateBackgroundProcessor] - 徽商2.0后台接口通信，输出参数:{SEQNO=20170125061720010, STATE=1, INTPAYDAY=21, COINSTCHANNEL=000005, NOTICE_URL=http://192.161.14.94:8080/merchant, REQUEST_ID=20170205023331016, COINSTCODE=800105, RETCODE=00000000, TRADE_START_TIME=Sun Feb 05 02:39:56 CST 2017, bankcode=on, domain=192.161.14.96:8080, encoding=GBK, CARDNBR=9930040070070000025, PROD_DESC=1111111, REQUEST_TYPE=4, merKey=CSSH_KEY, NAME=武孟梦, RESERVED=, CLIENT_ID=20170205023331016, TRXDATE=20170205, AMOUNT=2, YIELD=1300000, TRADE_LOC=INNER_MERCHANT_SUMA, TRADE_USER=_BUSINESS_SUMA_USER, TRADE_PROCESS=__BUSINESS_SUMA_GW, TRXTIME=131111, paystyle=bidInformationInput, TRADE_CODE=HS0018, FUPROD=0027, LOAN_TERM=25, INPDATE=20170205, BANK_CODE=hsb2_depository, INTTYPE=0, METHOD=PLA-CON-029, connectorName=hsb2_depository, MER_INFO=<map>
+  <entry>
+    <string>noticeurl</string>
+    <string>http://192.161.14.94:8080/merchant</string>
+  </entry>
+</map>, REQUEST_CHANNEL_TYPE=0, MERCHANT_ID=104, MERCHANT_CODE=CSSH, RETMSG=, NAME_SU=, ACTION_RESULT=0}]]
+
+[2017-02-05T10:34:03.236+0800] [glassfish 4.0] [INFO] [] [] [tid: _ThreadID=550 _ThreadName=Thread-3] [timeMillis: 1486262043236] [levelValue: 800] [[
+  2017-02-05 10:34:03,236 [INFO ] [biz.hsbdepository] [com.sumapay.biz.trade.controller.impl.TransactionControllerImpl] - 交易[HS0018]处理结果为:{SEQNO=20170125061720010, STATE=1, INTPAYDAY=21, COINSTCHANNEL=000005, NOTICE_URL=http://192.161.14.94:8080/merchant, REQUEST_ID=20170205023331016, COINSTCODE=800105, RETCODE=00000000, TRADE_START_TIME=Sun Feb 05 02:39:56 CST 2017, bankcode=on, domain=192.161.14.96:8080, encoding=GBK, CARDNBR=9930040070070000025, PROD_DESC=1111111, REQUEST_TYPE=4, merKey=CSSH_KEY, NAME=武孟梦, RESERVED=, CLIENT_ID=20170205023331016, TRXDATE=20170205, AMOUNT=2, YIELD=1300000, TRADE_LOC=INNER_MERCHANT_SUMA, TRADE_USER=_BUSINESS_SUMA_USER, TRADE_PROCESS=__BUSINESS_SUMA_GW, TRXTIME=131111, paystyle=bidInformationInput, TRADE_CODE=HS0018, FUPROD=0027, LOAN_TERM=25, INPDATE=20170205, BANK_CODE=hsb2_depository, INTTYPE=0, METHOD=PLA-CON-029, connectorName=hsb2_depository, MER_INFO=<map>
+  <entry>
+    <string>noticeurl</string>
+    <string>http://192.161.14.94:8080/merchant</string>
+  </entry>
+</map>, REQUEST_CHANNEL_TYPE=0, MERCHANT_ID=104, MERCHANT_CODE=CSSH, RETMSG=, NAME_SU=, ACTION_RESULT=0}]]
+
+
+
+
+
+
+
+
+
+
+
+绑定：
+		params.put("REQUEST_ID", getSequencebyTime());
+		Date nowDate = new Date();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMdd");
+		SimpleDateFormat timeFormat = new SimpleDateFormat("hhmmss");
+		params.put("TRXDATE", dateFormat.format(nowDate));
+		params.put("TRXTIME", timeFormat.format(nowDate));
+		//TODO 渠道编码需要 获取
+		params.put("COINSTCODE", "800105");
+		params.put("COINSTCHANNEL", "000005");
+		params.put("SEQNO", getSequencebyTime());
+		params.put("CARDNBR", "9930040070070000025");
+		params.put("SIG_CARD", "6212260200036759963");
+		params.put("SURNAME", "武孟梦");
+		params.put("KEYTYPE", "01");
+		params.put("IDNO", "42011119831113732X");
+		params.put("MOBILE", "18500185426");
+		params.put("BANK_CODE", "icbc");
+		params.put("MERCHANT_CODE", "CSSH");
+		params.put("MER_INFO", "<map><entry><string>noticeurl</string><string>192.161.14.93:8000/hsb2</string></entry></map>");
+		params.put("USR_IP", "192.161.14.93");
+		params.put("REMARK", "徽商签约卡绑定测试");

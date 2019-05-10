@@ -1,0 +1,3 @@
+﻿
+在/sumapayex/exception/merchant.exception.properties添加内容
+120000003 = 用户数据不正常，不能包含特殊字符'<'或'>'！

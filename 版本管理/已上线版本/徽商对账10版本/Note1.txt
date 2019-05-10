@@ -1,0 +1,41 @@
+﻿	/**
+	 * 根据对账平账记录更新徽商2.0资金结算表对应结算金额
+	 * @param  payTradeIdList 平账记录
+	 */
+	private void  updateP2pHsb2SettlementFund(List<Map<String,Object>> payTradeIdList, String bank ){
+		Map<Date,BigDecimal>  rechargeFundMap= new HashMap<Date,BigDecimal>();
+
+		for(int i=0;i < payTradeIdList.size(); i++){
+			Map<String,Object> resultMap = payTradeIdList.get(i);
+			BigDecimal rechargeFund = (BigDecimal) resultMap.get("RECHARGEFUND");
+			Date queryDate = (Date) resultMap.get("QUERYDATE");
+			if(rechargeFundMap.get(queryDate) == null){
+				rechargeFundMap.put(queryDate, rechargeFund);
+			}else{
+				rechargeFundMap.put(queryDate, rechargeFundMap.get("RECHARGEFUND").add(rechargeFund));
+			}
+		}
+		// 循环更新资金结算表的结算金额，如果已经有结算金额，进行金额累加
+		for(Date queryDate :rechargeFundMap.keySet()){
+			P2pHsb2SettlementFund  p2pHsb2SettlementFund = this.getP2pHsb2SettlementFund(queryDate);
+			BigDecimal rechargeFund = rechargeFundMap.get(queryDate);
+			if(p2pHsb2SettlementFund == null){
+				P2pHsb2SettlementFund newP2pHsb2SettlementFund = new P2pHsb2SettlementFund();
+				newP2pHsb2SettlementFund.setFund(rechargeFund);
+				newP2pHsb2SettlementFund.setQueryDate(queryDate);
+				p2pHsb2SettlementFundDAO.insert(newP2pHsb2SettlementFund);
+				logger.info("银行["+bank+"]更新资金结算表日期["+queryDate+"]记录完成,当前结算总金额["+newP2pHsb2SettlementFund.getFund()+"]元");
+			}else{
+				p2pHsb2SettlementFund.setFund(p2pHsb2SettlementFund.getFund().add(rechargeFund));
+				p2pHsb2SettlementFundDAO.updateByPrimaryKey(p2pHsb2SettlementFund);
+				logger.info("银行["+bank+"]更新资金结算表日期["+queryDate+"]记录完成,当前结算总金额["+p2pHsb2SettlementFund.getFund()+"]元");
+			}
+		}
+
+	}
+	
+	
+select t.*, t.rowid from P2P_HSB2_SETTLEMENT_FUND t;
+select t.*, t.rowid from P2P_HSB2_BANK_CHECK_REC t;
+update P2P_HSB2_RECHARGE_REQUEST t set t.check_status=0; 
+update P2P_HSB2_BANK_CHECK_REC t set t.check_status=0; 	

@@ -1,0 +1,5 @@
+﻿每张表都是作为“段”来存储的，可以通过user_segments视图查看其相应信息。
+段（segments）的定义：如果创建一个堆组织表，则该表就是一个段。
+sql：SELECT segment_name AS TABLENAME,BYTES FROM user_segments WHERE segment_name='表名'。
+解释：
+segment_name 就是要查询的表名（大写），BYTES 为表存储所占用的字节数。本sql的意思就是查询出表名和表所占的存储空间大小。

@@ -1,0 +1,11 @@
+﻿[glassfish@HA1 temp]$ grep '^[01]\{3\}[\ \-]\{1\}[0-9]\{6\}8$' 3.txt   
+010-8387258
+010 8387258
+
+
+grep -lr  neirng *
+
+^表示以什么开始
+
+
+ps -ef | awk '{print length}' 

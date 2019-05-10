@@ -1,0 +1,246 @@
+﻿即使再多文件也是通过的单个文件逐次上传的（zip等压缩包实际上是一个文件）。实现思路就是将多个文件循环进行上传，上传方法举例：
+/**
+* 上传文件
+*
+* @param fileName
+* @param plainFilePath 文件路径路径
+* @param filepath
+* @return 
+* @throws Exception
+*/
+public static String fileUploadByFtp(String plainFilePath, String fileName, String filepath) throws Exception {
+FileInputStream fis = null;
+ByteArrayOutputStream bos = null;
+FTPClient ftpClient = new FTPClient();
+String bl = "false";
+try {
+fis = new FileInputStream(plainFilePath);
+bos = new ByteArrayOutputStream(fis.available());
+byte[] buffer = new byte[1024];
+int count = 0;
+while ((count = fis.read(buffer)) != -1) {
+bos.write(buffer, 0, count);
+}
+bos.flush();
+Log.info("加密上传文件开始");
+Log.info("连接远程上传服务器"+CCFCCBUtil.CCFCCBHOSTNAME+":"+22);
+ftpClient.connect(CCFCCBUtil.CCFCCBHOSTNAME, 22);
+ftpClient.login(CCFCCBUtil.CCFCCBLOGINNAME, CCFCCBUtil.CCFCCBLOGINPASSWORD);
+FTPFile[] fs;
+fs = ftpClient.listFiles();
+for (FTPFile ff : fs) {
+if (ff.getName().equals(filepath)) {
+bl="true";
+ftpClient.changeWorkingDirectory("/"+filepath+"");
+}
+}
+Log.info("检查文件路径是否存在：/"+filepath);
+if("false".equals(bl)){
+ViewUtil.dataSEErrorPerformedCommon( "查询文件路径不存在："+"/"+filepath);
+return bl;
+}
+ftpClient.setBufferSize(1024);
+ftpClient.setControlEncoding("GBK");
+// 设置文件类型（二进制）
+ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
+ftpClient.storeFile(fileName, fis);
+Log.info("上传文件成功："+fileName+"。文件保存路径："+"/"+filepath+"/");
+return bl;
+} catch (Exception e) {
+throw e;
+} finally {
+if (fis != null) {
+try {
+fis.close();
+} catch (Exception e) {
+Log.info(e.getLocalizedMessage(), e);
+}
+}
+if (bos != null) {
+try {
+bos.close();
+} catch (Exception e) {
+Log.info(e.getLocalizedMessage(), e);
+}
+}
+}
+}
+备注：只需要修改上传的服务器地址、用户名、密码即可进行服务器访问上传。根据实际需要修改即可。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+实现上传下载实际上就是io的转换。举例：
+import hkrt.b2b.view.util.Log;
+import hkrt.b2b.view.util.ViewUtil;
+import java.io.ByteArrayOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+
+import org.apache.commons.net.ftp.FTPClient;
+import org.apache.commons.net.ftp.FTPFile;
+
+public class CCFCCBFTP {
+
+/**
+* 上传文件
+*
+* @param fileName
+* @param plainFilePath 明文文件路径路径
+* @param filepath
+* @return 
+* @throws Exception
+*/
+public static String fileUploadByFtp(String plainFilePath, String fileName, String filepath) throws Exception {
+FileInputStream fis = null;
+ByteArrayOutputStream bos = null;
+FTPClient ftpClient = new FTPClient();
+String bl = "false";
+try {
+fis = new FileInputStream(plainFilePath);
+bos = new ByteArrayOutputStream(fis.available());
+byte[] buffer = new byte[1024];
+int count = 0;
+while ((count = fis.read(buffer)) != -1) {
+bos.write(buffer, 0, count);
+}
+bos.flush();
+Log.info("加密上传文件开始");
+Log.info("连接远程上传服务器"+CCFCCBUtil.CCFCCBHOSTNAME+":"+22);
+ftpClient.connect(CCFCCBUtil.CCFCCBHOSTNAME, 22);
+ftpClient.login(CCFCCBUtil.CCFCCBLOGINNAME, CCFCCBUtil.CCFCCBLOGINPASSWORD);
+FTPFile[] fs;
+fs = ftpClient.listFiles();
+for (FTPFile ff : fs) {
+if (ff.getName().equals(filepath)) {
+bl="true";
+ftpClient.changeWorkingDirectory("/"+filepath+"");
+}
+}
+Log.info("检查文件路径是否存在：/"+filepath);
+if("false".equals(bl)){
+ViewUtil.dataSEErrorPerformedCommon( "查询文件路径不存在："+"/"+filepath);
+return bl;
+}
+ftpClient.setBufferSize(1024);
+ftpClient.setControlEncoding("GBK");
+// 设置文件类型（二进制）
+ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
+ftpClient.storeFile(fileName, fis);
+Log.info("上传文件成功："+fileName+"。文件保存路径："+"/"+filepath+"/");
+return bl;
+} catch (Exception e) {
+throw e;
+} finally {
+if (fis != null) {
+try {
+fis.close();
+} catch (Exception e) {
+Log.info(e.getLocalizedMessage(), e);
+}
+}
+if (bos != null) {
+try {
+bos.close();
+} catch (Exception e) {
+Log.info(e.getLocalizedMessage(), e);
+}
+}
+}
+
+}
+
+/**
+*下载文件
+*
+* @param localFilePath
+* @param fileName
+* @param routeFilepath
+* @return 
+* @throws Exception
+*/
+public static String fileDownloadByFtp(String localFilePath, String fileName,String routeFilepath) throws Exception {
+FileInputStream fis = null;
+ByteArrayOutputStream bos = null;
+FileOutputStream fos = null;
+FTPClient ftpClient = new FTPClient();
+String SFP = System.getProperty("file.separator");
+String bl = "false";
+try {
+Log.info("下载并解密文件开始");
+Log.info("连接远程下载服务器"+CCFCCBUtil.CCFCCBHOSTNAME+":"+22);
+ftpClient.connect(CCFCCBUtil.CCFCCBHOSTNAME, 22);
+ftpClient.login(CCFCCBUtil.CCFCCBLOGINNAME, CCFCCBUtil.CCFCCBLOGINPASSWORD);
+// ftpClient.connect(CMBCUtil.CMBCHOSTNAME, 2021);
+// ftpClient.login(CMBCUtil.CMBCLOGINNAME, CMBCUtil.CMBCLOGINPASSWORD);
+FTPFile[] fs; 
+
+ftpClient.makeDirectory(routeFilepath);
+ftpClient.changeWorkingDirectory(routeFilepath);
+bl = "false";
+fs = ftpClient.listFiles();
+for (FTPFile ff : fs) {
+if (ff.getName().equals(fileName)) {
+bl = "true";
+Log.info("下载文件开始。");
+ftpClient.setBufferSize(1024);
+// 设置文件类型（二进制）
+ftpClient.setFileType(FTPClient.BINARY_FILE_TYPE);
+InputStream is = ftpClient.retrieveFileStream(fileName);
+bos = new ByteArrayOutputStream(is.available());
+byte[] buffer = new byte[1024];
+int count = 0;
+while ((count = is.read(buffer)) != -1) {
+bos.write(buffer, 0, count);
+}
+bos.flush();
+fos = new FileOutputStream(localFilePath+SFP+fileName);
+fos.write(bos.toByteArray());
+Log.info("下载文件结束："+localFilePath);
+}
+}
+Log.info("检查文件是否存："+fileName+" "+bl);
+if("false".equals(bl)){
+ViewUtil.dataSEErrorPerformedCommon("查询无结果，请稍后再查询。");
+return bl;
+}
+return bl;
+} catch (Exception e) {
+throw e;
+} finally {
+if (fis != null) {
+try {
+fis.close();
+} catch (Exception e) {
+Log.info(e.getLocalizedMessage(), e);
+}
+}
+if (bos != null) {
+try {
+bos.close();
+} catch (Exception e) {
+Log.info(e.getLocalizedMessage(), e);
+}
+}
+if (fos != null) {
+try {
+fos.close();
+} catch (Exception e) {
+Log.info(e.getLocalizedMessage(), e);
+}
+}
+}
+}}
+备注：以上方法就实现了流的二进制上传下载转换，只需要将服务器连接部分调整为本地的实际ftp服务用户名和密码即可。

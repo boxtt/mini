@@ -1,0 +1,16 @@
+﻿
+连接
+gfsh>connect --jmx-manager=192.166.69.34[10331]
+查看session数
+gfsh>query --query ='select * from /MerchantSpringSessions'
+gfsh>disconnect
+
+
+
+
+		<prop key="locators">#{gemfirePropertyConfigurer['biz.cluster.springsession.locator']}</prop>
+
+
+
+
+

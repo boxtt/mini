@@ -1,0 +1,11 @@
+﻿交易历史查询中：查看详情，退款，重新通知 
+查看详情（ShowViewDetailAction	中viewDetail）：通过tradeId查询出交易信息后，要先校验交易的商户是否为本商户或者为本商户的子商户。校验失败情况下，不返回查询信息
+退款（TradeManageAction中reFund）：通过tradeId查询出交易信息后，要先校验交易的商户是否为本商户或者为本商户的子商户。校验失败情况下，不能进行退款操作
+重新通知（TradeManageAction中notifyMerchant）：通过tradeId查询出交易信息后，要先校验交易的商户是否为本商户或者为本商户的子商户。校验失败情况下，不能进行重新通知操作
+
+增加merchantCheck方法校验失败，直接抛异常，不能进行后续操作。 0.5天
+
+退款查询：查询退款列表
+查询列表（ReFundQueryAction中queryList）：查询条件merchantId，需要校验是否为本商户或本商户子商户。校验失败情况下，不能进返回列表信息
+
+

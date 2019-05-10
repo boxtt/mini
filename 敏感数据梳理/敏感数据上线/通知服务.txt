@@ -1,0 +1,4 @@
+﻿通知服务系统 修改/sumapay25/config下面的sumapay-config.properties文件
+添加：
+db.des.springremote.url=http://192.161.14.93:8080/des/remote/desRemoteService
+

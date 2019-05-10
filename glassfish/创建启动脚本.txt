@@ -1,0 +1,6 @@
+﻿在/home/sumapay/payara41/glassfish/password下创建password文件
+AS_ADMIN_ADMINPASSWORD=58858547
+AS_ADMIN_PASSWORD=58858547
+然后在某个bin下创建asadmin2文件，内容为：
+stty erase ^H
+asadmin --user admin --passwordfile /home/sumapay/payara41/glassfish/password --port 5050 $1 $2 $3 $4 $5 $6 $7 $8 $9

@@ -1,0 +1,42 @@
+﻿docker run ubuntu:15.10 /bin/echo "Hello world"
+
+
+使用 docker ps 来查看我们正在运行的容器
+
+我可以使用docker port 7a38a1ad55c6 或docker port determined_swanson来查看容器端口的映射情况
+
+docker logs [ID或者名字] 可以查看容器内部的标准输出。
+
+
+我们还可以使用 docker top 来查看容器内部运行的进程
+
+
+使用 docker inspect 来查看Docker的底层信息。它会返回一个 JSON 文件记录着 Docker 容器的配置和状态信息。
+runoob@runoob:~$ docker inspect determined_swanson
+停止WEB应用容器
+runoob@runoob:~$ docker stop determined_swanson 
+
+重启WEB应用容器
+已经停止的容器，我们可以使用命令 docker start 来启动。
+
+runoob@runoob:~$ docker start determined_swanson
+determined_swanson
+
+重启：
+runoob@runoob:~$ docker --restart=always determined_swanson
+还可以：--restart=on-failure:5
+
+
+移除WEB应用容器
+我们可以使用 docker rm 命令来删除不需要的容器
+
+runoob@runoob:~$ docker rm determined_swanson  
+determined_swanson
+
+
+删除容器时，容器必须是停止状态，否则会报如下错误
+
+runoob@runoob:~$ docker rm determined_swanson
+Error response from daemon: You cannot remove a running container 7a38a1ad55c6914b360b565819604733db751d86afd2575236a70a2519527361. Stop the container before attempting removal or use -f
+
+

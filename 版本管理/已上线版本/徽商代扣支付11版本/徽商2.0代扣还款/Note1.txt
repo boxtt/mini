@@ -1,0 +1,18 @@
+﻿MERCHANT_ID  PROTOCOL_NO  BANK_CODE  FLD3  BANK_ACCOUNT  BANK_ACCOUNT_TYPE  NAME  ID_TYPE  ID_NUMBER   CARDNBR  REQUEST_TYPE  SINGLE_LIMIT  SINGLE_DAY_LIMIT  APPOINT_BUSINESS  MOBLE_NO  EMAIL  REMARK  VALIDITY  CVN2_CODE  PASS_THROUGH  REQUEST_CHANNEL  PROTOCOL_TYPE CREATE_TIME LAST_EDIT_TIME FLD9 STATUS FLD2
+
+
+	//结果标识
+	public static final String RESULT_FLAG = "RESULT_FLAG";
+	
+	int successFlag;
+		if(successCount==detailList.size()){
+			// 全部成功
+			successFlag = 0;
+		}else if(successCount==0){
+			// 全部失败
+			successFlag = 1;
+		}else{
+			// 部分失败
+			successFlag = 2;
+		}
+		response.put(Constant.RESULT_FLAG, successFlag);

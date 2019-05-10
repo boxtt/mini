@@ -1,0 +1,14 @@
+﻿ftp 22.188.20.184
+lcd 切换本地目录
+cd  切换远程目录
+put  上传到远程目录
+get 下载到本地目录
+
+
+C:\Users\Administrator>ftp
+ftp> open 122.193.19.141
+220 Welcome , Please wait...
+用户(122.193.19.141:(none)):用户名
+331 User name okay, need password.
+密码: 这让输入密码，可是我的只有光标闪烁不让输入任何东西，可是不输入密码又无法登录
+我用的是win7自带的dos 请大家看一下怎么回事

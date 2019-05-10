@@ -1,0 +1,10 @@
+﻿com.sumavision.tvpay.gateway.appservice 
+com.sumavision.tvpay.gateway.web.businessuser  
+com.sumavision.tvpay.gateway.web.user     
+com.sumavision.tvpay.security.skb.web
+com.sumavision.tvpay.gateway.moblie.quickPayService  
+com.sumavision.tvpay.gateway.web.hsbapi        
+com.sumavision.tvpay.gateway.web.website
+com.sumavision.tvpay.gateway.testpay                 
+com.sumavision.tvpay.gateway.web.internet      
+com.sumavision.tvpay.printReceipt

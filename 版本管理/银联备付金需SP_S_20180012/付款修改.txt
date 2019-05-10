@@ -1,0 +1,17 @@
+﻿TX1002 商户提现
+
+{"TRADE_CODE":"SF1011","CLIENT_ID":"20181115025520630","TRADE_USER":"gdb","REFUND_DETAIL_LIST":[["0","2966","1321"]],"ADMIN_OP_USER":"gdb","TRADE_LOC":"_SUMA_OPERATE_MANAGE","TRADE_START_TIME":{"date":"15","day":"4","hours":"2","minutes":"55","month":"10","seconds":"20","time":"1542221720635","timezoneOffset":"-480","year":"118"},"TRADE_PROCESS":"_SUMA_OPERATE_MANAGE"}
+
+
+商户流水号(*)	
+收款方账户类型(*)
+收款方银行代码
+收款方银行名称	
+开户银行网点全称
+开户联行号
+收款方户名	
+银行账号(*)	
+金额(元)(*)	
+用途
+付款结果(*)	
+失败原因

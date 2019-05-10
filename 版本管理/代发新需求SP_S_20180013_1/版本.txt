@@ -1,0 +1,45 @@
+﻿SP_S_20180013_1，分支73，1
+
+
+用户提现，企业用户提现，企业用户付款
+
+
+
+				bankParams.put("CHANNEL", bizUserBankTransferRequest.getChannel());								
+				bankParams.put("TRADEDATE", tradeInfo.getTradeStartTime());								
+				bankParams.put("DETAIL_TYPE", detailType);	
+				bankParams.put("ORDERID", tradeInfo.getOrderId());								
+				bankParams.put("TRADEID", tradeInfo.getId().toString());								
+				bankParams.put("TRADESUM", bizUserBankTransferRequest.getFund());  //到账金额								
+				bankParams.put("ACCOUNTING_TYPE", bizUserBankTransferRequest.getAccountingType());								
+				bankParams.put("BANK_CODE", bizUserBankTransferRequest.getBankCode());
+				
+				
+							sendParams.put("CHANNEL", stvr.getChannel());
+			sendParams.put("TRADEDATE", tradeInfo.getTradeStartTime());
+			sendParams.put("DETAIL_TYPE", "1");
+			sendParams.put("ORDERID", tradeInfo.getOrderId());
+			sendParams.put("TRADEID", tradeInfo.getId().toString());
+			sendParams.put("TRADESUM", stvr.getFund());
+			sendParams.put("ACCOUNTING_TYPE", TransferEnum.ACCOUNTING_TYPE_FAST.getValue());
+			sendParams.put("BANK_CODE", stvr.getBankCode());
+			
+			
+							bankParams.put("CHANNEL", userBankWithdrawRequest.getChannel());								
+				bankParams.put("TRADEDATE", tradeInfo.getTradeStartTime());								
+				bankParams.put("DETAIL_TYPE", detailType);	
+				bankParams.put("ORDERID", tradeInfo.getOrderId());								
+				bankParams.put("TRADEID", tradeInfo.getId().toString());								
+				bankParams.put("TRADESUM", userBankWithdrawRequest.getFund());								
+				bankParams.put("ACCOUNTING_TYPE", userBankWithdrawRequest.getAccountingType());								
+				bankParams.put("BANK_CODE", userBankWithdrawRequest.getBankCode());	
+				
+				
+						String channel = (String)bankParams.get("CHANNEL");
+		Date tradeDate = (Date)bankParams.get("TRADEDATE");
+		String detailType = (String)bankParams.get("DETAIL_TYPE");
+		String orderId = (String)bankParams.get("ORDERID");
+		String tradeId = (String)bankParams.get("TRADEID");
+		BigDecimal tradeSum = (BigDecimal)bankParams.get("TRADESUM");
+		Integer accountingType = (Integer)bankParams.get("ACCOUNTING_TYPE");
+		String bankCode = (String)bankParams.get("BANK_CODE");

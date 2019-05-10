@@ -1,0 +1,47 @@
+﻿添加simplepay-config-agent.properties文件
+
+
+
+
+通用系统 /simplepay/config/simplepay-config-integration.properties
+
+#代理商服务平台登录邮件校验通知
+user.mail.agentLoginRequestSubject=\u4EE3\u7406\u5546\u670D\u52A1\u5E73\u53F0\u767B\u5F55\u90AE\u4EF6\u6821\u9A8C\u901A\u77E5
+user.mail.agentLoginRequestPath=/simplepay/mailTemplate/MAIL_AGENT_LOGIN_SYSTEM.txt
+#代理商服务平台单笔付款邮件校验通知
+user.mail.agentSingleTransferRequestSubject=\u4EE3\u7406\u5546\u670D\u52A1\u5E73\u53F0\u5355\u7B14\u4ED8\u6B3E\u90AE\u4EF6\u6821\u9A8C\u901A\u77E5
+user.mail.agentSingleTransferRequestPath=/simplepay/mailTemplate/MAIL_AGENT_SINGLE_TRANSFER.txt
+#运营管理注册商户1
+user.mail.registerMerchantRequestSubject=\u60A8\u5DF2\u6CE8\u518C\u6210\u529F
+user.mail.registerMerchantRequestPath=/simplepay/mailTemplate/MAIL_REGISTER_MERCHANT.txt
+#运营管理重新发送商户密钥
+user.mail.sendMerchantSignKeyRequestSubject=\u8BF7\u63A5\u6536\u60A8\u7684\u5BC6\u94A5
+user.mail.sendMerchantSignKeyRequestPath=/simplepay/mailTemplate/MAIL_SEND_MERCHANT_SIGN_KEY.txt
+#运营管理重置商户密码
+user.mail.resetMerchantPasswdRequestSubject=\u7BA1\u7406\u5458\u5BC6\u7801\u91CD\u7F6E\u6210\u529F
+user.mail.resetMerchantPasswdRequestPath=/simplepay/mailTemplate/MAIL_RESET_MERCHANT_PASSWD.txt
+#运营管理注册商户(没密钥)
+user.mail.registerMerchantNoKeyRequestSubject=\u60A8\u5DF2\u6CE8\u518C\u6210\u529F
+user.mail.registerMerchantRequestNoKeyPath=/simplepay/mailTemplate/MAIL_REGISTER_MERCHANT_NO_KEY.txt
+
+
+#代理商服务平台单笔付款短信通知
+user.sms.agentSingleTransferPath=/simplepay/smsTemplate/SMS_AGENT_SINGLE_TRANSFER.txt
+#代理商服务平台登录短信通知
+user.sms.agentLoginPath=/simplepay/smsTemplate/SMS_AGENT_LOGIN.txt
+
+
+			MAIL_REGISTER_MERCHANT.txt
+			%MERCHANT_NAME% 您好， 您已注册成功， 管理员用户名为Admin，登录密码为：%RANDOM_PASSWD%，通信秘钥为：%SIGN_KEY%，请妥善保管
+			MAIL_SEND_MERCHANT_SIGN_KEY.txt
+                       %MERCHANT_NAME% 您好，您的密钥为%SIGN_KEY%，请妥善保管
+                      MAIL_RESET_MERCHANT_PASSWD.txt
+                       %MERCHANT_NAME% 您好，您的管理员Admin密码已成功重置，登录密码为%RANDOM_PASSWD%，请妥善保管
+                       您已注册成功
+                       %MERCHANT_NAME% 您好， 您已注册成功， 管理员用户名为Admin，登录密码为：%RANDOM_PASSWD%，请妥善保管
+			
+您已注册成功
+
+请接收您的密钥
+
+管理员密码重置成功

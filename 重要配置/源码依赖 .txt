@@ -1,0 +1,6 @@
+﻿		<!-- 数据解耦-->
+		<dependency org="com.sumavision.tvpay.entity.exchange" name="com.sumavision.tvpay.entity.exchange" rev="0.1.0.0" changing="true">
+			<artifact name="com.sumavision.tvpay.entity.exchange" type="jar" ext="jar"/>
+			<artifact name="com.sumavision.tvpay.entity.exchange" type="source" ext="jar" m:classifier="sources" conf="sources"/>
+			<artifact name="com.sumavision.tvpay.entity.exchange" type="javadoc" ext="jar" m:classifier="javadoc" conf="javadoc"/>
+		</dependency>

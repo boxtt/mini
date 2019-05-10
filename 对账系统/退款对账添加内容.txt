@@ -1,0 +1,3 @@
+﻿1、修改/sumapay/config/sumapay-config.properties下面配置（建议添加到“checkaccount.banks参数下面”）:
+#退款对账，根据真实退款id进行对账银行编码列表
+bankcheck.realRefund.bankCodes=icbc,abc,cmb,boc,comm,spdb,hxb,ceb,cncb,unicom,psbc,pab,payease,ysepay,umb,unionpay,huanshangtong,cib_wechatpay,cncb_wechatpay

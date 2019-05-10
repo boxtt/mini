@@ -1,0 +1,2 @@
+﻿HS0035  徽商2.0代扣还款协议签约受理处理器  DKRepayProtocolSignSubmitProcessor
+HS0036  徽商2.0代扣还款协议查询处理器          DKRepayProtocolQueryProcessor

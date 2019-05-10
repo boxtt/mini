@@ -1,0 +1,26 @@
+﻿CREATE TABLESPACE TBS_ETL_DATA    LOGGING     DATAFILE 'G:\oracle\product\10.2.0\oradata\tbs_etl_data01.dbf' SIZE 521M AUTOEXTEND OFF;
+
+第二步：创建用户并授权
+上接第一步。
+在SQL>后面输入创建用户的语句：
+create user vpetl identified by vpetl
+default tablespace TBS_ETL_DATA;
+回车，出现“User created.”表示用户创建成功。
+在SQL>后面输入给用户授权的语句：
+grant connect,resource,alter system,debug connect session,select any table,delete any table,drop any table,alter any table to vpetl;
+回车，出现“Grant succeeded.”表示给用户授权成功。
+在SQL>后面输入给用户授权的语句：
+grant execute on DBMS_LOCK to vpetl;
+回车，出现“Grant succeeded.”表示给用户授权成功。
+在SQL>后面输入给用户授权的语句：
+grant select on v_$session to vpetl;
+回车，出现“Grant succeeded.”表示给用户授权成功。
+在SQL>后面输入给用户授权的语句：
+grant select on v_$ACCESS to vpetl;
+回车，出现“Grant succeeded.”表示给用户授权成功。
+在SQL>后面输入给用户授权的语句：
+grant alter system to vpetl;
+回车，出现“Grant succeeded.”表示给用户授权成功。
+在SQL>后面输入给用户授权的语句：
+grant insert any table,update any table to vpetl;
+回车，出现“Grant succeeded.”表示给用户授权成功。

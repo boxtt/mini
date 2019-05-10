@@ -1,0 +1,6 @@
+﻿rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.withholding routing_key=DK0026
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.withholding routing_key=DK0027
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.withholding routing_key=DK0028
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.withholding routing_key=DK0029
+
+添加SingleBasicDkTradeUpdateConfirmProcessor调度

@@ -1,0 +1,7 @@
+﻿2.0调度
+http://172.16.8.9:8080/schedual/login.jsp
+账号admin密码admin
+
+
+2.5调度
+http://172.16.8.3:9292/schedual/config!login.action

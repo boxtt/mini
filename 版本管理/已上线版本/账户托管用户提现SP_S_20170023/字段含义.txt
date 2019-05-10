@@ -1,0 +1,12 @@
+﻿异步通知：风控拒绝，财务拒绝，更新批次状态，异步通知商户
+参加签名字段：商户编码（merchantCode）+批次号（batchNo）+处理结果（result）
+通知字段：商户编码（merchantCode）+ 批次号（batchNo）+ 处理结果（result）+ 签名（signature）
+
+结果：200300263（风控审核不通过），200300264（财务确认不通过），00000（处理完成）
+
+
+退票通知：执行退票时候通知
+参加签名字段：处理结果（result）+ 批次号（batchNo）+ 明细编号（detailNo）+原因（reason）
+通知字段：处理结果（result）+ 批次号（batchNo）+ 明细编号（detailNo）+原因（reason）+ 签名（signature）
+
+结果：00000（处理完成）

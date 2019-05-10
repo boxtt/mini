@@ -1,0 +1,64 @@
+﻿-----------------------查询不平账目退款记录-----------------------------------------------------
+    select lr.pid
+	  from (select m.original_trade_id pid, nvl(sum(t.trade_sum), 0) refund_sum
+	          from merchant_refund_request m left join trade_record t on m.rel_trade_id=t.id
+	           where t.check_status =0
+	           and t.status = 2
+			   and t.bank_code = #checkBankCode:VARCHAR#
+			   and t.trade_code = 'TZ0001'
+	         group by m.original_trade_id) lr
+	 inner join (select b.trade_id pid, nvl(sum(b.trade_sum), 0) refund_sum
+	               from bank_check_record b
+	              where b.fld2 = 1
+	                and b.check_status =0
+	              group by b.trade_id) br on lr.pid = br.pid
+	 where lr.refund_sum &lt;&gt; br.refund_sum and lr.refund_sum is not null and br.refund_sum is not null
+---------------------------------辅助sql----------------------------------------------------------------
+ 	select lr.pid
+	  from (select tr.id pid, tr.trade_sum fund, tr.bank_code bank_code
+	          from trade_record tr
+	         where  tr.trade_code in ($joinCheckTradeCodes$)
+			 and tr.bank_code = #checkBankCode:VARCHAR#
+			   and tr.status = 2
+			   and tr.check_status =0) lr
+	 inner join (select bcr.trade_id  pid,
+	                    bcr.trade_sum fund,
+	                    bcr.bank_code bank_code
+	               from bank_check_record bcr
+	              where bcr.fld2 = '0'
+				  and bcr.bank_code = #checkBankCode:VARCHAR#
+	                and bcr.check_status =0) br on lr.pid = br.pid
+	 where lr.fund &lt;&gt; br.fund	 
+----------------------------------------------合并后sql-------------------------------------	 
+select pid from 
+( select lr.pid
+	  from (select m.original_trade_id pid, nvl(sum(t.trade_sum), 0) refund_sum
+	           from merchant_refund_request m left join trade_record t on m.rel_trade_id=t.id
+	           where t.check_status =0
+	                    and t.status = 2
+			     and t.bank_code = #checkBankCode:VARCHAR#
+			     and t.trade_code = 'TZ0001'
+	         group by m.original_trade_id) lr
+	 inner join (select b.trade_id pid, nvl(sum(b.trade_sum), 0) refund_sum
+	                 from bank_check_record b
+	                 where b.fld2 = 1
+	                          and b.check_status =0
+	              group by b.trade_id) br on lr.pid = br.pid
+	 where lr.refund_sum &lt;&gt; br.refund_sum and lr.refund_sum is not null and br.refund_sum is not null)
+union all
+( select lr.pid
+	  from (select tr.id pid, tr.trade_sum fund, tr.bank_code bank_code
+	          from trade_record tr
+	          where  tr.trade_code =  'TZ0001'
+			     and tr.bank_code = #checkBankCode:VARCHAR#
+			     and tr.status = 2
+			     and tr.check_status =0) lr
+	 inner join (select bcr.trade_id  pid, bcr.trade_sum fund, bcr.bank_code bank_code
+	                 from bank_check_record bcr
+	                 where bcr.fld2 = '2'
+				    and bcr.bank_code = #checkBankCode:VARCHAR#
+	                           and bcr.check_status =0)  br on lr.pid = br.pid
+	 where lr.fund &lt;&gt; br.fund	 
+);
+
+

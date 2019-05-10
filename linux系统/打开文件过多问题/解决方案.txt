@@ -1,0 +1,89 @@
+﻿Too many open files 
+2010-08-19 18:48
+工作中发现，在linux中搭建WEBLOGIC应用服务器的环境下，有时可能同时发布多个war包，而且每一个war包的文件数目很多，或者客户同时访问量比较大，此时WEBLOGIC就会报错，报错信息中包含“Too many open files”，例如：
+
+java.io.FileNotFoundException: /home/weblogic/bea/user_projects/domains/lhyth/servers/AdminServer/tmp/_WL_user/_appsdir_AM_war/syskue/.tld_cache/webwork-2.2.6.jar/META-INF/taglib.tld/crc.ser (Too many open files)
+        at java.io.FileOutputStream.open(Native Method)
+        at java.io.FileOutputStream.<init>(FileOutputStream.java:179)
+        at java.io.FileOutputStream.<init>(FileOutputStream.java:131)
+        at weblogic.descriptor.DescriptorCache.writeToCache(DescriptorCache.java:236)
+        at weblogic.descriptor.DescriptorCache.parseXML(DescriptorCache.java:388)
+        Truncated. see log file for complete stacktrace
+
+这是因为linux限制了打开文件的最大句柄数量。
+
+linux默认的打开文件数量是1024，我们可以用ulimit -a 来查看系统资源，例如：
+
+[root@redhat ~]# ulimit -a
+core file size          (blocks, -c) 0
+data seg size           (kbytes, -d) unlimited
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 1024
+max locked memory       (kbytes, -l) 32
+max memory size         (kbytes, -m) unlimited
+open files                   (-n) 1024 --打开最大文件数量限制
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+stack size              (kbytes, -s) 10240
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 16384
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
+
+解决该问题的宗旨是：增大打开文件最大句柄限制数，该数是1024的整数倍
+
+1.临时增大open files的限制值
+
+可以用ulimit -n 来临时增大该限制值，但是一旦重启服务器后，该值又会恢复到1024。只能暂时性的解决问题。命令如下：
+
+[root@redhat ~]# ulimit -n 65536
+[root@redhat ~]# ulimit -a
+core file size          (blocks, -c) 0
+data seg size           (kbytes, -d) unlimited
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 1024
+max locked memory       (kbytes, -l) 32
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 65536
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+stack size              (kbytes, -s) 10240
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 16384
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
+
+2.彻底增大open files的限制值
+
+一般情况下，我们都会通过修改系统限制文件来彻底增大open files的值。
+
+2.1 通过VI打开/etc/security/limits.conf，在“# End of file”上面添加如下：
+
+    * - nofile 65536
+
+    该语句表示：每一个用户的默认打开文件数是65536
+
+
+2.2 通过VI打开/etc/sysctl.conf,在最后一行添加如下： 
+
+     fs.file-max = 65536 
+
+2.3 重启服务器。 
+
+此时再用ulimit -a来查看： 
+[root@redhat ~]# ulimit -a
+core file size          (blocks, -c) 0
+data seg size           (kbytes, -d) unlimited
+file size               (blocks, -f) unlimited
+pending signals                 (-i) 1024
+max locked memory       (kbytes, -l) 32
+max memory size         (kbytes, -m) unlimited
+open files                      (-n) 65536
+pipe size            (512 bytes, -p) 8
+POSIX message queues     (bytes, -q) 819200
+stack size              (kbytes, -s) 10240
+cpu time               (seconds, -t) unlimited
+max user processes              (-u) 16384
+virtual memory          (kbytes, -v) unlimited
+file locks                      (-x) unlimited
+

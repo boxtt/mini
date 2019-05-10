@@ -1,0 +1,11 @@
+﻿消息系统：
+/sumapayex/config/sumapay-config.properties  
+####添加以下配置参数（如果其他domain用过异步通知，应该有以下参数）####
+front.merchant.springremote.haproxy.server=192.161.14.92:8585
+front.merchantNoticeSend.haproxy.service.url=http://${front.merchant.springremote.haproxy.server}/notice/remote/MerchantNoticeSendService
+
+备注：商户通知请求表有敏感数据，所以需要看下db-sensitivedata-config.properties文件下是否有以下配置，
+MerchantNoticeRequest=noticeData
+
+
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.message  routing_key=SH0013

@@ -1,0 +1,21 @@
+﻿package xyz.hlj.paycenter.business.dao;
+
+
+import org.springframework.stereotype.Repository;
+import xyz.hlj.paycenter.business.model.StatisticsInfo;
+import xyz.hlj.paycenter.framework.base.BaseDao;
+
+@Repository
+public class StatisticsDao extends BaseDao {
+
+
+    public int save(StatisticsInfo statisticsInfo) {
+
+        String sql = "INSERT INTO statistics_info(accountType,statisticsDate,total,depositAccepted,depositSuccess,withdrawAccepted,withdrawTrying,withdrawSuccess,withdrawFail) " +
+                "VALUES(:accountType,:statisticsDate,:total,:depositAccepted,:depositSuccess,:withdrawAccepted,:withdrawTrying,:withdrawSuccess,:withdrawFail)";
+
+        return save(sql,statisticsInfo);
+    }
+
+
+}

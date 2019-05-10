@@ -1,0 +1,31 @@
+﻿--获取中间账户关联表中账户id信息（有多少个计算多少个）
+select * from biz_user_acc_association where biz_user_id = 2 and type =0;
+---查询账户余额,可提现金额，冻结金额
+select balance,WITHDRAWABLE_BALANCE，frozen_balance from account where id = 280000100000006221;
+---通过上面id信息计算出  本账户本会计日期的发生额
+select sum(credited)-sum(debited) from voucher where update_balance_status = 0  and account_id =280000100000006221;
+
+--用上面的发生额+账户余额作为账户未结算金额
+select (select sum(credited)-sum(debited) from voucher where update_balance_status = 0  and account_id =280000100000006221)+(select balance from account where id = 280000100000006221) from dual;
+ --此处查到的就是未结算金额(第四个)
+
+
+--获取可用账户关联表中账户id信息（有多少个计算多少个）
+select * from biz_user_acc_association where biz_user_id = 2 and type =1;
+---查询账户余额,可提现金额，冻结金额
+select frozen_balance  from account where id = 290000010000019120;
+--此sql中查询到的冻结金额就是想要的展示结果中的“冻结金额”（第三个）
+
+
+---通过上面id信息计算出  本账户本会计日期的发生额
+select sum(credited)-sum(debited) from voucher where update_balance_status = 0  and account_id =290000010000019120;
+--账户余额+发生额就是当前账户总余额（第一个）
+select (select sum(credited)-sum(debited) from voucher where update_balance_status = 0  and account_id =290000010000019120)+(select balance from account where id = 290000010000019120) from dual ;
+--账户的可用金额+发生额就是可用金额（第二个），
+select (select sum(credited)-sum(debited) from voucher where update_balance_status = 0  and account_id =290000010000019120)+(select WITHDRAWABLE_BALANCE from account where id = 290000010000019120) from dual ;
+
+
+
+jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=172.16.219.99)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=sumapay)))
+
+300000000000061888

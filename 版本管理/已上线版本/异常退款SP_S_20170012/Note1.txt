@@ -1,0 +1,10 @@
+﻿http://192.161.14.94:9191/merchant
+asadmin --port 5050 deploy  --force=true com.sumavision.tvpay.operation.manager.war
+
+
+
+-XX:MaxPermSize=192m
+
+5672
+
+应用连接时可以连接  192.161.14.92:5672（rabbitmq固有端口） 或者192.161.14.92:5671（haproxy代理端口）

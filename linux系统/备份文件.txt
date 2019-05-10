@@ -1,0 +1,2 @@
+﻿dump -0vj -f /sumapayex/dump.dump1 /etc
+只有level0的才能进行全文见差异备份，子目录只能全备份（level0）

@@ -1,0 +1,220 @@
+﻿docker run -d --name rabbitmq -p 5673:5672 -p 15673:15672 docker.io/rabbitmq:3-management
+
+
+添加队列执行：
+ docker exec rabbitmq
+ 
+ 添加用户：
+ docker exec rabbitmq rabbitmqctl add_user gaodebao 58858547
+ 赋权限：
+ docker exec rabbitmq rabbitmqctl set_user_tags gaodebao administrator
+ 
+ 添加 Virtual Hosts ：    
+rabbitmqctl add_vhost <vhost>    
+    
+删除 Virtual Hosts ：    
+rabbitmqctl delete_vhost <vhost>   
+ 
+ 为用户赋权：
+ docker exec rabbitmq rabbitmqctl  set_permissions -p pay  gaodebao '.*' '.*' '.*'
+ 查权限：
+ docker exec rabbitmq rabbitmqctl list_user_permissions gaodebao
+ docker exec rabbitmq  rabbitmqctl list_permissions -p pay
+ 
+ 
+ 
+ 
+ 
+ 默认 “guest” 用户只允许本地访问，其他账户不受限制。
+
+若允许使用 “guest”  远程访问，需要在配置文件中添加以下选项：
+
+C:\Users\huangzc\AppData\Roaming\RabbitMQ\rabbitmq.config
+
+[plain] view plain copy
+[    
+ {rabbit,     
+ [    
+    {loopback_users, []}    
+ ]} 
+ 
+    
+       
+#! /bin/bash
+echo '**************************************设置系统参数 开始********************************************'
+echo '添加虚拟主机 pay '
+rabbitmqctl add_vhost pay
+echo ''
+echo '添加用户sumapay'
+rabbitmqctl add_user sumapay 58858547
+echo ''
+echo '添加用户admin'
+rabbitmqctl add_user admin 58858547
+echo ''
+echo '设置amdin,sumapay为administrator'
+rabbitmqctl set_user_tags admin administrator
+rabbitmqctl set_user_tags sumapay administrator
+echo ''
+echo '设置admin和sumapay的权限为所有可读可写'
+rabbitmqctl set_permissions -p pay sumapay  ".*"  ".*" ".*"
+rabbitmqctl set_permissions -p pay admin  ".*"  ".*" ".*"
+echo ''
+echo '设置exchange的策略为：复制'
+rabbitmqctl set_policy -p pay  exchangepolicy ".*" '{"ha-mode":"all"}' --apply-to exchanges
+echo ''
+echo '设置死亡消息队列策略为：复制'
+rabbitmqctl set_policy -p pay  deadqueuepolicy "com.sumapay.mq.queue.dead" '{"ha-mode":"all"}' --apply-to queues
+echo ''
+echo '设置银行消息的消息队列策略为：复制、150秒超时、超时后移入消息队列'
+rabbitmqctl set_policy -p pay  bankQueuePolicy "com.sumapay.mq.queue.bank.*" '{"message-ttl":150000,"ha-mode":"all","dead-letter-exchange":"com.sumapay.mq.exchange.dead"}' --apply-to queues
+echo ''
+echo '设置交易消息的消息队列策略为：复制、150秒超时、超时后移入消息队列'
+rabbitmqctl set_policy -p pay  bizTradeQueuePolicy "com.sumapay.mq.queue.trade.*" '{"message-ttl":150000,"ha-mode":"all","dead-letter-exchange":"com.sumapay.mq.exchange.dead"}' --apply-to queues
+echo ''
+echo '设置平台服务消息的消息队列策略为：复制、150秒超时、超时后移入消息队列'
+rabbitmqctl set_policy -p pay  platformQueuePolicy "com.sumapay.mq.queue.platform.*" '{"message-ttl":150000,"ha-mode":"all","dead-letter-exchange":"com.sumapay.mq.exchange.dead"}' --apply-to queues
+echo ''
+echo ''
+rabbitmqctl set_policy -p pay  bankcheckQueuePolicy "com.sumapay.mq.queue.bankcheck" '{"message-ttl":3600000,"ha-mode":"all","dead-letter-exchange":"com.sumapay.mq.exchange.dead"}' --apply-to queues
+echo ''
+echo '*****设置死亡消息队列*****'
+echo ''
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare exchange name=com.sumapay.mq.exchange.dead type=fanout durable=true
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare queue name=com.sumapay.mq.queue.dead
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.dead destination=com.sumapay.mq.queue.dead  routing_key=#
+echo '**************************************设置系统参数 完成********************************************'
+echo ''
+echo ''
+echo ''
+echo '****************************************业务消息队列设置   开始************************************************'
+echo '交易的消息队列设置'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare exchange name=com.sumapay.mq.exchange.trade type=direct durable=true
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.trade.withholding
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.withholding routing_key=DK0001
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.withholding routing_key=DK0002
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.withholding routing_key=DK0003
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.withholding routing_key=DK0004
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.withholding routing_key=DK0005
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.withholding routing_key=DK0006
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.withholding routing_key=DK0011
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.withholding routing_key=DK0012
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.withholding routing_key=DK0013
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.withholding routing_key=DK0014
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.withholding routing_key=DK0015
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.withholding routing_key=DK0016
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.withholding routing_key=DK0017
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.withholding routing_key=CX0009
+echo ''
+echo '平台服务队列'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare exchange name=com.sumapay.mq.exchange.platform type=direct durable=true
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.platform.merchant
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.platform destination=com.sumapay.mq.queue.platform.merchant  routing_key=MER-001
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.platform destination=com.sumapay.mq.queue.platform.merchant  routing_key=MER-002
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.platform destination=com.sumapay.mq.queue.platform.merchant  routing_key=MER-003
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.platform destination=com.sumapay.mq.queue.platform.merchant  routing_key=MER-004
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.platform destination=com.sumapay.mq.queue.platform.merchant  routing_key=MER-005
+
+echo ''
+echo '银行连接器队列'
+echo '创建exchange'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare exchange name=com.sumapay.mq.exchange.bank type=topic durable=true
+echo '农行'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.abc
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.abc  routing_key=abc.#
+echo '建行'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.ccb
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.ccb  routing_key=ccb.#
+echo '农行代发'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.abc_disburse
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.abc_disburse  routing_key=abc_disburse.#
+echo '光大'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.ceb
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.ceb  routing_key=ceb.#
+echo '联通沃支付'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.unicom
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.unicom  routing_key=unicom.#
+echo '身份验证'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.nciic
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.nciic  routing_key=nciic.#
+echo '招行'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.cmb
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.cmb  routing_key=cmb.#
+echo '广发'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.cgb
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.cgb  routing_key=cgb.#
+echo '建行代扣'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.ccb_disburse
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.ccb_disburse  routing_key=ccb_disburse.#
+echo '北京银行'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.bjb
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.bjb  routing_key=bjb.#
+echo '民生'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.cmsb
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.cmsb  routing_key=cmsb.#
+echo '华夏'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.hxb
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.hxb  routing_key=hxb.#
+echo '快钱'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.bill99
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.bill99  routing_key=bill99.#
+echo '工行代发'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.icbc_disburse
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.icbc_disburse  routing_key=icbc_disburse.#
+echo '交行'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.comm
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.comm  routing_key=comm.#
+echo '浦发'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.spdb
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.spdb  routing_key=spdb.#
+echo '中金代扣'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.cfca_withholding
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.cfca_withholding  routing_key=cfca_withholding.#
+echo '腾付通'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.tft
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.tft  routing_key=tft.#
+echo '交行代发'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.comm_disburse
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.comm_disburse  routing_key=comm_disburse.#
+echo '建行代扣'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.ccb_withholding
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.ccb_withholding  routing_key=ccb_withholding.#
+echo '腾付通代扣'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.tft_withholding
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.tft_withholding  routing_key=tft_withholding.#
+echo '中行'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.boc
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.boc  routing_key=boc.#
+echo '工行'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.icbc
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.icbc  routing_key=icbc.#
+echo '中信'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.cncb
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.cncb  routing_key=cncb.#
+echo '招行代发'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.cmb_disburse
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.cmb_disburse  routing_key=cmb_disburse.#
+echo '民生代发'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.cmsb_disburse
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.cmsb_disburse  routing_key=cmsb_disburse.#
+
+echo '鹏元征信系统'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.pycredit
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.pycredit  routing_key=pycredit.#
+
+echo '模拟器'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.bank.simulate
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.simulate  routing_key=simulate.#
+
+
+echo ''
+echo '对账系统队列'
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare exchange name=com.sumapay.mq.exchange.bankcheck type=direct durable=true
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare queue name=com.sumapay.mq.queue.bankcheck
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bankcheck destination=com.sumapay.mq.queue.bankcheck  routing_key=bankcheck
+echo ''
+echo ''
+echo ''
+echo '****************************************业务消息队列设置   结束************************************************'
+          
+             
+                   

@@ -1,0 +1,11 @@
+﻿update trade_record t
+		set t.settlement_status = 1,
+		t.settlement_trade_id = #{settlementTradeId,jdbcType=BIGINT}
+		where t.merchant_id = #{merchantId,jdbcType=BIGINT}
+		and t.pay_type_code = #{payType,jdbcType=INTEGER}
+		and t.status = 2
+		and t.settlement_status = 2
+		and t.fiscal_status = 1
+		and (t.trade_code like 'ZF%' or t.trade_code in ('DK0003','DK0026'))
+		<if test="settlementEndTime != null" >
+		and	t.trade_end_time &lt; #{settlementEndTime,jdbcType=TIMESTAMP}

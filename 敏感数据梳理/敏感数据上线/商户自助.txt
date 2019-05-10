@@ -1,0 +1,22 @@
+﻿商户自助系统在/sumapay/config/sumapay-config.properties添加配置：
+
+#192.16.3.2添加内容
+#des服务路径（ip地址和端口根据实际情况配置）
+db.des.springremote.url=http://192.161.14.93:8080/des/remote/desRemoteService
+
+#密码控件开关，0兼容 1不兼容（部分浏览器不可用）
+gateway.internet.PassGuardCtrl.switch=0
+
+#商户自助大商户跳过敏感数据格式化和文件加密（英文逗号分隔）
+merchant.big.merchant.list=
+
+
+#192.16.3.3添加内容
+#des服务路径（ip地址和端口根据实际情况配置）
+db.des.springremote.url=http://192.161.14.93:8080/des/remote/desRemoteService
+
+#密码控件开关，0兼容 1不兼容（部分浏览器不可用）
+gateway.internet.PassGuardCtrl.switch=0
+
+#商户自助大商户跳过敏感数据格式化和文件加密（英文逗号分隔）
+merchant.big.merchant.list=

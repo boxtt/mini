@@ -1,0 +1,10 @@
+﻿solution:
+1、Check whether firewall is stopped.
+chkconfig iptables off  永久性关闭
+service iptables stop  重启主机后失效
+2、Check whether DB2 is started.
+db2 list db directory
+3、Check the DB2 listening port
+db2 get dbm cfg |grep SVCENAME,查看TCP/IP服务名称和/etc/services中定义的db2服务名称是否匹配
+4、Check the DB2COMM
+db2set -all 检查DB2COMM是否是TCPIP

@@ -1,0 +1,6 @@
+﻿可以先切换到指定的文件夹路径下，之后直接通过mkdir方法进行文件夹创建。举例：
+String path = "d:/oldfilepath";//定义指定文件路径
+String newPath = path+"/newpath";//指定新路径
+File file = new File(newPath );//定义一个文件流
+file.mkdir();//创建文件夹
+备注：如果不确定原有文件夹是否存在的情况下，可以通过”mkdirs“创建多层路径。

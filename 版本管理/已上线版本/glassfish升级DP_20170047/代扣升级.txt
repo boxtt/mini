@@ -1,0 +1,29 @@
+﻿代扣系统glassfish升级
+转移文件从sumapaye25到sumapayex路径
+sumapayex/config/sumapay-config.properties
+sumapayex/config/biz-monitor-client-withholding.properties
+sumapayex/config/sumpay-sensitivedata-rule-config.properties
+sumapayex/config/db-sensitivedata-config.properties
+sumapayex/exception/withholding-exception.properties
+sumapayex/config/biz-monitor-client-reload.properties
+sumapayex/config/log-sensitivedata-config.properties
+
+还有个不确定的（开发和测试环境都没有，如果有的话，也放到对应的路径下）
+sumapayex/webap/withholding.xml
+
+其余：
+sumapayex/config/biz-monitor-client-withholding.properties删掉：biz_monitor.nodeid1=withhold
+
+db-sensitivedata-config.properties文件内容修改
+#添加
+SingleBasicDkRecord=idNumber,bankAccount,bankAccountName,mobilePhone
+
+sumapay-config.properties文件内容修改
+pay.springremote.haproxy.server=172.16.7.120:8080
+pay.springremote.haproxy.urls=http://${pay.springremote.haproxy.server}/front/remote/tradeRemoteService
+#################代扣业务系统(withholding)#########################################
+# 交易监听队列
+biz.withholding.queue=com.sumapay.mq.queue.trade.withholding
+# 交易处理器所在包路径（可以使用,分隔多个）
+biz.withholding.processor.package=com.sumapay.biz.withholding.processor
+###################################################################################

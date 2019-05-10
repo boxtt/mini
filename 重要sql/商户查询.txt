@@ -1,0 +1,2 @@
+﻿select  m.*,m.rowid from merchant m where id =104;
+select  m.*,m.rowid from merchant_user m where merchant_id =104;

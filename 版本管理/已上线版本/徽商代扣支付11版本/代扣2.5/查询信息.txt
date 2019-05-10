@@ -1,0 +1,84 @@
+﻿if (request.get(Constant.BANK_CODE) != null & request.get(Constant.BANK_ACCOUNT) != null & request.get(Constant.BANK_ACCOUNT_TYPE) != null) {
+
+		}else if((request.get(Constant.BANK_CODE) == null & request.get(Constant.BANK_ACCOUNT) == null & request.get(Constant.BANK_ACCOUNT_TYPE) == null) ){
+			try {
+				Integer bankAccountType = (Integer) request.get(Constant.BANK_ACCOUNT_TYPE);
+				// 0借记卡、2贷记卡
+				if (bankAccountType != 0 && bankAccountType != 2 ) {
+					throw new PlateformProcessorException("200300000", "不支持的银行账户类型");
+				}
+			} catch (Exception e) {
+				logger.error("创建代扣支付协议变更有问题,解析银行账户类型有误!", e);
+				throw new PlateformProcessorException("200300000", "银行账户类型有误!");
+			}
+		}else{
+			throw new PlateformProcessorException("200300000", "BANK_ACCOUNT为空!");
+		}
+		if (request.get(Constant.BANK_ACCOUNT) == null) {
+			throw new PlateformProcessorException("200300000", "BANK_ACCOUNT为空!");
+		}
+		if (request.get(Constant.BANK_ACCOUNT_TYPE) == null) {
+			throw new PlateformProcessorException("200300000", "BANK_ACCOUNT_TYPE为空!");
+		}else {
+			try {
+				Integer bankAccountType = (Integer) request.get(Constant.BANK_ACCOUNT_TYPE);
+				// 0借记卡、2贷记卡
+				if (bankAccountType != 0 && bankAccountType != 2 ) {
+					throw new PlateformProcessorException("200300000", "不支持的银行账户类型");
+				}
+			} catch (Exception e) {
+				logger.error("创建代扣支付协议变更有问题,解析银行账户类型有误!", e);
+				throw new PlateformProcessorException("200300000", "银行账户类型有误!");
+			}
+		}
+		if (request.get(Constant.NAME) == null) {
+			throw new PlateformProcessorException("200300000", "NAME为空!");
+		}
+		if (request.get(Constant.ID_TYPE) == null) {
+			throw new PlateformProcessorException("200300000", "ID_TYPE为空!");
+		}else {
+			try {
+				// 0居民身份证
+				Integer idType = (Integer) request.get(Constant.ID_TYPE);
+				if (idType != 0 ) {
+					throw new PlateformProcessorException("200300000", "不支持的证件类型");
+				}
+			} catch (Exception e) {
+				logger.error("创建代扣支付协议变更有问题,不支持的证件类型", e);
+				throw new PlateformProcessorException("200300000", "证件类型有误!");
+			}
+		}
+
+		if (request.get(Constant.ID_NUMBER) == null) {
+			throw new PlateformProcessorException("200300000", "ID_NUMBER为空!");
+		}
+		if (request.get(Constant.MOBILE_PHONE) == null) {
+			throw new PlateformProcessorException("200300000", "MOBILE_PHONE为空!");
+		}
+		if (request.get(Constant.SINGLE_LIMIT) == null) {
+			throw new PlateformProcessorException("200300000", "SINGLE_LIMIT为空!");
+		}else {
+			try {
+				BigDecimal singleLimit = (BigDecimal) request.get(Constant.SINGLE_LIMIT);
+				if (singleLimit.compareTo(BigDecimal.ZERO) <= 0) {
+					throw new PlateformProcessorException("200300000", "单笔限额金额有误！必须大于0");
+				}
+			} catch (Exception e) {
+				logger.error("创建代扣支付协议变更有问题,单笔限额金额有误", e);
+				throw new PlateformProcessorException("200300000", "单笔限额有误!");
+			}
+		}
+
+		if (request.get(Constant.SINGLE_DAY_LIMIT) == null) {
+			throw new PlateformProcessorException("200300000", "SINGLE_LIMIT为空!");
+		}else {
+			try {
+				BigDecimal singleDayLimit = (BigDecimal) request.get(Constant.SINGLE_DAY_LIMIT);
+				if (singleDayLimit.compareTo(BigDecimal.ZERO) <= 0) {
+					throw new PlateformProcessorException("200300000", "单日限额金额有误！必须大于0");
+				}
+			} catch (Exception e) {
+				logger.error("创建代扣支付协议变更有问题,单日限额金额有误", e);
+				throw new PlateformProcessorException("200300000",  "单日限额有误!");
+			}
+		}

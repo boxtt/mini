@@ -1,0 +1,44 @@
+﻿2.5应用部署步骤
+-------------------------------------------
+/sumapay25/deploy
+用户密码
+admin 58858547
+发布命令
+asadmin2 deploy --force com.sumapay.biz.hsbdepository.war
+2.5手动部署命令
+asadmin --port=4848 deploy --force /sumapay25/deploy/com.sumapay.biz.hsbdepository.war
+卸载命令
+asadmin --port 4848 undeploy com.sumapay.biz.withholding
+集群启动、关闭
+asadmin start-domain domain1
+asadmin stop-domain domain1
+2.0 部署
+
+-------------------------------------------
+调度任务部署
+-------------------------------------------
+93
+调度任务路径
+/sumapay/schedual
+/sumapay/schedual/schedual
+详细操作见手册
+task add --file /sumapay/schedual/schedualTasks/ysepayBatchDkOnlineProcessorSchedual.schedual
+添加调度需要注意
+1.检查/sumapay/schedual/tasks目录下有没和需要添加任务相关目录，有?删除
+2.检查表schedule_task表有没类似数据，有？删除
+-------------------------------------------
+2.5MQ新增处理器步骤
+-------------------------------------------
+1.执行命令
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.trade.pay
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.hsb2depository routing_key=HS0007
+2.网关配置信息处理器信息（调度不需要添加）
+sumapay-config.properties
+
+
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=AN0008
+
+com.sumapay.mq.queue.trade.withholding
+
+
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.withholding routing_key=DK0021

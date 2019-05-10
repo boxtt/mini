@@ -1,0 +1,86 @@
+﻿$ git config --global user.name "gaodebao"
+$ git config --global user.email "gaodebao@honglingjin.xyz"
+
+创建全局的
+之后git使用步骤：
+
+初始化一个Git仓库，使用git init命令。
+添加文件到Git仓库，分两步：
+• 第一步，使用命令git add ，注意，可反复多次使用，添加多个文件；
+• 第二步，使用命令git commit，完成。
+
+git status命令可以让我们时刻掌握仓库当前的状态，上⾯面的命令告诉我们，readme.txt被
+修改过了，但还没有准备提交的修改。
+
+git diff顾名思义就是查看difference，显示的格式正是Unix通用的diff格式，可以从上面的
+命令输出看到，我们在第一行添加了一个“distributed”单词。
+
+查看日志信息：
+git log --pretty=oneline    
+
+版本回退：
+$ git reset --hard HEAD^
+$ git reset --hard HEAD~100
+举例：
+$ git reset --hard 27b4fa07
+
+查看内容：
+cat  文件名
+
+查看回退记录：
+$ git reflog
+ea34578 HEAD@{0}: reset: moving to HEAD^
+
+丢弃工作区的修改
+$ git checkout -- readme.txt
+
+删除文件：
+$ rm test.txt
+
+
+推送本地内容：
+$ git push -u origin master
+origin是远程库名称  master 是分支名称
+
+
+要关联一个远程库，使用命令git remote add origin git@server-name:path/repo-name.git；
+关联后，使用命令git push -u origin master第一次推送master分支的所有内容；
+此后，每次本地提交后，只要有必要，就可以使⽤用命令git push origin master推送最新修
+改；
+$ git remote add origin git@github.com:gaodebao/learngit.git
+
+
+Git鼓励大量使用分⽀支：
+查看分支：git branch
+创建分支：git branch name
+切换分支：git checkout name 
+创建+切换分支：git checkout -b name
+合并某分支到当前分支：git merge name
+删除分支：git branch -d name
+
+
+备份当前分支
+git  stash
+恢复：
+git  stash pop
+
+
+
+git submodule update --init
+
+设置大小写敏感
+ $ git config core.ignorecase false
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,3 @@
+﻿99：sys password
+99: system password
+asadmin tvpay

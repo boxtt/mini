@@ -1,0 +1,17 @@
+﻿Some more details: I ended up performing these steps to match out of the box eclipse organizing:
+
+(in settings > code style > java > imports, as mentioned by @yole)
+
+set "class count to use import with '*'" to 99 (seems like you cannot turn this off)
+set this ordering (like eclipse defaults):
+static all other,
+blank,
+java.*,
+blank,
+javax.*,
+blank,
+org.*,
+blank,
+com.*,
+blank,
+all other imports

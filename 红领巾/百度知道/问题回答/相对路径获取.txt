@@ -1,0 +1,10 @@
+﻿相对路径的话，可以先获取到当前文件的编译路径，之后在找到想找文件的路径的思路来实现。
+举例：
+XMLS.class.getClass().getResourceAsStream("/test/test.txt");
+解释：XMLS.class.getClass()是获取当前的类编译路径，之后通过getResourceAsStream的形式即可找到要读取的文件的路径。
+备注：这个方法中后面的路径也可以通过截取的形式来进行路径获取，实现原理都是找到当前类路径，之后通过相对位置找到另外文件路径。
+
+
+可以通过“ 类名.class.getResource("").getPath()”方法实现。
+举例：”String path = XMLS.class.getResource("").getPath()“.
+解释：以上语句就是获取到XMLS编译后的绝对路径（无法获取到java文件路径的，因为java运行的都是class文件）。

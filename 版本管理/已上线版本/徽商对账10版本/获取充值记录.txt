@@ -1,0 +1,118 @@
+﻿select * from ((select 
+  p.request_id requestId,
+  p.seqno,
+  t.trade_code tradeCode,
+  t.trade_sum tradeSum,
+  to_char(t.trade_end_time, 'yyyy-MM-dd hh:mm:ss') tradeDate,
+  '成功',
+  case 
+    when t.CHARGE_TYPE=0 then '实时'
+    when t.CHARGE_TYPE=1 then '预付'  
+    when t.CHARGE_TYPE=2 then '垫付'
+    when t.CHARGE_TYPE=3 then '后付'
+    else '其他'
+  end chargeType,
+  t.trade_fee tradeFee,
+  p.acct_no acctNo
+  from (select * from trade_record union all select * from trade_record_history) t,
+  biz_type biz, p2p_hsb2_recharge_request p
+  where 1 = 1
+  and t.biz_type = biz.id
+and
+      t.provider_id = 104
+and
+
+    t.trade_code in ('HS0002','HS0025','HS0010','HS0009')
+  and t.status = 2
+  and t.id = p.TRADE_ID
+  )
+ ) alt
+  order by alt.requestId asc;  
+  
+  select *
+  from ((select p.request_id requestId,
+                p.seqno seqNo,
+                t.trade_code tradeCode,
+                t.trade_sum tradeSum,
+                to_char(t.trade_end_time, 'yyyy-MM-dd') tradeEndTime,
+                t.status,
+                t.CHARGE_TYPE chargeType,
+                t.trade_fee tradeFee,
+                p.acct_no acctNo
+           from (select *
+                   from trade_record
+                 union all
+                 select * from trade_record_history) t,
+                p2p_hsb2_recharge_request p
+          where 1 = 1
+            and t.provider_id = 2865
+            and ((t.trade_end_time > to_date('2017-05-25', 'yyyy-MM-dd') and
+                t.trade_end_time < to_date('2017-06-25', 'yyyy-MM-dd')) or
+                (t.MANUAL_ADJUST_TIME >=
+                to_date('2017-05-25', 'yyyy-MM-dd') and
+                t.MANUAL_ADJUST_TIME < to_date('2017-06-25', 'yyyy-MM-dd')))
+            and t.trade_code in ('HS0002', 'HS0009', 'HS0010', 'HS0025')
+            and t.status = 2
+            and t.id = p.TRADE_ID)) alt
+ order by alt.requestId asc;
+ 
+ 
+  select * from ((select 
+  p.request_id requestId,
+  p.seqno,
+  t.trade_code tradeCode,
+  t.trade_sum tradeSum,
+  to_char(t.trade_end_time, 'yyyy-MM-dd hh:mm:ss') tradeDate,
+  t.status,
+  case 
+    when t.CHARGE_TYPE=0 then '实时'
+    when t.CHARGE_TYPE=1 then '预付'  
+    when t.CHARGE_TYPE=2 then '垫付'
+    when t.CHARGE_TYPE=3 then '后付'
+    else '其他'
+  end chargeType,
+  t.trade_fee tradeFee,
+  p.acct_no acctNo
+  from (select * from trade_record union all select * from trade_record_history) t,
+  p2p_hsb2_recharge_request p
+  where 1 = 1
+   <isNotNull prepend="and" property="merId">
+		  t.provider_id = #merId:VARCHAR#
+    </isNotNull>
+	and ((t.trade_end_time &gt;= #startDate:TIMESTAMP# and t.trade_end_time &lt; #endDate:TIMESTAMP#)
+		or (t.MANUAL_ADJUST_TIME &gt;= #startDate:TIMESTAMP# and t.MANUAL_ADJUST_TIME &lt; #endDate:TIMESTAMP#))
+	<isNotNull prepend="and" property="hsbPayTradeCode">
+		t.trade_code in ($hsbPayTradeCode$)
+	</isNotNull>
+	and t.status = 2
+  and t.id = p.TRADE_ID
+  )
+ ) alt
+  order by alt.requestId asc;  
+  
+  
+  -----------------------查询所有的徽商充值成功记录
+  
+  select *
+  from ((select p.request_id requestId,
+                p.seqno seqNo,
+                t.trade_code tradeCode,
+                t.trade_sum tradeSum,
+                to_char(t.trade_end_time, 'yyyy-MM-dd hh:mm:ss') tradeEndTime,
+                t.status,
+                t.CHARGE_TYPE chargeType,
+                t.trade_fee tradeFee,
+                p.acct_no acctNo
+           from (select *
+                   from trade_record
+                 union all
+                 select * from trade_record_history) t,
+                p2p_hsb2_recharge_request p
+          where 1 = 1
+            and t.provider_id = 2865
+            and t.trade_code in ('HS0002', 'HS0009', 'HS0010', 'HS0025')
+            and t.status = 2
+            and t.id = p.TRADE_ID)) alt
+ order by alt.requestId asc;
+ 
+ select t.*,t.rowid from trade_record  t where  t.trade_code in ('HS0002', 'HS0009', 'HS0010', 'HS0025') and t.status = 2;

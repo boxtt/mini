@@ -1,0 +1,26 @@
+﻿comment on column MERCHANT_CHECKACCOUNT_PROGRESS.type
+  is '对账单类型，0：交易对账单，1：结算对账单，2：代扣对账单，3：徽商2.0对账单,4:原生代扣对账单';
+
+
+2.0调度系统 --
+增加调度：providerBasicDKCheckAccount_schedule.xml  
+调度执行时间： 0 0 2 * * ? * 
+修改配置文件/sumapay/config/sumapay-config.properties  
+bankcheck.providerBasicDKCheckAccount.service.haproxy.urls=http://${bankcheck.springremote.proxy.server}/bankCheck/basicDkCheckRemoteService
+
+
+
+2.5调度系统：
+增加调度：singleBasicDkTradeUpdateConfirmProcessorSchedual.schedual
+调度执行时间： 0 0/1 * * * ? *
+
+mq消息队列服务器执行以下命令
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.withholding routing_key=DK0026
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.withholding routing_key=DK0027
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.withholding routing_key=DK0028
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.withholding routing_key=DK0029
+
+
+
+代扣2.5系统（172.16.4.9、11）修改配置文件/sumapay25/config/db-sensitivedata-config.properties 
+SingleBasicDkRecord=idNumber,bankAccount,bankAccountName,mobilePhone

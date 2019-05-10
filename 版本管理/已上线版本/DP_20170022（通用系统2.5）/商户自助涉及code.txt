@@ -1,0 +1,9 @@
+﻿CX0001交易状态查询 ---返回结果
+ZZ0001同商户账户间转账
+CZ1101网银充值
+CX1001根据费率查询实际金额
+
+spring.amqp.trade.code追加内容：,CX0001,CX1001,CZ1101,ZZ0001,CX0041
+
+修改配置文件/sumapayex/config/sumapay-config.properties
+

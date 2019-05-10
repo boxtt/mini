@@ -1,0 +1,51 @@
+﻿启动db2：db2start
+停止db2：db2stop
+查看db2是否启动：db2
+查看db2通信模式：db2set -all ： ##如果没有db2comm或者db2comm不等于tcpip，按照下面命令添加：db2set db2comm=tcpip
+查看用户是否存在 ：id vpetl
+
+创建用户（root权限）：useradd vpetl -m：  创建密码：passwd vpetl
+
+--以下是db2inst1用户操作
+--创建数据库所在的文件夹
+mkdir /data/db2data/db2vpetl
+--创建数据库
+db2 "create database vpetldb AUTOMATIC STORAGE YES ON /data/db2data/db2vpetl using codeset UTF-8 territory CN PAGESIZE 32768"
+
+--连接到数据库 db2 connect to vpetldb user vpetl using password
+--创建BUFFERPOOL
+db2 "CREATE BUFFERPOOL bp16k IMMEDIATE SIZE 6400 PAGESIZE 16K"
+--创建系统临时表空间
+db2 "CREATE SYSTEM TEMPORARY TABLESPACE TBS_TMP_16K PAGESIZE 16K MANAGED BY DATABASE USING (FILE '/data/db2data/vpetldb/tbs_tmp16k_01.dat' 5120M) EXTENTSIZE 8 BUFFERPOOL bp16k NO FILE SYSTEM CACHING DROPPED TABLE RECOVERY OFF"
+--创建数据表空间的语句
+db2 "CREATE REGULAR TABLESPACE TBS_DATA_16K PAGESIZE 16K MANAGED BY DATABASE USING (FILE '/data/db2data/vpetldb/tbs_data_16K_01.dat' 5120M, FILE '/data/db2data/vpetldb/tbs_data_16K_02.dat' 5120M) EXTENTSIZE 8 BUFFERPOOL bp16k NO FILE SYSTEM CACHING"
+--创建索引表空间的语句
+db2 "CREATE REGULAR TABLESPACE TBS_IDX_16K IN DATABASE PARTITION GROUP IBMDEFAULTGROUP PAGESIZE 16K MANAGED BY DATABASE USING (FILE '/data/db2data/vpetldb/tbs_idx_16K.dat' 2048M) EXTENTSIZE 8 BUFFERPOOL bp16k NO FILE SYSTEM CACHING"
+--赋予vpetl用户对数据库vpetldb的操作权限
+db2 "grant dbadm on database to user vpetl"
+--创建schema
+db2 "create schema etladmin authorization vpetl"
+-----------------------------------------------------------------------------------------------------------------------------------
+首先检查db2实例（客户端）字符集是否是utf-8：
+命令：
+db2set -all|grep DB2CODEPAGE
+如果输出不是：[i] DB2CODEPAGE=1208，则说明客户端的编码不是utf-8.需要进行如下操作：
+db2 connect to vpetldb
+db2set db2codepage=1208
+db2 terminate
+
+----------------------导入脚本--------------------------
+db2 -svtf 03.etl-table.sql
+
+
+db2不支持的数据类型 varchar2 ，number
+
+
+-------------------------------------------------------------------------
+
+查看active的数据库：db2 list active databases 
+
+
+
+
+

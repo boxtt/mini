@@ -1,0 +1,2 @@
+﻿##tvpay.datasource.jndi=jdbc/tvpay
+tvpay.datasource.jndi=jdbc/tvpayLocal

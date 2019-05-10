@@ -1,0 +1,13 @@
+﻿
+
+
+
+银行对账系统（com.simplepay.finance.bankcheck.war）
+修改配置文件
+checkaccount.banks=ucfpay,payworth,eynonpay,dailaozhuang
+
+
+checkaccount.banks=ucfpay,payworth,dailaozhuang
+
+
+一会侯晓谦把包放上去，就可以部署生产了 ：svn ：资料\2期\部署\配置文件修改

@@ -1,0 +1,39 @@
+﻿
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare exchange name=com.sumapay.mq.exchange.trade type=direct durable=true
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.trade.pay
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.pay routing_key=CX0015
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.pay routing_key=CX0016
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.pay routing_key=CX0062
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.pay routing_key=TZ0001
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.pay routing_key=TZ0002
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.pay routing_key=TZ0004
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.pay routing_key=TZ0005
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.pay routing_key=ZF0102
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.pay routing_key=ZF0105
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.pay routing_key=ZF0123
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.pay routing_key=ZF0124
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.pay routing_key=ZF0127
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.pay routing_key=ZF0136
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.pay routing_key=ZF0201
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.pay routing_key=ZF0202
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.pay routing_key=ZF0203
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.pay routing_key=ZF0401
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.pay routing_key=ZF0403
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.pay routing_key=ZF0404
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.pay routing_key=ZF1000
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.pay routing_key=TZ0007
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.pay routing_key=TZ0006
+
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.bank destination=com.sumapay.mq.queue.bank.unionpayepcc routing_key=unionpayepcc.#
+##冯组添加
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.pay routing_key=CX0025
+
+
+####报备相关code码
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.pay routing_key=ZF0409
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.pay routing_key=ZF0410
+
+
+
+
+200300037

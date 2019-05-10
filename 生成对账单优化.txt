@@ -1,0 +1,29 @@
+﻿1、先生成txt对账单，之后在生成excel对账单，不在加载两个list到内存之后在进行文件生成
+2、txt对账单用的是BufferedWriter ，每次生成一行后进行fulsh操作，减少缓冲区数据量 ，这个写大文件不是问题--------
+不加上面那句貌似能支持到6w条数据，如果把TradeRecord只取有用字段，大概能支持到18w数据，加上fulsh之后，基本没什么限制
+3、excel方面，占用内存较大，当前系统在本地250M内存环境下，大概支持6.5w条数据导出，优化成下面的代码大概支持16w。
+本地内存调整为500M，优化后，大概支持导出43W条数据
+本地内存调整为1G ，优化后大概支持90W+条数据
+	     	 String  filePath = localTempFile+""+merCode+excelFileName;
+	    WorkbookSettings wbSetting = new WorkbookSettings();
+            wbSetting.setUseTemporaryFileDuringWrite(true);
+	     wbSetting.setGCDisabled(true);
+            wbSetting.setTemporaryFileDuringWriteDirectory(new File(localTempFile));//临时文件夹的位置
+            WritableWorkbook wwb;
+            if(sheet == 1){
+            	wwb = Workbook.createWorkbook(new File(filePath),wbSetting);
+            }else{
+                FileInputStream in = new FileInputStream(new File(filePath)); 
+    			Workbook wb= Workbook.getWorkbook(in);
+    		   wwb= Workbook.createWorkbook(new File(filePath),wb,wbSetting);
+            }
+            
+              -Xms500m -Xmx500m  -Xmn256m -XX:NewRatio=4 -XX:SurvivorRatio=4
+            
+          XX:PermSize=256m -XX:MaxPermSize=512m
+            	
+            	-Xms2g -Xmx2g -Xmn256m -XX:SurvivorRatio=8 -XX:ParallelGCThreads=8 -XX:PermSize=512m -XX:MaxPermSize=512m -Xss256k -XX:-DisableExplicitGC -XX:+UseCompressedOops -XX:+UseConcMarkSweepGC -XX:+CMSParallelRemarkEnabled
+            	
+            	
+            	
+            	-Xms500m -Xmx500m  -Xmn256m -XX:NewRatio=4 -XX:SurvivorRatio=4

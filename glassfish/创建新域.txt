@@ -1,0 +1,29 @@
+﻿密码文件：
+AS_ADMIN_PASSWORD=12345678
+AS_ADMIN_ADMINPASSWORD=12345678
+AS_ADMIN_USERPASSWORD=12345678
+AS_ADMIN_MASTERPASSWORD=12345678
+存放位置：C:\Sun\AppServer\bin
+
+asadmin create-domain --adminport $adminport$ --instanceport $httpport$ --user admin --passwordfile password.txt --savemasterpassword $domain_name$
+asadmin create-domain --adminport 5050 --instanceport 9080 --user admin --passwordfile password.txt --savemasterpassword domain2
+
+
+启动domain2
+asadmin start-domain domain2
+停止domain2
+asadmin stop-domain domain2
+
+登录：http://192.166.69.34:5050/ 
+用户名admin，密码：12345678
+
+资源连接池：
+tvpayDBPool
+	
+javax.sql.DataSource
+oracle.jdbc.pool.OracleDataSource
+
+属性：
+password：tvpay
+user：tvpay2dev
+url：jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=192.161.14.99)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=sumapay)))

@@ -1,0 +1,10 @@
+﻿select  * from trade_record t where t.biz_user_id ='44' order by id desc;
+select  * from biz_user_bank_withdraw_request t where t.request_id='20171117160933314' ;
+select  * from merchant_fee m where m.merchant_id =472 and m.type =21  and m.request_channel_type =0;
+
+select  * from merchant_fee m where m.merchant_id =472 and m.type =21 and m.request_channel_type =2  ;
+
+select  * from biz_user_auth_base_info b where b.biz_user_id =44
+
+;
+select  * from biz_user_bank_withdraw_request t where t.fld1 ='4';

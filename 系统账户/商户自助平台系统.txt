@@ -1,0 +1,43 @@
+﻿http://192.161.14.94:8080/merchant/
+用户名Admin
+商户CSSH
+密码111111
+
+商户：P2PMERCHANT
+
+
+http://172.16.3.2:9191/merchant/QueryBAccTrade_init?time=1472635355897
+
+Admin
+yg
+111111
+
+
+
+https://172.16.3.1/merchant
+孙丽君 11:30:04
+PM1/123456
+孙丽君 11:30:11
+Admin/123456
+PMerchant
+
+
+
+
+03148015886 
+
+CA0009 资金上缴
+TX1001 商户提现
+CZ1101 商户个人网银充值
+SF1006 付款请求
+
+
+
+stage
+用  户  名：fh  
+所属商户：123 密码abc123456
+高德宝 17:09:52
+地址也发下
+郭卫卫 17:10:05
+https://172.16.3.1/merchant/pages/commons/permission.jsp
+郭卫卫 17:10:18

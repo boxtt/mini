@@ -1,0 +1,8 @@
+﻿第一步：选择菜单栏debug下拉按钮中的Debug configuration按钮
+第二步：选择remote Java application，右击new，
+第三步：填写需要调试的project，host和对应的port。 如：192.161.14.99，端口9009；localhost，端口9009
+
+备注：项目需要以debug模式启动，之后需要在GlassFish中勾选启用调试
+
+
+-agentlib:jdwp=transport=dt_socket,address=192.166.69.34:9009,suspend=y,-server=-XX:PermSize=128M -XX:MaxPermSize=256m

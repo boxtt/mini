@@ -1,0 +1,4 @@
+﻿代发系统
+在/sumapayex/config/sumapay-config.properties中增加配置参数（路径不需要手动创建）
+#定时提现，实时提现请求本地保存路径
+merchant.transfer.local.filePath=/sumapayex/transferFile/

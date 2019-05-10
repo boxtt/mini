@@ -1,0 +1,20 @@
+﻿因为list是有顺序的，先add的编号就小（从0开始），这样就可以通过remove（编号）的形式进行删除，之后后面的会编号依次变小（也就是说编号总是连续的）。举例：
+List list = new linkedList();
+list.add("0");
+list.add("1");
+list.remove(0);
+结果就是：list.get(0) =1;
+备注：如果在一次“list.remove(0);”那么list对象就是个空。
+
+
+实现思路就是循环List对象，之后看每个对象中是否有包含的字符串，符合的就输出：
+List list = new ArrayList();
+list.add("zhangsan");
+list.add("lisi");
+list.add("wangwu");
+for(int i=0;i<list.size();i++ ){
+if(list.get(i).contains("li")){
+System.out.println(list.get(i));
+}
+}
+备注：list是有顺序的，并且下标从0开始。

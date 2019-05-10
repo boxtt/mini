@@ -1,0 +1,18 @@
+﻿	//查询储蓄卡银行列表
+							param.put("MERCHANT_CODE", input.getTradeProcess());
+							param.put("PRODUCT_TYPE", "2");
+							param.put("CHANNEL_TYPE", "0");
+							param.put("BANK_CARD_TYPE", "2");
+							Map<String, Object> bankResult0 = userService.getMerchantBankList(param);
+							if((Integer)bankResult0.get(Constant.ACTION_RESULT)==0){
+								List<Map<String, Object>> merchantBankList = (List<Map<String, Object>>) bankResult0.get("SUPPORT_BANK_LIST");
+								if(merchantBankList!=null && merchantBankList.size()!=0){
+									for(Map mba : merchantBankList){
+										Map<String, Object> map = new HashMap<String, Object>();
+										map.put("bankCode", mba.get("bankCode"));
+										map.put("bankName", mba.get("fld1"));
+										bankList0.add(map);
+									}
+									
+								}
+							} 

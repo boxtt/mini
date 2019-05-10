@@ -1,0 +1,8 @@
+﻿insert into pay_type (ID, CODE, NAME, DESCRIPTION, FLD1, FLD2, FLD3, FLD4, FLD5, FLD6, FLD7, FLD8, FLD9, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, PARENT_ID, HAS_CHILD)
+select    seq_pay_type.nextval, '18', '支付宝支付-H5', '支付宝支付-H5', null, null, null, null, null, null, null, null, null, sysdate, 'sys', 'sys', p.id, '0' from pay_type p where p.name ='支付宝支付';
+insert into pay_type (ID, CODE, NAME, DESCRIPTION, FLD1, FLD2, FLD3, FLD4, FLD5, FLD6, FLD7, FLD8, FLD9, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, PARENT_ID, HAS_CHILD)
+select   seq_pay_type.nextval, '17', '微信支付-H5', '微信支付-H5', null, null, null, null, null, null, null, null, null, sysdate, 'sys', 'sys',  p.id  , '0'  from pay_type p where p.name ='微信支付'; 
+
+
+insert into trade_type (ID, CODE, NAME, STATUS, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4)  values (seq_trade_type_id.nextval, 'ZF0415', '微信支付-H5', '1', null, sysdate, 'sys', null, '1', null, null, null);
+insert into trade_type (ID, CODE, NAME, STATUS, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4)  values (seq_trade_type_id.nextval, 'ZF0416', '支付宝支付-H5', '1', null, sysdate, 'sys', null, '1', null, null, null);

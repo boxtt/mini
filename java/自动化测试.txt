@@ -1,0 +1,6 @@
+﻿备份路径：G:\火狐
+插件下载地址：http://seleniumhq.org/download
+客户端：Selenium Client & WebDriver Language Bindings
+服务端：Selenium Server (formerly the Selenium RC Server)
+
+火狐：31.0 

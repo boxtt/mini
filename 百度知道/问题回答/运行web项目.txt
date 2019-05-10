@@ -1,0 +1,5 @@
+﻿第一步：需要先创建一个server，可以通过windows中的show view，之后找到server。
+第二步：在server窗口中右击，选择”new-server“，之后创建好tomcat server。
+第三步：在创建的server上右击，选择add，之后将要运行的项目添加进来，选择Finsh。
+第四步：右击server，之后选择”start“运行即可。
+第五步：打开浏览器，输入”http://localhost:8080/项目root“运行即可。

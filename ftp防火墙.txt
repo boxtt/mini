@@ -1,0 +1,4 @@
+﻿/etc/sysconfig
+-rw------- 1 root root  3940 2016-02-23 iptables
+-A RH-Firewall-1-INPUT -m state --state NEW -m tcp -p tcp --sport 21 -j ACCEPT
+-A RH-Firewall-1-INPUT -p tcp -m state --state NEW -m tcp --dport 20 -j ACCEPT

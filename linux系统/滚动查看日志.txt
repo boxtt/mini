@@ -1,0 +1,1 @@
+﻿watch -n 1 -d 'tail -500f   paycenter.2016-01-07.log'

@@ -1,0 +1,85 @@
+﻿--查询平账退款记录
+    select lr.pid
+    from (select m.original_trade_id pid, nvl(sum(t.trade_sum), 0) refund_sum
+            from merchant_refund_request m left join trade_record t on m.rel_trade_id=t.id
+           where t.check_status =0
+             and t.status = 2
+         and t.trade_code = 'TZ0001'
+         and t.bank_code = #checkBankCode:VARCHAR#
+           group by m.original_trade_id) lr
+   inner join (select b.trade_id pid, nvl(sum(b.trade_sum), 0) refund_sum
+                 from bank_check_record b
+                where b.fld2 = '1'
+                  and b.check_status =0
+                group by b.trade_id) br on lr.pid = br.pid
+   where lr.refund_sum = br.refund_sum;
+  
+---查询不平账目退款记录
+    select lr.pid
+	  from (select m.original_trade_id pid, nvl(sum(t.trade_sum), 0) refund_sum
+	          from merchant_refund_request m left join trade_record t on m.rel_trade_id=t.id
+	           where t.check_status =0
+	           and t.status = 2
+			   and t.bank_code = #checkBankCode:VARCHAR#
+			   and t.trade_code = 'TZ0001'
+	         group by m.original_trade_id) lr
+	 inner join (select b.trade_id pid, nvl(sum(b.trade_sum), 0) refund_sum
+	               from bank_check_record b
+	              where b.fld2 = 1
+	                and b.check_status =0
+	              group by b.trade_id) br on lr.pid = br.pid
+	 where lr.refund_sum &lt;&gt; br.refund_sum and lr.refund_sum is not null and br.refund_sum is not null
+ 
+   
+   
+------更新平账退款记录，交易表
+   	update trade_record t
+	   set t.check_status      = 1,
+	   	   t.manual_adjust_status = 0,
+	       t.last_edit_time    = #nowTime:TIMESTAMP#,
+	       t.last_editor       = #editor:VARCHAR#,
+	       t.last_edit_process = #editProcess:VARCHAR#
+	 where t.id in (select mrr.rel_trade_id
+	                  from merchant_refund_request mrr
+	                 where mrr.original_trade_id in ($refundEqualTrade$))
+	   and t.bank_code = #checkBankCode:VARCHAR#
+	   and t.check_status = 0
+	   and t.status = 2
+ -------更新不平账目退款记录，交易表
+ 	update trade_record t
+	   set t.check_status      = 2,
+	   	   t.manual_adjust_status = 0,
+	       t.last_edit_time    = #nowTime:TIMESTAMP#,
+	       t.last_editor       = #editor:VARCHAR#,
+	       t.last_edit_process = #editProcess:VARCHAR#
+	 where t.id in (select mrr.rel_trade_id
+	                  from merchant_refund_request mrr
+	                 where mrr.original_trade_id in ($refundNotEqualTrade$))
+	   and t.bank_code = #checkBankCode:VARCHAR#
+	   and t.check_status = 0
+	   and t.status = 2
+     
+
+
+----------更新平账退款记录，bankCheck表
+ 	update bank_check_record t
+	   set t.check_status     = 1,
+	   	   t.fld1 = null,
+	       t.last_edit_date   = #nowTime:TIMESTAMP#,
+	       t.last_edit_person = #editProcess:VARCHAR#
+	 where t.trade_id in ($refundEqualTrade$)
+	   and t.fld2 = 1
+	   and t.check_status = 0
+	   and t.bank_code = #checkBankCode:VARCHAR#    
+-----------更新不平退款记录，bankcehck表     
+	update bank_check_record t
+	   set t.check_status     = 2,
+	   	   t.fld1 = null,
+	       t.last_edit_date   = #nowTime:TIMESTAMP#,
+	       t.last_edit_person = #editProcess:VARCHAR#
+	 where t.trade_id in ($refundNotEqualTrade$)
+	   and t.fld2 = 1
+	   and t.check_status = 0
+	   and t.bank_code = #checkBankCode:VARCHAR#     
+     
+     

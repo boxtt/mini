@@ -1,0 +1,7 @@
+﻿地址：192.168.1.148
+用户名：gaodebao
+密码：gaodebao
+命令执行：sudo
+根路径：home/gaodebao
+项目路径：app/paycenter 
+执行脚本：paycenter   start/stop/restart

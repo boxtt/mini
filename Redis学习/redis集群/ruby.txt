@@ -1,0 +1,8 @@
+﻿gem sources --remove https://rubygems.org/ 删掉原来的源
+gem sources -a http://gems.ruby-china.org/ 添加新源
+gem sources -l 查看现有的源
+gem install redis 安装redis依赖
+
+
+配置代理
+set http_proxy=http://192.166.69.12:1818

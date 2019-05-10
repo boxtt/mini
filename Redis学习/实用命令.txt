@@ -1,0 +1,5 @@
+﻿redis-server /usr/local/redis/redis-4.0.2/redis.conf
+
+redis-cli.exe -h 127.0.0.1 -p 6379 -a 123456 shutdown
+
+redis-cli.exe -h 192.161.14.54 -p 6379 -a redis

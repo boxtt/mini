@@ -1,0 +1,23 @@
+﻿C:\Documents and Settings\Administrator>imp tmrpt/tmrpt@22.11.103.12:1521/bocReport  file=c:\yuCheng\event_log_realtime.d
+mp tables=(event_log_realtime);
+
+
+imp tmrpt/tmrpt@22.11.103.12:1521/bocReport  full= y  file=c:\yuCheng\event_log_realtime.dmp ignore= y;
+
+
+imp vpetl_hhbank/vpetl_hhbank@192.168.6.58:1521/orcl file=/home/oracle/vp_etl.dmp ignore =y;
+
+etladmin
+
+C:\Documents and Settings\Administrator>EXP etladmin/etladmin@192.168.6.200:1521/orcl file=c:\yuCheng\event_log_realtime.d
+mp tables=(event_log_realtime);
+
+
+
+EXP 用户名/密码 GRANTS=Y TABLES=(要导出的表1, 要导出的表2, 以此类推) file=E:\目录\文件名.dmp
+
+
+imp tvpay2dev/tvpay@localhost:1521/gaodebao file=c:\aaa.dmp ignore =y;
+
+
+jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1522))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=gaodebao)))

@@ -1,0 +1,2 @@
+﻿select ((1-(Sum(getmisses)/(sum(gets)+sum(getmisses))))*100) from V$rowcache where gets+getMisses !=0;
+小于98，调整shared_pool_size;

@@ -1,0 +1,6 @@
+﻿批量绑卡迁移文件接口
+BindingCardTransferAction
+
+
+trusteeship.springremote.server.2=192.161.14.94:8080
+trusteeship.bankcheck.bankCheckProcess.service.url=http://${trusteeship.springremote.server}/p2pBankCheck/remote/bankCheckProcessRemoteService

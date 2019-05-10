@@ -1,0 +1,6 @@
+﻿Servlet属于MVC结构中的控制层，也就是连接页面和数据库的那个层次。
+扩展：
+m（model）模型，代表的是数据库层，通常用到的是：oracle、db2、mysql等sql知识；
+v（view）视图，代表的是页面（相关），通常用到的是：html5、jsp，js等页面知识；
+c（Controller）控制，代表的控制器，通常用到一些框架知识，如ssh（struts，spring，hibernate）。
+备注：mvc实际上是一个很宽泛的内容，根据用到的技术不同，需要实现的业务逻辑不一样，所以灵活开发配置即可。

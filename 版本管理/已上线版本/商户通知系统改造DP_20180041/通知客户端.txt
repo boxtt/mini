@@ -1,0 +1,13 @@
+﻿<dependency>
+  <groupId>com.sumapay.sendmerchantnotice</groupId>
+  <artifactId>com.sumapay.sendmerchantnotice.client</artifactId>
+  <version>2.5-sumapay</version>
+</dependency>
+
+
+
+<dependency org="com.sumapay.sendmerchantnotice" name="com.sumapay.sendmerchantnotice.client" rev="2.5-sumapay" changing="true"/>
+haproxy.server=192.161.14.92
+front.merchant.springremote.server=${haproxy.server}:8585
+front.merchantNoticeSend.service.businessInterface=com.sumapay.platform.merchant.SendMerchantNoticeService
+front.merchantNoticeSend.service.haproxy.urls=http://${front.merchant.springremote.server}/merchantNotice/remote/SendMerchantNoticeService

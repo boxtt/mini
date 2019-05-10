@@ -1,0 +1,16 @@
+﻿用户名：gaodebao
+密码：gdb20160714
+
+任务单地址：svn://svn.sumapay.com/pub/任务单
+
+
+商户自助平台地址：svn://svn.sumapay.com/tvpay/CMMI3/开发库/电视支付2.0/sourcecode/fengfu/system/branches/branch-2.0.57.0/gateway/internet/com.sumavision.tvpay.gateway.web.merchant
+
+svn://svn.sumapay.com/tvpay/CMMI3/开发库/电视支付2.0/sourcecode/fengfu/ProductRequirementCode/trunk/system	读写	高德宝	2016-12-31
+
+svn://svn.sumapay.com/tvpay/CMMI3/开发库/电视支付2.0/sourcecode/fengfu/system/branches	读写	高德宝	2016-12-31
+
+
+
+
+svn://svn.sumapay.com/pub/部门员工月考核/2016年研发八部月考核

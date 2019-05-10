@@ -1,0 +1,4 @@
+﻿172.16.219.103
+bankcheck系统在/sumapay/config/sumapay-config.properties添加配置：
+#des服务路径（ip地址和端口根据实际情况配置）
+db.des.springremote.url=http://192.161.14.93:8080/des/remote/desRemoteService

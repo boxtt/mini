@@ -1,0 +1,26 @@
+﻿Hsb2UnequalRecordNoticeProcessor
+
+邮箱类型：28
+
+ <tr>
+	    <th>流水号</th>
+	    <th>商户编码</th>
+	    <th>商户名称</th>
+	    <th>请求时间</th>
+	    <th>交易金额</th>
+	  </tr>
+	  <tr>
+	    <td>tradeId</td>
+	    <td>merchantId</td>
+	    <td>merchantName</td>
+	    <td>requestTime</td>
+	    <td>tradeFund</td>
+	  </tr>
+
+
+
+insert into settings (KEY, VALUE, REMARK, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS)
+values ('Hsb2UnequalRecordNoticeMails', 'gaodebao@dvt.dvt.com,gaodarong@dvt.dvt.com,598802631@qq.com', '徽商2.0不平记录通知邮箱', null, sysdate, 'system', null);
+
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.hsb2depository routing_key=HS0039
+调度系统增加调度：Hsb2UnequalRecordNoticeProcessorSchedual.schedual 

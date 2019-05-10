@@ -1,0 +1,15 @@
+﻿select * from user_tables;
+delete from tablename;
+
+alter table tablename add constraint PK_ID primary key(id);
+ALTER TABLE TABLENAME DROP constraint PK_ID CASCADE;
+--ALTER TABLE TABLENAME DROP CONSTRAINT PK_ID CASCADE;
+----create table tableName(id int,name varchar2(20));
+insert into tablename(id ,name) values(1,'zhangsan');
+commit;
+---alter table TABLENAME add constraint PK_ID primary key (ID);
+alter table tablename modify name  varchar2(30); 
+comment on column tablename.id is 'id';
+
+alter table tablename drop column age;
+alter table tablename add age varchar2(2)  default '10' not null;

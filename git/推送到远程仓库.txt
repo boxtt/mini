@@ -1,0 +1,23 @@
+﻿$ git push -u origin dev
+把本地dev分支的最新修改推送至GitHub
+git push -u origin  dev_gaodebao
+$ git push origin dev
+
+推送到远程分支：$ git push origin  develop:dev_gaodebao
+Git push
+$ git push origin test:master         // 提交本地test分支作为远程的master分支
+$ git push origin test:test              // 提交本地test分支作为远程的test分支
+
+
+
+
+解决冲突（feature1分支名称）：
+$ git merge feature1：
+先进行合并分支，之后会提示冲突文件，找到冲突的文件，之后直接修改冲突内容，在进行add提交即可
+
+$ git log --graph --pretty=oneline --abbrev-commit
+用带参数的git log也可以看到分支的合并情况：
+
+
+解决代码问题：
+先通过git pull 将远程代码下载到本地，之后在进行git merge进行代码合并，最后在git push即可。

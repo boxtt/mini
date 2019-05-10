@@ -1,0 +1,21 @@
+﻿第一个：验证token失效时间。
+第二个：注册用户
+第三个：绑定银行卡等内容
+第四个：充值业务类
+第五个：注册合作方  商家端,用户端都属于合作方
+第六个：退款业务，
+第七个：支付业务
+第八个：通知业务
+
+
+
+account为用户表
+bankcard为银行卡绑定表
+deposit为充值业务表
+error_pwd_record为密码错误记录表
+money_change_record为充值记录表
+partner为注册合作方表（ 注册合作方  商家端,用户端都属于合作方）
+refund为退款表
+trade交易记录表
+withdraw提现表
+withdraw_error提现错误记录表

@@ -1,0 +1,27 @@
+﻿显示内容会包含下面几行信息，具体显示可能略有不同，比如版本号
+rpm -qa |grep java
+会列出你安装的JAVA    卸载
+[oracle@orcl ~]$ rpm -qa |grep java
+libgconf-java-2.12.4-6.el5
+xmlrpc-javadoc-2.0.1-3jpp.1
+java-1.4.2-gcj-compat-src-1.4.2.0-40jpp.115
+glib-java-0.2.6-3.fc6
+libgconf-java-2.12.4-6.el5
+libglade-java-2.12.5-3.fc6
+glib-java-0.2.6-3.fc6
+java-1.6.0-openjdk-devel-1.6.0.0-1.2.b09.el5
+cairo-java-1.0.5-3.fc6
+libgnome-java-2.12.4-3.fc6
+bsh-javadoc-1.3.0-9jpp.1
+cairo-java-1.0.5-3.fc6
+libgtk-java-2.8.7-3.el5
+libgnome-java-2.12.4-3.fc6
+java-1.4.2-gcj-compat-devel-1.4.2.0-40jpp.115
+java-1.4.2-gcj-compat-devel-1.4.2.0-40jpp.115
+libgtk-java-2.8.7-3.el5
+gcc-java-4.1.2-46.el5
+libglade-java-2.12.5-3.fc6
+如果有依赖关系，提示无法卸载，使用rpm -e --nodeps 卸载就行了
+没有直接删除的直接
+rpm -e java-1.4.2-gcj-compat-1.4.2.0-40jpp.115
+就可以了

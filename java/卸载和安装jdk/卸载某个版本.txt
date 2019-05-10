@@ -1,0 +1,13 @@
+﻿可以试试
+root用户登陆到系统，打开一个终端输入
+# rpm -qa|grep gcj
+显示内容会包含下面几行信息，具体显示可能略有不同，比如版本号
+java-1.4.2-gcj-compat-1.4.2.0-40jpp.115
+java-1.4.2-gcj-compat-devel-l.4.2.0-40jpp.115
+java-1.4.2-gcj-compat-src-l.4.2.0-40jpp.115
+卸载
+# rpm -e java-1.4.2-gcj-compat-1.4.2.0-40jpp.115
+# rpm -e java-1.4.2-gcj-compat-devel-l.4.2.0-40jpp.115
+# rpm -e java-1.4.2-gcj-compat-src-l.4.2.0-40jpp.115
+
+如果有依赖关系，提示无法卸载，使用rpm -e --nodeps 卸载就行了

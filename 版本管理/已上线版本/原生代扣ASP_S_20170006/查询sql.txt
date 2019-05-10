@@ -1,0 +1,13 @@
+﻿select  * from trade_record t where t.id =161123300015141134;
+select * from voucher  where trade_id =161123300015141134 ;
+select * from merchant where  id =474;
+
+select * from actual_separate_account_record where trade_id= 161123300015141134;
+select * from finance_action where id = 1912;
+select * from finance_action where id = 1916;
+
+select * from account where id =220000000000029939;
+select  * from merchant_account_association  where merchant_id =474;
+
+select t.* from MERCHANT_PAYTYPE_ASSOCIATION t left join PAY_TYPE pt on t.PAY_TYPE_ID = pt.ID 
+    where 1=1  and merchant_id =474 ;

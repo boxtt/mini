@@ -1,0 +1,19 @@
+﻿    select lr.pid reqId, br.pid recId,lr.fund rechargeFund, br.query_date queryDate
+    from (select hsb.id pid, hsb.acct_no acctNo,
+           hsb.seqno seqno, hsb.trxdate trxdate, hsb.trxtime trxtime,
+           hsb.recharge_fund fund
+        from P2P_HSB2_RECHARGE_REQUEST hsb
+         where hsb.status = 1
+         and hsb.check_status =0) lr
+     inner join (select tru.id pid, tru.cardnbr cardnbr,
+              tru.seqno seqno, tru.cendt_date cendtdate,
+              tru.cendt_time cendttime,tru.amount fund,tru.query_date query_date
+           from P2P_HSB2_BANK_CHECK_REC tru
+          where tru.check_status =0) br on lr.acctNo = br.cardnbr and
+          substr(lr.seqno,-6) = br.seqno and
+          substr(lr.trxdate,-4) = br.cendtdate and
+          lr.trxtime = br.cendttime
+     where lr.fund = br.fund ;
+     select t.*, t.rowid from P2P_HSB2_BANK_CHECK_REC t;
+update P2P_HSB2_RECHARGE_REQUEST t set t.check_status=0; 
+update P2P_HSB2_BANK_CHECK_REC t set t.check_status=0; 

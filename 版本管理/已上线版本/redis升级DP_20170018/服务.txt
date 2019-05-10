@@ -1,0 +1,14 @@
+﻿张猛 09:17:21
+cd /usr/local/redis/redis-3.2.8
+张猛 09:17:35
+ redis-server redis.conf 
+张猛 09:17:45
+ redis-cli -h 192.161.14.141 -p 6379 shutdown
+高德宝 09:17:51
+140服务器的 用户名和密码是哪个
+张猛 09:17:55
+redis-sentinel sentinel.conf          
+张猛 09:18:06
+root 58858547
+高德宝 09:18:11
+好的

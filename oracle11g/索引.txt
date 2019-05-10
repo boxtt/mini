@@ -1,0 +1,2 @@
+﻿强制使用某个索引
+select /*+ user_invisible_indexs */  *  from  trade_record;

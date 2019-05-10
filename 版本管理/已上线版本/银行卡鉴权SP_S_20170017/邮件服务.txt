@@ -1,0 +1,13 @@
+﻿request.put("SEND_TYPE", 0); 0：异步发送邮件1：同步发送邮件 2：只发送邮件通知，不保存邮件记录；不传该参数则默认为异步发送邮件。(现总结的需同步的发送邮件类型有：7,8,9,12,16,17,24；只发送邮件的邮件类型有：6；其余邮件类型皆为异步发送)
+
+1、徽商2.0处理器系统，徽商异常对账发送邮件，增加request.put("SEND_TYPE",1)
+
+
+
+
+			Map<String, Object> smsMap = new HashMap<String, Object>();
+					smsMap.put(Constant.CLIENT_ID, clientId);
+					smsMap.put(Constant.MSG_TYPE, Constant.SMS_WITHDRAW_SEND_TYPE);
+					smsMap.put(Constant.MOBILE_PHONE_NO, withdrawPhone);
+					request.put("SEND_TYPE", Constant.SEND_TYPE_ASYNC);
+					smsSendService.sendMessage(smsMap);

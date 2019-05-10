@@ -1,0 +1,5 @@
+﻿
+商户自助 
+在/sumapayex/config/sumapay-config.properties中增加配置参数（路径不需要手动创建）
+#单笔付款，批量付款本地保存路径
+merchant.transfer.local.filePath=/sumapayex/transferFile/

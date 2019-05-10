@@ -1,0 +1,11 @@
+﻿wiki：http://wiki.honglingjinclub.com/；
+git：http://git.honglingjinclub.com/users/sign_in；
+邮箱地址：http://mail.honglingjin.xyz/alimail/；
+用户名：gaodebao@honglingjin.xyz;
+
+
+密码：gaodebao19890124
+
+生产服务器
+
+192.168.168.3   gaodebao   123456     168.19那台账号密码是中转机的账号密码

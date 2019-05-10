@@ -1,0 +1,36 @@
+﻿******************渠道通知服务系统(172.16.8.3)*************
+配置文件/sumapay25/config/sumapay-config.properties添加内容（ip地址和端口根据实际需要配置）
+connector.service.businessInterface=com.sumavision.tvpay.connector.connectorservice.ConnectorServiceRemote
+haproxy.server=172.16.7.120
+connector.springremote.server=${haproxy.server}:8484
+#连接器管理器地址
+connector.service.context=connectorRemoteService
+connector.springremote.url=http://${connector.springremote.server}/${connector.service.context}/remote/SpringHttpServic
+
+#平台发送渠道通知线程池初始大小
+front.noticechannel.threadpool.size=100
+#平台发送渠道通知线程池最大线程数量
+front.noticechannel.threadpool.maxsize=300
+
+
+
+********************2.0调度系统（172.16.8.9）***************************
+配置文件/sumapay/config/sumapay-config.properties添加内容（ip地址和端口为haproxy中通知服务的相关配置地址和端口）
+
+front.channelNotice.springremote.server=192.161.14.92:8587
+front.channelNoticeSend.service.haproxy.url=http://${front.channelNotice.springremote.server}/channelNotice/remote/ChannelNoticeSendService
+front.channelNoticeSend.service.businessInterface=com.sumavision.tvpay.platform.merhcant.ChannelNoticeSendService
+
+定时任务（配置文件channelNotice.xml）
+定时时间配置：0 0/1 * * * ?
+
+
+
+****************************数据库插入配置**********************************
+insert into settings (KEY, VALUE, REMARK, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS)
+values ('lfbNoticeSendIncreaseTimes', '10', '商户通知发送递增次数（单位次）', null, null, null, null);
+
+insert into settings (KEY, VALUE, REMARK, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS)
+values ('lfbNoticeSendInterval', '1', '商户通知发送间隔（单位分钟）', null, null, null, null); 
+commit;
+  

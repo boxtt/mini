@@ -1,0 +1,6 @@
+﻿		{title:'合同号',field:'contractNo',width:110,align:'center'},
+			{title:'合作单位编号',field:'coinstcode',width:80,align:'center'},
+			{title:'合作单位渠道',field:'coinstchannel',width:80,align:'center'},
+
+	
+				{title:'徽商交易流水号',field:'seqno',width:120,align:'center'},

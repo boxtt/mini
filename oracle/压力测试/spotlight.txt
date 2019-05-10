@@ -1,0 +1,3 @@
+﻿SGA：System Global Area是Oracle Instance的基本组成部分，在实例启动时分配;系统全局域SGA主要由三部分构成：共享池、数据缓冲区、日志缓冲区。
+PGA：Process Global Area是为每个连接到Oracle database的用户进程保留的内存。
+

@@ -1,0 +1,5 @@
+﻿项目中添加配置文件sessionRedisSpring.xml
+
+商户自助 在sumapayex/config路径下添加以下配置文件
+spring-session-redis.properties
+spring-session-redis-reload.properties

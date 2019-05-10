@@ -1,0 +1,11 @@
+﻿select /*+full(a) parallel(a,2)*/a.usernumber from xxx；
+
+full(a)
+
+强制使用某种优化法则
+这个full(表)的目的是 括号里的表将会使用全表扫描。
+parallel
+
+加上这个说明，可以强行启用Oracle的多线程处理功能
+
+Parallel后面的数字，越大，执行效率越高。不过，增大到一定值，效果就不明显了。所以，一般用8,10,12,16的比较常见。不过，数值越大，占用的资源也会相对增大的。如果是在一些package、function or procedure中写的话，还是不要写那么大，免得占用太多资源。

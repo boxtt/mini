@@ -1,0 +1,4 @@
+﻿修改组权限：chgrp 组名 文件名 
+修改文件所属者：chown 用户名 文件名 或者  chown 用户名：组名  文件名
+eg:chown sumapay:sumapay test.txt
+修改文件权限： chmod

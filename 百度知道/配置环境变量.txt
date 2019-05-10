@@ -1,0 +1,6 @@
+﻿
+如：jdk安装在“D:\Program Files\java\jdk1.6.0_10”
+第一步：新建“java_home”值，输入“D:\Program Files\java\jdk1.6.0_10”；
+第二步：新建“classpath”值，输入“.;%java_home%\lib”；
+第三步：在path中增加“%java_home%\bin”；
+备注：配置环境变量在“计算机”右击“属性”，之后选择“高级环境变量”，在选择“环境变量”即可。

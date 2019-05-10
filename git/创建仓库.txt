@@ -1,0 +1,16 @@
+﻿Git global setup:
+git config --global user.name "高德宝"
+git config --global user.email "gaodebao@honglingjin.xyz"
+Create Repository
+mkdir dev_goadebao
+cd dev_goadebao
+git init
+touch README
+git add README
+git commit -m 'first commit'
+git remote add origin git@git.honglingjinclub.com:gaodebao/dev_goadebao.git
+git push -u origin master
+Existing Git Repo?
+cd existing_git_repo
+git remote add origin git@git.honglingjinclub.com:gaodebao/dev_goadebao.git
+git push -u origin master

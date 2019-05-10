@@ -1,0 +1,20 @@
+﻿service rabbitmq-server start
+
+
+
+
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare exchange name=com.sumapay.mq.exchange.channelcheck type=direct durable=true
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.channelcheck
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.channelcheck destination=com.sumapay.mq.queue.channelcheck routing_key=channelcheck
+
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.trade.settlement 
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.settlement routing_key=SEM0001
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.settlement routing_key=SEM0002
+
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 delete binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.pay destination_type=queue properties_key=ZF0506
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 delete binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.pay destination_type=queue properties_key=ZF0503
+
+
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare queue name=com.sumapay.mq.queue.trade.hps.pay
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.hps.pay routing_key=TZ0013
+

@@ -1,0 +1,6 @@
+﻿    public int countDepositMoney(int accountType,long startTime,long endTime,int status){
+
+        String sql = "select COALESCE(sum(totalFee),0) from deposit where accountType=? and requestTime>? and requestTime<? and status=?";
+
+        return jdbcTemplate.queryForObject(sql,Integer.class,accountType,startTime,endTime,status);
+    }

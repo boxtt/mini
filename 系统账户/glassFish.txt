@@ -1,0 +1,30 @@
+﻿本地：1、glassFish用户名：admin 密码：12345678
+端口：4848
+
+
+
+启动停止路径：C:\Sun\AppServer\domains\domain1\bin
+war包存放路径：C:\Sun\AppServer\domains\domain1\autodeploy
+
+
+
+开发环境：
+admin
+密码：adminadmin
+
+
+
+
+
+
+
+连接dev开发环境
+
+
+sqlplus tvpay2dev/tvpay@192.161.14.99:1521/sumapay
+
+
+
+jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=192.161.14.99)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=sumapay)))
+jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=172.16.219.99)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=sumapay)))
+jdbc:oracle:thin:@(DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=192.161.14.99)(PORT=1521))(CONNECT_DATA=(SERVER=DEDICATED)(SERVICE_NAME=sumapay)))

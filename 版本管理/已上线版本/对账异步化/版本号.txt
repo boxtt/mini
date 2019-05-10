@@ -1,0 +1,7 @@
+﻿2.0.91.0
+
+rpcListener:start
+
+http://172.16.3.2:8080/quickPayService/config?type
+
+http://192.166.69.34:8080/bankCheck/config?type=check&afterInit=rpcListener:start

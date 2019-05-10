@@ -1,0 +1,24 @@
+﻿到http://www.oracle.com/technetwork/java/archive-139210.html 下载相应版本的JDK。建议下载rpm自解压可是的版本，这里我是下载jdk-7u15-linux-i586.rpm版本。 
+1.	将jdk-7u15-linux-i586.rpm文件通过Xftp工具上传到linux系统下 /usr/rpm文件夹下，如果木有此文件夹，就创建。 
+2.	在linux下，cd  /usr/rpm 进入到rpm 目录下，执行命令                         chmod 755 jdk-7u15-linux-i586.rpm 给文件赋予权限。 
+3.	安装JDK：执行语句：rpm –ivh jdk-7u15-linux-i586.rpm 
+4.	配置JDK环境变量：（在/目录下配置，使JDK在所有的用户中可用） 
+4.1.	执行语句：vi /etc/profile.d/java.sh 
+4.2.	export JAVA_HOME=/usr/java/jdk1.7.0_15 
+4.3.	export JAVA_BIN=/usr/java/jdk1.7.0_15/bin 
+4.4.	export PATH=$PATH:$JAVA_HOME/bin 
+4.5.	export CLASSPATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar 
+4.6.	export JAVA_HOME JAVA_BIN PATH CLASSPATH 
+5.	保存，退出，重启。 
+6.	检验JDK	是否安装成功以及显示它的路径： 
+6.1.	执行命令：java –version 可以看到到版本 
+6.2.	执行命令：javac –version 
+6.3.	执行命令：echo $JAVA_HOME 
+6.4.	执行命令：echo $JAVA_BIN 
+6.5.	执行命令：echo $PATH 
+6.6.	执行命令：echo $CLASSPATH 
+
+7.	若之前自己装过JDK ，卸载rpm安装的jdk版本： 
+7.1.	查看安装的JDK: （执行命令：rpm –qa|grep jdk） 
+
+7.2.	卸载此JDK：（执行命令：rpm –e –nodeps jdk-1.7.0_15-fcs.i586） 

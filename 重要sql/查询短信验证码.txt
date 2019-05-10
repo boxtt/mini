@@ -1,0 +1,1 @@
+﻿select t. *,t.rowid from sms_request t  where t.mobile_phone_no='18046521650'and t.message_type=58 order by t.request_time desc;

@@ -1,0 +1,53 @@
+﻿AT0001	AccDepBizUserWithdrawRequestProcessor	商企通企业用户提现请求处理器
+AT0002	AccDepBizUserRiskAuditingProcessor	商企通企业用户提现风控审核处理器
+AT0003	AccDepBizUserConfirmProcessor	商企通企业用户提现财务确认处理器
+AT0004	AccDepBizUserWithdrawTradeUpdateQueryProcessor	商企通企业用户提现主动查询处理器
+AT0005	AccDepBizUserManualConfirmProcessor	商企通企业用户提现人工确认处理器
+AT0006	AccDepBizUserRefundProcessor	商企通企业用户提现退票处理器
+AT0007	AccDepBizUserRetryProcessor	商企通企业用户提现二抛处理器
+AT0008	AccDepBizUserWithdrawAsyncNoticeProcessor	商企通企业用户提现异步通知商户处理器
+AQ0001	QueryAccDepUserWithdrawProcessor 	商企通用户提现请求查询处理器
+AQ0002	QueryAccDepBizUserWithdrawConfigProcessor	查询商企通企业用户提现配置处理器
+AQ0003	QueryAccDepBizUserWithdrawRequestConfigProcessor	查询商企通企业用户提现请求配置处理器
+AQ0004		查询企业用户处理器
+AQ0005		查询企业用户实名信息审核拒绝处理器
+AQ0006		查询企业账户余额处理器
+AQ0007		查询用户绑定银行卡处理器
+AQ0008		查询用户一键充值配置处理器
+AR0001		企业用户实名认证请求处理器
+AR0002		企业用户实名认证风控审核处理器
+AY0001		企业用户注册处理器
+AY0002		校验企业用户支付密码处理器
+AY0003		修改企业用户业务联系人处理器
+AY0004		企业用户业务联系人认证处理器
+AY0005		企业用户交易查询处理器
+AY0006		修改企业用户支付密码处理器
+AY0007		用户虚拟登录处理器
+AC0001		商企通企业用户网银充值获取表单处理器
+AC0002		商企通企业用户网银充值同异步确认处理器
+AC0003		商企通企业用户网银充值主动查询处理器
+AC0004		商企通企业用户网银充值异步通知商户处理器
+AD0001		一键充值签约处理器
+AD0002		一键充值解约处理器
+AD0003		一键充值处理器
+AD0004		一键充值异步通知处理器
+AD0005		一键充值主动查询处理器
+AZ0001		商户转账处理器
+AZ0002		商户个人用户转账处理器
+AZ0003		商户企业用户转账处理器
+
+
+商企通企业用户提现交易码：AT0001
+商企通企业用户提现退票交易码：AT0006
+
+
+商企通企业用户网银充值：AC0001
+商企通个人用户网银充值：AC0002
+商企通个人用户一键充值：AD0003
+商企通企业用户提现：AT0001
+商企通商户转账：AZ0001
+商企通个人用户转账：AZ0002
+商企通企业用户转账：AZ0003
+
+
+AccDepBUAccBalHistoryDAO

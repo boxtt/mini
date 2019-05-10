@@ -1,0 +1,12 @@
+﻿			sendParams.put("CHANNEL", stvr.getChannel());
+			sendParams.put("TRADE_DATE", tradeInfo.getTradeStartTime());
+			sendParams.put("DETAIL_TYPE", "1");
+			sendParams.put("ORDER_ID", tradeInfo.getOrderId());
+			sendParams.put("TRADE_ID", tradeInfo.getId().toString());
+			sendParams.put("TRADE_SUM", stvr.getFund());
+			sendParams.put("BANK_ACCOUNT", stvr.getBankAccount());
+			sendParams.put("NAME", stvr.getName());
+			sendParams.put("ACCOUNTING_TYPE", TransferEnum.ACCOUNTING_TYPE_FAST.getValue());
+			sendParams.put("UNION_BANK_NUMBER", fubi.getUnionBankNumber());
+			sendParams.put("OPEN_BANK_NAME", fubi.getBankName()); 
+			sendParams.put("BANK_CODE", stvr.getBankCode());

@@ -1,0 +1,1 @@
+﻿TRANSFER_TYPE	付款类型	Integer	不可为空	付款类型，0：手工审核 1：实时自动

@@ -1,0 +1,8 @@
+﻿[root@TSP-VM-246 ~]# usermod -G  db2iadm1 db2user
+[root@TSP-VM-246 ~]# id db2user
+uid=505(db2user) gid=506(db2user) groups=506(db2user),503(db2iadm1)
+
+
+
+
+

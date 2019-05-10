@@ -1,0 +1,50 @@
+﻿insert into TRADE_TYPE (ID, CODE, NAME, STATUS, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4)
+values ('5270', 'ZF0419', '银联支付-扫码', '1', null, to_date('21-10-2016 01:12:19', 'dd-mm-yyyy hh24:mi:ss'), 'sys', null, '1', null, null, null);
+
+insert into TRADE_TYPE (ID, CODE, NAME, STATUS, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4)
+values ('5271', 'ZF0420', '银联支付-H5', '1', null, to_date('21-10-2016 01:12:19', 'dd-mm-yyyy hh24:mi:ss'), 'sys', null, '1', null, null, null);
+
+insert into TRADE_TYPE (ID, CODE, NAME, STATUS, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4)
+values ('5272', 'ZF0421', '京东支付-H5', '1', null, to_date('21-10-2016 01:12:19', 'dd-mm-yyyy hh24:mi:ss'), 'sys', null, '1', null, null, null);
+
+insert into TRADE_TYPE (ID, CODE, NAME, STATUS, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4)
+values ('2040', 'ZF0103', '快捷支付（银行发短信）', '1', null, to_date('26-11-2012 13:51:57', 'dd-mm-yyyy hh24:mi:ss'), 'wangkai', null, '1', null, null, null);
+
+insert into TRADE_TYPE (ID, CODE, NAME, STATUS, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4)
+values ('1002', 'ZF0102', '快捷支付（快捷付发短信）', '1', null, to_date('01-03-2012 13:24:05', 'dd-mm-yyyy hh24:mi:ss'), 'administrator', null, '1', null, null, null);
+
+insert into TRADE_TYPE (ID, CODE, NAME, STATUS, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4)
+values ('2000', 'ZF0201', '网银支付', '1', null, to_date('07-09-2012 15:53:45', 'dd-mm-yyyy hh24:mi:ss'), 'wangkai', null, '1', null, null, null);
+
+insert into TRADE_TYPE (ID, CODE, NAME, STATUS, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4)
+values ('1045', 'TZ0001', '退款', '1', null, to_date('29-12-2012 17:31:38', 'dd-mm-yyyy hh24:mi:ss'), 'wangkai', null, '1', null, null, null);
+
+insert into TRADE_TYPE (ID, CODE, NAME, STATUS, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4)
+values ('5260', 'ZF0401', '微信支付-扫码', '1', null, to_date('21-10-2016 01:12:19', 'dd-mm-yyyy hh24:mi:ss'), 'sys', null, '1', null, null, null);
+
+insert into TRADE_TYPE (ID, CODE, NAME, STATUS, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4)
+values ('5261', 'ZF0402', '微信支付-APP', '1', null, to_date('21-10-2016 01:12:19', 'dd-mm-yyyy hh24:mi:ss'), 'sys', null, '1', null, null, null);
+
+insert into TRADE_TYPE (ID, CODE, NAME, STATUS, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4)
+values ('5262', 'ZF0405', '微信支付-公众号', '1', null, to_date('21-10-2016 01:12:19', 'dd-mm-yyyy hh24:mi:ss'), 'sys', null, '1', null, null, null);
+
+insert into TRADE_TYPE (ID, CODE, NAME, STATUS, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4)
+values ('5263', 'ZF0415', '微信支付-H5', '1', null, to_date('21-10-2016 01:12:19', 'dd-mm-yyyy hh24:mi:ss'), 'sys', null, '1', null, null, null);
+
+insert into TRADE_TYPE (ID, CODE, NAME, STATUS, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4)
+values ('5264', 'ZF0406', '支付宝支付-扫码', '1', null, to_date('21-10-2016 01:12:19', 'dd-mm-yyyy hh24:mi:ss'), 'sys', null, '1', null, null, null);
+
+insert into TRADE_TYPE (ID, CODE, NAME, STATUS, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4)
+values ('5265', 'ZF0407', '支付宝支付-APP', '1', null, to_date('21-10-2016 01:12:19', 'dd-mm-yyyy hh24:mi:ss'), 'sys', null, '1', null, null, null);
+
+insert into TRADE_TYPE (ID, CODE, NAME, STATUS, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4)
+values ('5266', 'ZF0408', '支付宝支付-服务窗', '1', null, to_date('21-10-2016 01:12:19', 'dd-mm-yyyy hh24:mi:ss'), 'sys', null, '1', null, null, null);
+
+insert into TRADE_TYPE (ID, CODE, NAME, STATUS, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4)
+values ('5267', 'ZF0416', '支付宝支付-H5', '1', null, to_date('21-10-2016 01:12:19', 'dd-mm-yyyy hh24:mi:ss'), 'sys', null, '1', null, null, null);
+
+insert into TRADE_TYPE (ID, CODE, NAME, STATUS, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4)
+values ('5268', 'ZF0417', '京东支付-扫码', '1', null, to_date('21-10-2016 01:12:19', 'dd-mm-yyyy hh24:mi:ss'), 'sys', null, '1', null, null, null);
+
+insert into TRADE_TYPE (ID, CODE, NAME, STATUS, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4)
+values ('5269', 'ZF0418', 'QQ支付-扫码', '1', null, to_date('21-10-2016 01:12:19', 'dd-mm-yyyy hh24:mi:ss'), 'sys', null, '1', null, null, null);

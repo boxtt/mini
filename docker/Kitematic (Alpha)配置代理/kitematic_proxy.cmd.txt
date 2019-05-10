@@ -1,0 +1,10 @@
+﻿Create a windows batch script under "C:\Program Files\Docker Toolbox\kitematic_proxy.cmd" with the below script, replacing "YOUR_PROXY" with the http://host:port of your own proxy.
+
+set proxy=YOUR_PROXY
+SET HTTP_PROXY=%proxy%
+SET HTTPS_PROXY=%proxy%
+for /f %%i in ('docker-machine.exe ip default') do set DOCKER_HOST=%%i
+SET NO_PROXY=%DOCKER_HOST%
+set DOCKER_HOST=tcp://%DOCKER_HOST%:2376
+cd Kitematic
+Kitematic.exe

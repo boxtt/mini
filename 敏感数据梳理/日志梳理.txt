@@ -1,0 +1,13 @@
+﻿1.先整理要梳理的类列表，处理器注意除了类名，还要写上编码
+2.整理Map、XML、JSon格式的参数涉及敏感数据的key值及对应的含义
+3.整理代码中以字符串打印的敏感数据
+4.整理一下使用log4j而非slf4j的类
+敏感数据包括姓名、证件编号、手机号、银行卡号、电子邮箱，还有从前的cvn2和有效期
+
+
+商户自助网站（全部）
+徽商2.0接口系统（全部）
+平台2.5锁表服务（全部）、http/https通知服务（全部）,
+平台2.0common的锁表服务（RecordLockServiceImpl）
+徽商2.0处理器系统，文件分发处理器（FtpFileDistributionProcessor：HS0024）
+平台2.0处理器系统 ，查询银行存管商户用户处理器（HsbBankAccountQueryProcessor：CX0081）

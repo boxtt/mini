@@ -1,0 +1,1 @@
+﻿徽商2.0商户余额迁移请求表已经建了啊，domain也打了，表名是P2P_HSB2_MER_BAL_TRANS_REQUEST

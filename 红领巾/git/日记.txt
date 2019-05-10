@@ -1,0 +1,55 @@
+﻿git网址：http://git.honglingjinclub.com/paycenter/paycenter
+第一步：下载安装Git：
+第二步：配置Git环境变量：在环境变量的path下面添加  Git安装路径\libexec\git-core;git安装路径\bin;
+第三步：在应用程序中打开GIT Bash；之后执行以下命令：
+$ git config --global user.name "jamesgdb"
+$ git config --global user.email "598802631@qq.com"
+第四步：生成key；
+$ ssh-keygen -t rsa -C "598802631@qq.com"
+ssh-keygen -t rsa -b 4096 -C "598802631@qq.com"
+
+第五步：在用户路径下拷贝公钥内容，放置到git用户下的SSH keys路径下。（点击git页面右上角的profile settings，之后选择SSH keys，标题任意添加，公钥粘贴）;
+第六步：之后进行代码下载和创建分支（此处需要创建项目路径如：E:\Workspaces\redscarf，之后切换到此路径进行操作）。
+克隆：git   clone  git@git.honglingjinclub.com:paycenter/paycenter.git
+创建关联：git remote add  dev  git@git.honglingjinclub.com:paycenter/paycenter.git
+创建分支：git branch develop 
+切换分支：git checkout  develop 
+同步分支：git merge  develop
+第七歩：在eclipse中import类型gradle project 之后选择paycenter项目路径，之后一直下一步，直到Finsh。
+
+后续操作：
+一同步远程代码到dev：git   pull,之后根据实际需要同步到develop
+二创建远程Repository；点击git页面右上角的new project ，项目名称输入：paycenter_yourname，之后Repository输入dev_yourname,选择“Visibility Level”为“public”。
+三推送到远程：$ git push origin develop:dev_yourname;
+
+
+下载工程：
+$ git clone --recursive git@git.honglingjinclub.com:pttms/pttms.git
+$ cd pttms
+$ ./gradlew
+
+
+
+查看查找本地key路径
+ssh -v git@github.com
+需要放在
+C:\Users\Administrator\.ssh
+文件名称
+id_rsa
+id_rsa.pub
+
+
+删除：
+git remote rm origin
+
+
+git remote add origin git@github.com:jamesgdb/jamesgdb
+
+git push origin master
+
+
+
+
+
+
+

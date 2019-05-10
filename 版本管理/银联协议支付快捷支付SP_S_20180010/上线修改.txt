@@ -1,0 +1,24 @@
+﻿对账系统：
+删除/sumapayex/config/sumapay-config.properties中
+#根据渠道请求流水号对账银行
+bankcheck.channelRequestId.bankCodes=epcc,fmepcc
+
+添加如下配置：
+#根据网联渠道请求流水号对账银行
+bankcheck.channelRequestId.bankCodes.wl=epcc,fmepcc
+#根据银联渠道请求流水号对账银行:unionpayepcc(协议支付),unionfastpay(快捷支付)
+bankcheck.channelRequestId.bankCodes.up=unionpayepcc,unionfastpay
+
+
+
+
+#1 页面
+checkaccount.banks=
+#2调度
+xml
+#3如果是银联或者网联，需要追加
+bankcheck.channelRequestId.bankCodes.wl=epcc,fmepcc
+bankcheck.channelRequestId.bankCodes.up=unionpayepcc,unionfastpay
+#4，根据真实交易流水号退款渠道，
+bankcheck.realRefund.bankCodes= 
+

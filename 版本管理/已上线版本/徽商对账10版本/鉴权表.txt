@@ -1,0 +1,21 @@
+﻿select * from ((select 
+  p.request_id requestId,
+  p.seqno seqno,
+  t.trade_code tradeCode,
+  to_char(t.trade_end_time, 'yyyy-MM-dd hh:mm:ss') tradeDate,
+  t.trade_sum tradeSum,
+  p.status status
+  from (select * from trade_record union all select * from trade_record_history) t,
+  biz_type biz, P2P_HSB2_OPEN_ACCOUNT_REQ p
+  where 1 = 1
+  and t.biz_type = biz.id
+and
+      t.provider_id = 104
+and
+
+    t.trade_code in ('YK0013')
+  and t.status = 2
+  and t.id = p.TRADE_ID
+  )
+ ) alt
+  order by alt.requestId asc;  

@@ -1,0 +1,51 @@
+﻿/sumapayex/config/trade_lock_resources_config.properties 中添加内容（商企通系统和代发系统所在服务器都需要添加）
+
+
+#商企通企业用户提现请求
+AT0001=fld9:$accDepBizUserAccountById|BIZ_USER_ID
+#商企通商户转账
+AZ0001=fld5:$enterpriseAccountById|MERCHANT_ID
+#商企通商户个人用户转账
+AZ0002=fld8:$accDepUserAccountById|USER_ID
+#商企通商户企业用户转账
+AZ0003=fld9:$accDepBizUserAccountById|BIZ_USER_ID
+
+
+disburse系统mq需要添加的code
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=AT0001
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=AT0002
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=AT0003
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=AT0004
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=AT0005
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=AT0006
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=AT0007
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=AT0008
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=AQ0001
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=AQ0002
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=AQ0003
+
+
+
+disburse系统/sumapayex/config/db-sensitivedata-config.properties中追加
+AccDepBUWithdrawBankRel=bankAccount
+AccDepUserWithdrawRequest=bankAccount,bankAccountName,idNumber,mobilePhone
+AccDepBUserAuthBaseInfo=legalPersonName,legalPersonIdNumber,agentName,agentIdNumber
+AccDepBizUserWithdrawReq=bankAccount
+
+
+
+调度系统/sumapay/config/sumapay-config.properties新增如下内容（未升级，还是在调度2.0中，并且需要调度系统重新打包）
+#商企通企业用户余额转历史
+finance.accDepBUAccBalHistory.haproxy.url=http://${finance.springremote.server.2.5}/finance/remote/accDepBUAccBalHistoryService
+添加调度accDepBUAccBalHistory.xml
+
+
+
+finance.innercheck.tradecodes追加：,AC0001,AC0002,AD0003,AT0001,AZ0001,AZ0002,AZ0003
+
+
+需要先打common，controller，
+需要重新打账务系统的client包，需要重新打调度2.0的war包。
+需要重新打公共domain包
+
+

@@ -1,0 +1,446 @@
+﻿package com.sumavision.ecommerce.plateform.core.finance.bankcheck.service.impl;
+
+import java.io.IOException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Set;
+
+import com.sumavision.ecommerce.plateform.core.finance.bankcheck.service.BankCheckProcessService;
+import com.sumavision.ecommerce.plateform.core.service.AccountDateService;
+import com.sumavision.tvpay.domain.dao.BankCheckRecordDAOEx;
+import com.sumavision.tvpay.exception.business.CheckAccountException;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.core.io.Resource;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionDefinition;
+import org.springframework.transaction.TransactionStatus;
+
+/**
+ * @author Administrator
+ */
+public class BankCheckProcessServiceImpl implements BankCheckProcessService {
+
+	final static Logger logger = LoggerFactory
+			.getLogger(BankCheckProcessServiceImpl.class);
+
+	private BankCheckRecordDAOEx bankCheckRecordDAO;
+
+	private TransactionDefinition txDefinition;
+
+	private PlatformTransactionManager txManager;
+
+	private int plateformEnvType;
+
+	private AccountDateService accountDateService;
+	
+	private String joinCheckTradeCodes;
+	
+	private Map<String, String> propertiesMap = new HashMap<String, String>();
+	
+	/**
+	 * 平台环境标识，生产环境用1表示，测试环境用2表示
+	 */
+	private String platformType ;
+
+	
+	private Resource propertiesFileResource;
+
+//	private static SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+	
+	
+	@Override
+	public boolean heartbeat() {
+		return true;
+	}
+	/**对单个银行进行对账
+	 * @param bank 
+	 * @author 陈卓稳
+	 * 2013-8-14 下午03:27:56
+	 */
+	private void bankcheckProcessByOneBank(String bank){
+		logger.info("银行["+bank+"]对账开始...");
+		// 步骤一：支付类交易，标记平账交易
+		updatePayEqual(bank);
+		// 步骤二：支付类交易，标记金额不平交易
+		updatePayNotEqual(bank);
+		// 判断是否根据原交易流水号进行退款对账
+		boolean isExecuteRefundCheck = bankIsCheckByOriginalTradeId(bank, propertiesMap.get("bankcheck.realRefund.bankCodes"));
+		if(isExecuteRefundCheck){
+			// 步骤三：根据原交易流水退款类交易，标记平账交易
+			updateRefundEqual(bank);
+			// 步骤四：根据原交易流水退款类交易，标记不平交易
+			updateRefundNotEqual(bank);
+		}
+		// 步骤五：标记支付系统多交易
+		updatePlatformExistBankNotExist(bank);
+		// 步骤六：标记银行退款多交易
+		updateBankExistPlatformNotExist(bank);
+		logger.info("银行["+bank+"]对账已完成！");
+	}
+	
+	@Override
+	public void start() {
+		logger.info("开始启动对账...");
+		readPropertiesFile(propertiesFileResource);
+		
+		TransactionStatus status = txManager.getTransaction(txDefinition);
+		try {
+			logger.info("首先查询银行对账单记录表中存在而支付系统交易记录中不存在的流水号");
+			//step1 首先查询银行对账单记录表中存在而支付系统交易记录中不存在的流水号
+			//这里与后面查询银行多而支付缺的处理不同之处在于 ： 这个查询会查询银行所有的和支付所有的（包括失败的），比对支付不存在的，将其筛选出
+			//然后将银行对账单记录中的这些交易的FLD1状态改成2（标识为已处理）,这样在之后的对账处理中不会因为这些银行多出的交易导致不平影响对账无法正常进行
+			Map<String,Object> in = new HashMap<String,Object>();
+			in.put("nowTime", new Date());
+			in.put("flgStatus",platformType);
+			in.put("editProcess", "bankCheck");
+			int count = this.bankCheckRecordDAO.updateBankExistPayNoExist(in);
+			logger.info("更新银行存在支付平台不存在的共"+count+"条");
+			
+			//step2	获取配置文件中需要对账的银行
+			Set<String> bankcheckBankCodes = getBankcheckBankCode();
+			
+			//step3 查询银行多交易，支付交易失败，将银行对账数据的check_status置为3
+			updatePayFailureTradeStatus(bankcheckBankCodes);
+			
+			for (String bank : bankcheckBankCodes) {
+				bankcheckProcessByOneBank(bank);
+			}
+		} catch (Exception e) {
+			logger.error("对账处理异常,原因:" + e);
+			txManager.rollback(status);
+//			sendErrorMail(e);
+			return ;
+		}
+		txManager.commit(status);
+		logger.info("对账处理完成...");
+//		sendMail(normalTradeList,infoNoEqualTradeList);
+	}
+
+//	/**
+//	 * <p>发送邮件</p>
+//	 * @param e
+//	 */
+//	private void sendErrorMail(Exception e){
+//		try{
+//			// 获取当前服务器ip和名称
+//			InetAddress ia = NetworkUtil.getLocalInetAddress();
+//			String subject = "银行对账出现异常！系统当前日期：" + sdf.format(new Date()) + "--" + ia.getHostName() + "<"+ ia.getHostAddress() + ">";
+//			StringBuffer sbuff = new StringBuffer();
+//			sbuff.append("\r\n\r\n\r\n\r\n");
+//			sbuff.append("此次银行对账处理出现异常!\r\n");
+//			sbuff.append("异常MESSAGE:"+e.getMessage()+"\r\n");
+//			sbuff.append("异常CAUSE:"+e.getCause()+"\r\n");
+//			sbuff.append("异常STACKTRACE:"+e.getStackTrace()+"\r\n");
+//			sbuff.append("请系统管理员通知相关人员处理");
+//			mailService.sendMail(subject, sbuff.toString());
+//		} catch (Exception e2){
+//			logger.error("发送邮件失败！",e2);
+//		}
+//	}
+//	
+//	/**
+//	 * <p>发送邮件</p>
+//	 * @param e
+//	 */
+//	private void sendMail(List<Long> normalTradeList,List<Long> infoNoEqualTradeList){
+//		try{
+//			// 获取当前服务器ip和名称
+//			InetAddress ia = NetworkUtil.getLocalInetAddress();
+//			String subject = "银行对账完成！系统当前日期：" + sdf.format(new Date()) + "--" + ia.getHostName() + "<"+ ia.getHostAddress() + ">";
+//			StringBuffer sbuff = new StringBuffer();
+//			sbuff.append("\r\n\r\n\r\n\r\n");
+//			sbuff.append("此次银行对账处理完成!\r\n");
+//			sbuff.append("支付银行一致平账交易笔数共: \t [ "+((null == normalTradeList) ? "0" : String
+//					.valueOf(normalTradeList.size()))+" ] \r\n");
+//			sbuff.append("支付银行均存在但信息不一致不平交易笔数共: \t [ "+((null == infoNoEqualTradeList) ? "0" : String
+//					.valueOf(infoNoEqualTradeList.size()))+" ] \r\n");
+//			sbuff.append("请通过报表了解更多详情");
+//			
+//			mailService.sendMail(subject, sbuff.toString());
+//		} catch (Exception e){
+//			logger.error("发送邮件失败！",e);
+//		}
+//	}
+//	
+	
+	/**
+	 * 读取配置参与对账的银行
+	 * @return 
+	 * @author 陈卓稳
+	 * 2013-8-13 上午10:33:12
+	 */
+	private Set<String> getBankcheckBankCode(){
+
+		String bankString = propertiesMap.get("checkaccount.banks");
+		Set<String> bankCheckCodeSet = new HashSet<String>();
+		String[] bankCheckCodeStr = bankString.split(",");
+		for(String bank: bankCheckCodeStr){
+		    	bankCheckCodeSet.add(bank.trim());
+		}
+		logger.info("参与对账的银行为："+bankCheckCodeSet.toString());
+		return bankCheckCodeSet;
+	}
+	
+	/**标记支付类交易的平账状态
+	 * @param bank 
+	 * @author 陈卓稳
+	 * 2013-8-15 下午03:59:14
+	 */
+	private void updatePayEqual(String bank) {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("nowTime", new Date());
+		param.put("editor", "bankCheckProcess");
+		param.put("editProcess", "bankCheckProcess");
+		param.put("joinCheckTradeCodes", joinCheckTradeCodes);
+		param.put("checkBankCode", bank);
+		try{
+			int count = this.bankCheckRecordDAO.updateNormalTradeFiscalStatus(param);
+			logger.info("银行["+bank+"]更新支付和银行两边的平账交易状态完成,更新了["+count+"]条交易");
+		}catch(Exception e){
+			logger.error("银行["+bank+"]更新支付类平账交易异常, 参数为: ["+param+"],原因: ["+e+"]");
+			throw new CheckAccountException("230000003","银行["+bank+"]更新支付类平账交易异常",e);
+		}
+	}
+
+	
+	/**标记支付类交易的金额不平状态
+	 * @param bank 
+	 * @author 陈卓稳
+	 * 2013-8-15 下午03:59:53
+	 */
+	private void updatePayNotEqual(String bank) {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("nowTime", new Date());
+		param.put("editor", "bankCheckProcess");
+		param.put("editProcess", "bankCheckProcess");
+		param.put("joinCheckTradeCodes", joinCheckTradeCodes);
+		param.put("checkBankCode",bank);
+		try{
+			int count = this.bankCheckRecordDAO.updatePayBankInfoNotEqualFiscalStatus(param);
+			logger.info("银行["+bank+"]更新支付和银行两边的不平账交易(双方均存在但信息不一致)状态完成,更新了["+count+"]条记录");
+		}catch(Exception e){
+			logger.error("银行["+bank+"]更新支付类不平账交易异常(双方均存在但信息不一致), 参数为: ["+param+"],原因: ["+e+"]");
+			throw new CheckAccountException("230000005","银行["+bank+"]更新支付类不平账交易异常",e);
+		}
+		
+	}
+	
+	/**更新银行存在而支付失败的银行对账数据的对账状态
+	 * @author 陈卓稳
+	 * 2013-8-14 下午05:19:01
+	 * @param bankcheckBankCodes 
+	 */
+	private void updatePayFailureTradeStatus(Set<String> bankcheckBankCodes){
+        String joinCheckBank = setToString(bankcheckBankCodes);
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("nowTime", new Date());
+		param.put("editProcess", "bankcheckProcess");
+		param.put("joinCheckTradeCodes", joinCheckTradeCodes);
+		param.put("joinCheckBank", joinCheckBank);
+		try{
+			int count = this.bankCheckRecordDAO.updatePayFailureTradeFiscalStatus(param);
+			logger.info("更新支付系统失败而银行存在对账状态完成,共更新了["+count+"]条交易");
+		}catch(Exception e){
+			logger.error("更新支付不存在但银行存在交易异常, 参数为: ["+param+"],原因: ["+e+"]");
+			throw new CheckAccountException("230000007","更新支付不存在但银行存在交易异常",e);
+		}
+	}
+	
+	/**更新退款类交易的对账状态，分别汇总银行和平台的退款金额，标记退款汇总金额相等的交易
+	 * @param bank 
+	 * @author 陈卓稳
+	 * 2013-8-16 下午04:49:30
+	 */
+	private void updateRefundEqual(String bank) {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("nowTime", new Date());
+		param.put("editor", "bankCheckProcess");
+		param.put("editProcess", "bankcheckProcess");
+		param.put("checkBankCode",bank);
+		
+		try{
+			int count = this.bankCheckRecordDAO.updateRefundEqualCheckStatus(param);
+			logger.info("银行["+bank+"]更新退款类平账交易完成,更新了["+count+"]条交易");
+		}catch(Exception e){
+			logger.error("银行["+bank+"]更新退款类平账交易异常, 参数为: ["+param+"],原因: ["+e+"]");
+			throw new CheckAccountException("230000002","银行["+bank+"]更新退款类平账交易异常",e);
+		}
+	}
+	/**更新退款类交易的对账状态，分别汇总银行和平台的退款金额，标记退款汇总金额不相等的交易
+	 * @param bank 
+	 * @author 陈卓稳
+	 * 2013-8-18 下午02:37:54
+	 */
+	private void updateRefundNotEqual(String bank) {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("nowTime", new Date());
+		param.put("editor", "bankCheckProcess");
+		param.put("editProcess", "bankcheckProcess");
+		param.put("checkBankCode",bank);
+		
+		try{
+			int count = this.bankCheckRecordDAO.updateRefundNotEqualCheckStatus(param);
+			logger.info("银行["+bank+"]更新退款类不平账交易对账状态完成,更新了["+count+"]条交易");
+		}catch(Exception e){
+			logger.error("银行["+bank+"]更新退款类不平账交易异常, 参数为: ["+param+"],原因: ["+e+"]");
+			throw new CheckAccountException("230000004","银行["+bank+"]更新退款类不平账交易异常",e);
+		}
+	}
+	
+	/**
+	 * 标记支付系统多交易，银行不存在的
+	 * @param bank 
+	 * @author 陈卓稳
+	 * 2013-8-18 下午03:37:47
+	 */
+	private void updatePlatformExistBankNotExist(String bank) {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("nowTime", new Date());
+		param.put("editor", "bankCheckProcess");
+		param.put("editProcess", "bankcheckProcess");
+		param.put("checkBankCode",bank);
+		param.put("joinCheckTradeCodes", joinCheckTradeCodes);
+		
+		try{
+			int count = this.bankCheckRecordDAO.updateBankNotExistTradeFiscalStatus(param);
+			logger.info("银行["+bank+"]更新支付系统多交易对账状态完成,更新了["+count+"]条交易");
+		}catch(Exception e){
+			logger.error("银行["+bank+"]更新支付系统多交易对账状态异常, 参数为: ["+param+"],原因: ["+e+"]");
+			throw new CheckAccountException("230000006","银行["+bank+"]更新支付系统多交易对账状态异常",e);
+		}
+	}
+
+	/**
+	 * 标记银行多交易
+	 * @param bank 
+	 * @author 陈卓稳
+	 * 2014-6-25 上午10:00:23
+	 */
+	private void updateBankExistPlatformNotExist(String bank) {
+		Map<String, Object> param = new HashMap<String, Object>();
+		param.put("nowTime", new Date());
+		param.put("editProcess", "bankcheckProcess");
+		param.put("checkBankCode",bank);
+		param.put("flgStatus",platformType);
+		try{
+			int count = this.bankCheckRecordDAO.updateBankExistPlatformNotExist(param);
+			logger.info("银行["+bank+"]更新银行多交易对账状态完成,更新了["+count+"]条交易");
+		}catch(Exception e){
+			logger.error("银行["+bank+"]更新银行多交易对账状态异常, 参数为: ["+param+"],原因: ["+e+"]");
+			throw new CheckAccountException("230000006","银行["+bank+"]更新银行多交易对账状态异常",e);
+		}
+	}
+
+	/**
+	 * 判断银行是否执行根据原交易id进行退款对账逻辑
+	 * @param checkBank 对账银行
+	 * @param realRefundBankCodes 按真实交易id进行退款对账的银行编号列表
+	 * @return true:表示执行按原交易流水号退款对账逻辑
+	 */
+	private boolean bankIsCheckByOriginalTradeId(String checkBank, String realRefundBankCodes) {
+		if(StringUtils.isBlank(realRefundBankCodes)){
+			return true;
+		}
+		String[] bankCodes = realRefundBankCodes.split(",");
+		boolean flag = true;
+		for(String bankCode : bankCodes)
+			if (checkBank.equals(bankCode)) {
+				flag = false;
+				break;
+			}
+		return  flag;
+	}
+
+	/**
+	 * 读取对账规则配置文件
+	 */
+	private void readPropertiesFile(Resource thePropertiesFileResource) {
+
+		Properties properties = new Properties();
+		try {
+			properties.load(thePropertiesFileResource.getInputStream());
+		} catch (IOException e) {
+			logger.error("读取对账规则配置文件异常...原因:{}", e);
+		}
+		for (Object key : properties.keySet()) {
+			String v = properties.getProperty((String) key);
+			propertiesMap.put((String) key, v.trim());
+		}
+	}
+
+	/**
+	 * 将set对象转换为特定格式的字符串
+	 *
+	 */
+	private static String setToString(Set<String> bankCodesSet){
+		StringBuffer sb  = new StringBuffer("'-1'");
+		for(String bankCode : bankCodesSet){
+			if(StringUtils.isNotBlank(bankCode)) {
+				sb.append(",").append("'").append(bankCode.trim()).append("'");
+			}
+		}
+		return sb.toString();
+	}
+
+	public int getPlateformEnvType() {
+		return plateformEnvType;
+	}
+
+	public void setPlateformEnvType(int plateformEnvType) {
+		this.plateformEnvType = plateformEnvType;
+	}
+
+	public TransactionDefinition getTxDefinition() {
+		return txDefinition;
+	}
+
+	public void setTxDefinition(TransactionDefinition txDefinition) {
+		this.txDefinition = txDefinition;
+	}
+
+	public PlatformTransactionManager getTxManager() {
+		return txManager;
+	}
+
+	public void setTxManager(PlatformTransactionManager txManager) {
+		this.txManager = txManager;
+	}
+
+	public Resource getPropertiesFileResource() {
+		return propertiesFileResource;
+	}
+
+	public void setPropertiesFileResource(Resource propertiesFileResource) {
+		this.propertiesFileResource = propertiesFileResource;
+	}
+
+	public AccountDateService getAccountDateService() {
+		return accountDateService;
+	}
+
+	public void setAccountDateService(AccountDateService accountDateService) {
+		this.accountDateService = accountDateService;
+	}
+
+	public void setJoinCheckTradeCodes(String joinCheckTradeCodes) {
+		this.joinCheckTradeCodes = joinCheckTradeCodes;
+	}
+
+	public void setBankCheckRecordDAO(BankCheckRecordDAOEx bankCheckRecordDAO) {
+		this.bankCheckRecordDAO = bankCheckRecordDAO;
+	}
+
+	public String getPlatformType() {
+		return platformType;
+	}
+	public void setPlatformType(String platformType) {
+		this.platformType = platformType;
+	}
+
+	
+}

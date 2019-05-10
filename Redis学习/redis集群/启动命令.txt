@@ -1,0 +1,4 @@
+﻿redis-server.exe redis.conf
+
+后台运行
+redis-server --service-install redis.conf --service-name redis6379

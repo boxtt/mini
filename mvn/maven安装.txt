@@ -1,0 +1,17 @@
+﻿安装前确保已安装JDK，笔者本机安装的JDK 1.8 64位。
+下载压缩包：nexus-3.5.1-02-win64.zip
+
+解压到安装目录，笔者的目录是"D:\Server\nexus"，得到如下图所示两个目录：
+
+
+
+打开命令行，进入“nexus-3.5.1-02\bin”目录，执行nexus /run，看到成功提示，说明安装成功：
+
+
+
+在浏览器中输入：http://localhost:8081，打开nexus界面，使用默认管理员账号admin登录，密码是admin123：
+
+
+
+
+如果要安装为windows服务，执行nexus /install，提示服务安装成功后，执行net start nexus。

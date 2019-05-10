@@ -1,0 +1,4 @@
+﻿微信代扣系统-- 修改配置文件/sumapay25/config/sumapay-config.properties
+front.merchant.springremote.haproxy.server=192.161.14.92:8585（ip根据实际情况修改）
+front.merchantNoticeAdd.service.businessInterface=com.sumapay.biz.pay.service.MerchantNoticeService
+front.merchantNoticeAdd.haproxy.service.urls=http://${front.merchant.springremote.haproxy.server}/notice/remote/MerchantNoticeService

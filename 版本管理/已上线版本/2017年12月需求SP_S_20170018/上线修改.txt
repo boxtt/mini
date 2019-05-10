@@ -1,0 +1,8 @@
+﻿代扣系统，sql（次数根据实际情况配置）
+insert into settings (KEY, VALUE, REMARK, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS)
+values ('BasicDkSingleDayCountLimit', '2', '默认单日原生代扣次数', null, sysdate, null, null);
+
+insert into settings (KEY, VALUE, REMARK, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS)
+values ('BasicDkSingleMonthCountLimit', '6', '默认单月原生代扣次数', null, sysdate, null, null);
+
+commit;

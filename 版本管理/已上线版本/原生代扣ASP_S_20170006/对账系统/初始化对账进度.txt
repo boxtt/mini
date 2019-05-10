@@ -1,0 +1,8 @@
+﻿trade_type表插入DK0026（原生代扣支付）
+insert into trade_type (ID, CODE, NAME, STATUS, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4)
+values (seq_trade_type_id.nextval, 'DK0026', '原生代扣支付', '1', null, null, null, null, '1', null, null, null);
+
+
+2.0调度系统 --修改配置文件/sumapay/config/sumapay-config.properties
+
+bankcheck.providerBasicDKCheckAccount.service.haproxy.urls=http://${bankcheck.springremote.proxy.server}/bankCheck/remote/basicDkCheckRemoteService

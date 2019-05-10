@@ -1,0 +1,10 @@
+﻿提问者所指的数据库应该是表空间。
+创建表空间：
+CREATE TABLESPACE TBS_ETL_DATA LOGGING DATAFILE 'G:\oracle\product\10.2.0\oradata\tbs_etl_data01.dbf' SIZE 521M AUTOEXTEND OFF;
+创建用户：
+create user vpetl identified by vpetl default tablespace TBS_ETL_DATA;
+赋权限：
+grant connect,resource,alter system,debug connect session,select any table,delete any table,drop any table,alter any table to vpetl;
+创建表：
+create table tablename(id varchar2(20));
+备注：创建表空间的file路径根据实际需要修改为linux等系统的路径即可。

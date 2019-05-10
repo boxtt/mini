@@ -1,0 +1,5 @@
+﻿dubbo.consumer.registry.file.settlement=/sumapay30/dubbo/cache/settlement-dubbo.cache
+
+
+
+dubbo.consumer.registry.file.channelCheck=/sumapay30/dubbo/cache/channelCheck-dubbo.cache

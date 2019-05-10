@@ -1,0 +1,1 @@
+﻿/etc/init.d/haproxy restart

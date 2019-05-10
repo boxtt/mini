@@ -1,0 +1,35 @@
+﻿-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=9009
+-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n
+-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=9029
+-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=${JAVA_DEBUGGER_PORT}
+-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=${asc_debug_port}
+
+
+-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=9029
+-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=${JAVA_DEBUGGER_PORT}
+
+-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=9029
+-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=9029
+-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=9009
+-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=9009
+-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=${asc_debug_port}
+
+
+branchBankName
+
+
+
+branchBankName	开户分行	MAX(50)	String	必输
+
+请求流水号(requestId)+商户编号(merchantCode)+付款类型(transferType)+收款方商户编码(transToMerCode)+收款方商户名称(transToMerName)+付款金额(sum)+到账类型(accountType)+银行联行号(unionBankNum) +开户分行(branchBankName)+开户支行(openBankName)+开户省(openBankProvince)+开户市(openBankCity)+账户名称(accountName)+银行编码(bankCode)+银行账户(bankAccount)+付款原因(reason)+异步通知地址(noticeUrl)+退票异步通知地址(refundNoticeUrl)
+
+
+
+110170170
+
+branchBankName错误
+
+
+MERCHANT_PAYTYPE_ASSOCIATION
+
+MerchantPaytypeAssociation

@@ -1,0 +1,53 @@
+﻿对了，账号行号：403100000004
+卡号：6225000000000253
+高德宝 15:39:59
+这啥银行的？
+胡昱 15:40:24
+PAY_ACC_TYP=01
+胡昱 15:40:36
+测试用的，银联提供的
+胡昱 15:40:46
+就给了我这两个
+胡昱 15:40:57
+PAY_ACC_TYPE = 01
+胡昱 15:41:18
+BANK_LINK_NO = 403100000004
+
+
+Map<String, Object> params = new HashMap<String, Object>();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddhhmmssSSS");
+		Date d = new Date();
+		String client = sdf.format(d);
+		params.put(Constant.CLIENT_ID,  client);
+		
+		params.put(Constant.TRADE_TYPE, "1");
+		String relBatchId = CommonUtil.sdf4.format(new Date());
+	
+		params.put(Constant.SUB_MERCHANT_ID, "123456789012345");
+		params.put(Constant.SUB_MERCHANT_NAME, "武孟梦");
+		params.put(Constant.IS_RETRY, 1);
+		Map<String,Object> map = new HashMap<String, Object>();
+		map.put(Constant.PAY_ACC_NO, "6225000000000253"); //6212260200036759963  
+		map.put(Constant.PAY_ACC_NAME, "全渠道");
+		map.put(Constant.PAY_ACC_CREDID, "341126197709218366");//42011119831113732X
+		map.put(Constant.PAY_ACC_MOBILE,"13552535506");//18500185426   
+//		map.put(Constant.PAY_BRANCH,"中国工商银行");
+		map.put(Constant.TRX_DT_TM,new Date());
+		map.put(Constant.TRADE_ID,relBatchId);
+		BigDecimal s0 = new BigDecimal(0.01);
+		map.put(Constant.SUM, s0);
+		map.put(Constant.REL_TRADE_ID, "2017110115100002");
+		map.put("PAY_BANK", "icbc");
+		map.put(Constant.PAY_ACC_TYPE, "01");
+		map.put(Constant.PAY_ACC_CREDTYPE, 0);
+		map.put(Constant.SETTLE_METHOD, "00");
+		map.put(Constant.BANK_LINK_NO, "403100000004");
+		
+			if(StringUtils.isNotBlank(merchantCode)){
+				if(merchantCode.length() <= 15){
+					merchantCode = StringUtils.leftPad(merchantCode, 15, "0");
+				}else{
+					merchantCode = StringUtils.substring(merchantCode, 0 ,15);
+				}
+			}		
+		

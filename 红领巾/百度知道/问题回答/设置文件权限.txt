@@ -1,0 +1,14 @@
+﻿权限有以下几种：
+R ： 只读文件属性。A：存档文件属性。S：系统文件属性。H：隐藏文件属性。
+代码举例：
+File file=new File("D:/hello");//定义文件路径
+try { 
+if(!file.exists())
+file.mkdir();//如果文件路径不存在就创建一个
+String string=" attrib +H "+file.getAbsolutePath(); //设置文件属性为隐藏
+Runtime.getRuntime().exec(string); //
+} catch (IOException e) { 
+e.printStackTrace(); 
+} 
+} 
+}

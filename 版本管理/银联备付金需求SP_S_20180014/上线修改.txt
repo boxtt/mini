@@ -1,0 +1,23 @@
+﻿备付金对账系统需要先打client包，
+
+
+调度2.5系统添加调度文件（需要重新打包）：
+
+/sumapayex/config/sumapay-config.properties文件添加配置参数
+##provisionsbankcheck.springremote.haproxy.server=172.16.7.120:8989
+
+#备付金银联存管获取央行大额汇总核对对账单调度时间执行时间为：0 0 4 * * ? *
+provisionsbankcheck.acsCollect.getBankCheckRecord.service.url=http://${provisionsbankcheck.springremote.haproxy.server}/provBankCheck/remote/getAcsCollectCheckRecordRemoteService
+provisionsbankcheck.acsCollect.getBankCheckRecord.service.businessInterface=com.sumavision.ecommerce.plateform.core.provisions.bankcheck.service.GetAcsCollectCheckRecordService
+
+#备付金银联存管执行大额汇总核对对账调度时间执行时间为：0 0/5 * * * ? *
+provisionsbankcheck.acsCollect.bankCheckProcess.service.url=http://${provisionsbankcheck.springremote.haproxy.server}/provBankCheck/remote/acsCollectBankCheckProcessRemoteService
+provisionsbankcheck.acsCollect.bankCheckProcess.service.businessInterface=com.sumavision.ecommerce.plateform.core.provisions.bankcheck.service.AcsCollectBankCheckProcessService
+
+
+
+
+
+insert into settings (KEY, VALUE, REMARK, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS)
+values ('getProvAcsColCheckRecErrMsg', '非大额工作日', '获取央行大额汇总核对记录，异步通知非大额工作日错误信息', null, sysdate, null, null);
+

@@ -1,0 +1,35 @@
+﻿##############商户自助开始#####################################
+spring.amqp.trade.code 追加：,YK5001
+##############商户自助结束#####################################
+
+
+
+
+ucfpay（先锋网银） ucfpay_alipay(先锋聚合 包含QQ扫码和JD扫码)   ucfpay_disburse(先锋付款)  payworth(易信网银)  payworth_disburse(易信付款)
+
+
+
+bankcheck.ucfpay.getBankCheckRecord.service.haproxy.urls=http://${bankcheck.springremote.haproxy.server}/bankCheck/remote/getBankCheckRecordRemoteService
+bankcheck.ucfpay.getBankCheckRecord.service.businessInterface=com.sumavision.ecommerce.plateform.core.finance.bankcheck.service.GetUpdateBankCheckRecordService
+
+
+ucfpay,ucfpay_alipay,ucfpay_disburse,payworth,payworth_disburse
+
+
+
+#开户分行必输
+200300384=开户分行必输！
+
+
+ProductBankAssociation
+
+
+				tradeDetailMap.put("PAY_BANK_SUB_BRANCH", temp[0]);
+				tradeDetailMap.put("PROVINCE", temp[1]);
+				tradeDetailMap.put("CITY", temp[2]);
+
+
+
+
+
+20q5940i70.51mypc.cn:36769

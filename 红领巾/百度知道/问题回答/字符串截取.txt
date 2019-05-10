@@ -1,0 +1,4 @@
+﻿可以通过java的”substring“方法截取出对应的字符串，前提是知道开始和结束的字符串的值：
+String getSignInfo = reqResult.substring(reqResult.indexOf("（") + 1, reqResult.indexOf("）"));
+解释：上述方法就是截取reqResult字符串的中开始”（“和结束”）“中间部分的内容，”1“就是”）“的长度，之后将获取的结果赋值给”getSignInfo进行输出即可“；
+备注：以上方法通用于截取字符串，数字”6“和开始结束字符串根据实际需要修改即可。

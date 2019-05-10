@@ -1,0 +1,5 @@
+﻿		JSONObject json = JSONObject.fromObject(result);
+		String result1 = json.getString("body");
+		System.out.println(result1);
+		String result2 = template.postForEntity(result1, null, String.class).getBody();
+		System.out.println(result2);

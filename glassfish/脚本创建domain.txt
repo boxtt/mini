@@ -1,0 +1,131 @@
+﻿#!/bin/sh
+#----------------------------------------------
+#Filename:create_domain_payara4.1.sh
+#Version:
+#Date:20170628
+#Author:
+#Function:create domain for payara4.1
+#----------------------------------------------
+#创建打印函数
+print_help()
+{
+	echo "-------------------------------------------------------"
+	echo "脚本执行格式：./create_domain_payara4.1.sh  参数"
+	echo "其中参数为即将创建的domain的值"
+	echo "-------------------------------------------------------"
+}	
+#创建端口初始化函数
+http_port=(8080 9090 9191 9292 9393 9494 9595 9696 9797 9898 9999)
+admin_port=(4848 4949 5050 5151 5252 5353 5454 5555 5656 5757 5858)
+asc_domain_var=$1
+params() {
+	asc_instance_port=${http_port[`expr $asc_domain_var - 1`]}
+	asc_https_port=`expr $asc_domain_var - 1 + 8181`
+	asc_admin_port=${admin_port[`expr $asc_domain_var - 1`]}
+	asc_orb_port=`expr $asc_domain_var - 1 + 3700` 
+	asc_orb_ssl=`expr $asc_domain_var - 1 + 3820`
+	asc_orb_mutualauth=`expr $asc_domain_var - 1 + 3920`
+	asc_jmx_admin=`expr $asc_domain_var - 1 + 8686`
+	asc_jms_port=`expr $asc_domain_var - 1 + 7676` 
+	asc_osgi_shell=`expr $asc_domain_var - 1 + 6666`
+	asc_debug_port=`expr $asc_domain_var + 9008`
+	asc_jconsole_cbport=`expr $asc_jms_port + 10000`
+	asc_conn_pool=tvpaypool
+	asc_conn_jndi=jdbc/tvpay
+	asc_conn_url=jdbc\\:oracle\\:thin\\:@\(DESCRIPTION\\=\(ADDRESS\\=\(PROTOCOL\\=TCP\)\(HOST\\=192.161.14.99\)\(PORT\\=1521\)\)\(CONNECT_DATA\\=\(SERVER\\=DEDICATED\)\(SERVICE_NAME\\=sumapay\)\)\)
+	asc_conn_user=tvpay2 
+	asc_conn_passwd=DB-PASSWORD-ALIAS
+	asc_conn_pool_max_size=32
+	asc_thread_pool_max_size=450
+	asc_http_thread_pool_max_size=250 
+	asc_web_max_conns=450 
+	asc_jvm_option_xmx=1024M
+	asc_jvm_option_perm=256M
+	asc_jvm_option_xss=1M
+	asc_jvm_option_jvmRoute=`hostname` 
+	asc_db_driver_file=ojdbc14.jar 
+
+}
+# 判断参数输入是否正确
+var=`echo $asc_domain_var|bc 2>/dev/null`
+if [ $# != 1 ]  ||  [ $asc_domain_var -ne $var ];then
+    print_help
+    echo "the input parameters error, please check first."
+    exit
+fi
+#domain创建函数
+create_domain() {
+	#1.创建domain相关参数（domain名称、用户、端口等）-- 使用相同的值
+	asc_domain_name=domain${asc_domain_var}
+	asc_admin_user=admin
+	asc_admin_password=58858547
+	#准备密码文件
+	asc_passwd="ascpasswd.txt"
+	echo "AS_ADMIN_ADMINPASSWORD=${asc_admin_password}" > ${asc_passwd}
+	echo "AS_ADMIN_PASSWORD=${asc_admin_password}" >> ${asc_passwd}
+	#2.设置当前管理的domain端口（全局）
+	export AS_ADMIN_PORT=${asc_admin_port}
+
+	#3.判断jdbc驱动文件不存在
+	if [ ! -f ${asc_db_driver_file} ]; then 
+		echo "${asc_db_driver_file} not exist."
+		exit
+	fi
+	#4.创建domain，拷贝jdbc驱动文件
+	asadmin --user ${asc_admin_user} --passwordfile "${asc_passwd}" create-domain --instanceport ${asc_instance_port} --adminport ${asc_admin_port}  --domainproperties orb.listener.port=${asc_orb_port}:jms.port=${asc_jms_port}:http.ssl.port=${asc_https_port}:domain.jmxPort=${asc_jmx_admin}:orb.ssl.port=${asc_orb_ssl}:orb.mutualauth.port=${asc_orb_mutualauth}:osgi.shell.telnet.port=${asc_osgi_shell} ${asc_domain_name}
+	# 拷贝DB驱动包
+	cp ${asc_db_driver_file} $GLASSFISH_HOME/glassfish/domains/${asc_domain_name}/lib/ext/
+
+	#启动domain
+	asadmin start-domain ${asc_domain_name}
+	asadmin enable-secure-admin --user ${asc_admin_user} --passwordfile "${asc_passwd}"
+	#5.创建数据源，使用加密口令别名，配置数据库重连（注意准备好jdbc驱动包）
+	asadmin create-jdbc-connection-pool --user ${asc_admin_user} --passwordfile "${asc_passwd}" --datasourceclassname oracle.jdbc.pool.OracleConnectionPoolDataSource --restype javax.sql.ConnectionPoolDataSource --maxpoolsize ${asc_conn_pool_max_size} --isconnectvalidatereq=true --validationmethod table --validationtable DUAL  --property user=${asc_conn_user}:password=${asc_conn_passwd}:url=${asc_conn_url} ${asc_conn_pool}
+	asadmin create-jdbc-resource --user ${asc_admin_user} --passwordfile "${asc_passwd}" --connectionpoolid ${asc_conn_pool} ${asc_conn_jndi}
+	#6.性能监控配置
+	asadmin set --user ${asc_admin_user} --passwordfile "${asc_passwd}" server.monitoring-service.module-monitoring-levels.jvm=HIGH
+	asadmin set --user ${asc_admin_user} --passwordfile "${asc_passwd}" server.monitoring-service.module-monitoring-levels.http-service=HIGH
+	asadmin set --user ${asc_admin_user} --passwordfile "${asc_passwd}" server.monitoring-service.module-monitoring-levels.jdbc-connection-pool=HIGH
+	#关闭管理服务安全性
+	asadmin --port=${asc_admin_port} --user ${asc_admin_user} --passwordfile "${asc_passwd}"  set  server.admin-service.jmx-connector.system.security-enabled=false
+	#7.web容器的最大连接数
+	#asadmin create-jvm-options --user ${asc_admin_user} --passwordfile "${asc_passwd}" -Dhttp.maxConnections=${asc_web_max_conns}
+	#8.修改内存参数配置（Xmx、MaxPermSize、Xss）
+	asadmin delete-jvm-options --user ${asc_admin_user} --passwordfile "${asc_passwd}" -Xmx512m
+	asadmin create-jvm-options --user ${asc_admin_user} --passwordfile "${asc_passwd}" -Xmx${asc_jvm_option_xmx}:
+	asadmin delete-jvm-options --user ${asc_admin_user} --passwordfile "${asc_passwd}" "-XX\:MaxPermSize=192m"
+	asadmin create-jvm-options --user ${asc_admin_user} --passwordfile "${asc_passwd}" "-XX\:MaxMetaspaceSize=${asc_jvm_option_perm}":
+	if [[ ! $asc_jvm_option_xss = 0 ]]
+	then
+		asadmin create-jvm-options --user ${asc_admin_user} --passwordfile "${asc_passwd}" -Xss${asc_jvm_option_xss}:
+	fi
+	#9.添加节点标示（会话粘滞，-DjvmRoute=xxx）
+	asadmin create-jvm-options --user ${asc_admin_user} --passwordfile "${asc_passwd}" -DjvmRoute=${asc_jvm_option_jvmRoute}
+	# 添加jconsole端口
+	asadmin create-jvm-options --user ${asc_admin_user} --passwordfile "${asc_passwd}" -Dcom.sun.aas.jconsole.server.cbport=${asc_jconsole_cbport}
+	#10.默认线程池最大线程数
+	asadmin set --user ${asc_admin_user} --passwordfile "${asc_passwd}" server.thread-pools.thread-pool.thread-pool-1.max-thread-pool-size=${asc_thread_pool_max_size}
+	asadmin set --user ${asc_admin_user} --passwordfile "${asc_passwd}" server.thread-pools.thread-pool.http-thread-pool.max-thread-pool-size=${asc_thread_pool_max_size}
+
+	#11.调试端口
+	asadmin set --user ${asc_admin_user} --passwordfile "${asc_passwd}" server.java-config.debug-options="-agentlib\:jdwp=transport=dt_socket,server=y,suspend=n,address=${asc_debug_port}"
+
+
+	#12.修改日志文件大小
+	sed -i 's/rotationLimitInBytes=2000000/rotationLimitInBytes=50000000/g'  $GLASSFISH_HOME/glassfish/domains/domain$asc_domain_var/config/logging.properties
+	#13.修改运行模式
+	sed -i 's/-client/-server/g'  $GLASSFISH_HOME/glassfish/domains/domain$asc_domain_var/config/domain.xml
+	#14.数据库密码加密
+	echo "tvpay" >/home/sumapay/password-file
+	asadmin create-password-alias --port $asc_admin_port --user admin --passwordfile /home/sumapay/password-file DB-PASSWORD-ALIAS
+	sed -i 's/DB-PASSWORD-ALIAS/\$\{ALIAS=DB-PASSWORD-ALIAS\}/' $GLASSFISH_HOME/glassfish/domains/domain$asc_domain_var/config/domain.xml	
+	#15.jdbc对象封装取消勾选
+    sed -i 's/\sname="tvpaypool"/& wrap-jdbc-objects="false"/' $GLASSFISH_HOME/glassfish/domains/domain$asc_domain_var/config/domain.xml	
+    # 删除密码文件
+	rm -f ${asc_passwd}
+	asadmin stop-domain ${asc_domain_name}
+	asadmin start-domain ${asc_domain_name}
+}
+#调用函数，创建domain
+params
+create_domain

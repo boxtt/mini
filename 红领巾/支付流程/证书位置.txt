@@ -1,0 +1,2 @@
+﻿    public static String certLocation = "/app/paycenter/apiclient_cert.p12";
+//    public static String certLocation = "E:/honglingjin/apiclient_cert.p12";

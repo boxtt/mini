@@ -1,0 +1,14 @@
+﻿启动服务端：E:\java\Redis-x64-3.2.100>redis-server.exe
+启动客户端：redis-cli.exe -h 127.0.0.1 -p 6379 
+ 
+查看配置：
+redis 127.0.0.1:6379> CONFIG GET CONFIG_SETTING_NAME
+redis 127.0.0.1:6379> CONFIG GET *
+CONFIG SET CONFIG_SETTING_NAME NEW_CONFIG_VALUE
+ 
+$ redis-cli -h host -p port -a password
+
+
+E:\java\Redis-x64-3.2.100>redis-cli.exe -h 192.161.14.140 -p 6379
+
+E:\java\Redis-x64-3.2.100>redis-cli.exe -h 192.161.14.54 -p 6379 -a redis

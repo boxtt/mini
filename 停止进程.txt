@@ -1,0 +1,5 @@
+﻿ps -ef | grep domains| grep  -v "grep"| awk '{print $2}'|xargs kill -9
+asadmin start-domain pl
+
+
+ps -ef | grep domain | grep -v 'grep'| wc -l

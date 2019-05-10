@@ -1,0 +1,139 @@
+﻿环境以及引用资料
+1.windows server 2008 r2 enterprise  （木有办法，公司的服务器全是如此，就这种环境搭建吧）
+
+2.redis官方资料下载： https://redis.io/download
+
+3.redis官方没有提供相关的程序包，但是Microsoft Open Tech group提供并维护了相关的redis安装包 https://github.com/MSOpenTech/redis（只是提供64位程序）
+
+这里说一句，很多公司的redis都是部署在linux上的，我这里只是针对需要在window环境下搭建redis集群做安装部署。
+
+ 安装包下载
+1.Redis 3.2 Release 版本.msi
+
+　　安装成功后，这里安装的是单个redis服务。找到安装路径，当前机器安装在：D:\Redis
+
+　　以管理员打开控制台，将redis-cli.exe拖入其中，回车，惊喜的看到，我安装成功了，安装部成功的伙伴们自己去找问题吧。简单的加几个数据
+
+　　Set a test
+
+　　get a 
+
+　　如下图，都成功了。
+
+
+
+ 
+
+2.Ruby环境 
+
+ 安装此环境的原因是因为我们需要使用Ruby Gems 中的redis-trib.rb来创建和操作集群。
+
+3.Ruby Gems
+
+通过此Ruby包管理来获取操作Redis集群的redis-trib.rb
+
+3.1 解压安装包后，点击setup.rb安装。
+
+
+
+3.2 首先，为了防止被墙，我们需要把镜像指向新的地址，打开一个控制台
+
+gem sources --remove https://rubygems.org/ 删掉原来的源
+gem sources -a http://gems.ruby-china.org/ 添加新源
+gem sources -l 查看现有的源
+gem install redis 安装redis依赖
+
+ 
+
+
+
+ 
+
+ 集群搭建
+通过上述步骤，搭建了一个Redis服务，在服务管理器中也可以看到此服务。（注意服务器端口），同时我们也搭建了配置redis集群的ruby环境。下面就是讲述如何搭建redis集群。
+
+在官方cluster文档中，最小集群需要至少包含三个主节点。对于您的第一次测试，强烈建议启动具有三个主站和三个从站的六个节点群集。
+
+我的集群式在此服务器中搭建3个master+3个Slave，总共6个节点。关于数据发布的问题，后续对redis研究深入的时候，再写文章记录分享下。
+
+开始时候，我们安装了一个redis实例，默认端口是6379，准备新创建的6个节点分别是 6380,6381,6382,6383,6384,6385,然后将下载下来的压缩包文件都放进去，这样我们就创建了6个节点，下面就是分别对各个节点进行配置。
+
+在每一个文件夹添加配置文件 redis.conf ，将配置修改为以下
+
+1
+2
+3
+4
+5
+port 7005
+cluster-enabled yes
+cluster-config-file nodes.conf
+cluster-node-timeout 5000
+appendonly yes
+然后开启redis服务，具体开启控制台，在当前文件夹执行
+
+1
+redis-server.exe redis.conf
+　　所有服务开启成功后如下，到此时，我们在单台服务器上创建了6+1个redis实例(开始安装的时候创建了一个redis实体)
+
+
+
+后续部署不可能用控制台来host服务，下面介绍如何用把redis部署到服务当中，在控制台分别执行以下命令，请伙伴们注意你的服务名称要按照自己的需求修改。我这里直接Redis+端口来创建了
+
+1
+redis-server --service-install redis.conf --service-name redis6380
+创建成功后我们看到数据库里面有6个服务  ，把服务启动起来，有空的话，可以用控制台去看看对应服务是否可以正常添加删除数据。
+
+
+
+节点都创建好了，那么下面的工作就是如何来创建集群了。
+
+创建集群时候，我们用到了redis-trib.rb文件
+
+文件在下载下来的redis包里可能是没有的，可以到
+https://github.com/antirez/redis/tree/unstable/src 目录下下载
+之前的ruby环境就是为运行这个文件做准备的
+
+ 
+
+输入创建集群命令，注意，这个时候要检查下服务器当前的端口6380-6385是否已经打开，没有打开的话创建会失败的。
+
+1
+2
+3
+D:\RedisCluster\6380>redis-trib.rb create --replicas 1 192.168.123.90:6380 192.168
+.123.90:6381 192.168.123.90:6382 192.168.123.90:6383 192.168.123.90:6384 192.168
+.123.90:6385
+　　集群环境搭建好后，会出现如下界面，3master+3slave，同时我们每个节点会找到nodes.conf，这里记录了节点在集群中的一些信息，有兴趣可以去分析下。
+
+
+
+输入yes就行了
+
+
+
+创建成功了，16384个槽位都被覆盖了，这里简单说下redis的原理，对key 做 CRC16 校验和后，按照槽位分配在不同的服务器上。在上述信息上，我们可以清楚的看到数据分布在那台服务器上。
+
+最后，我们简单的来测试下数据的增加和获取吧。
+
+老样子，在cmd窗口用redis-cli来处理数据，注意命令和非集群相比加了一个-c
+
+1
+redis-cli -h 192.168.123.90 -p 6380 -c　　
+到了这里，怎么能忘记我们最喜欢的一句话呢：hello，world
+
+可以清晰的看到数据放到6382节点去了，好了，redis cluster在windows下集群搭建就这样了，后续我会把里面使用到的包房后面
+
+
+
+
+
+
+
+
+
+
+
+
+
+

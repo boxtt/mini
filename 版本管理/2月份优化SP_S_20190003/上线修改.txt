@@ -1,0 +1,2 @@
+﻿账务2.5系统：/sumapayex/config/sumapay-config.properties
+finance.innercheck.tradecodes后面追加内容：,ZF0503

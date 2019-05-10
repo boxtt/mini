@@ -1,0 +1,1 @@
+﻿asadmin --port 5050 --user admin deploy --force=true com.sumapay.biz.message.war

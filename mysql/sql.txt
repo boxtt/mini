@@ -1,0 +1,15 @@
+﻿explain select p.id,t.orderId from paycheck as p ,trade as t where p.orderId = t.orderId ;
+
+
+explain select p.id,t.orderId 
+from paycheck as p ,trade as t 
+where  t.requestTime >= '2016-3-1 00:00:00'  and t.requestTime <= '2016-3-18 23:59:59'  and p.orderId = t.orderId ;
+
+
+explain select p.id,t.orderId from paycheck as p ,trade as t where p.orderId = t.orderId 
+ and t.requestTime >= '2016-3-1 00:00:00' 
+and t.requestTime <= '2016-3-18 23:59:59' 
+order by t.requestTime desc ;
+
+
+explain select a.username,b.cardNum from bankcard b,account  a where  a.externalid =b.externalid and a.type =b.accounttype  order by b.accounttype, b.externalid;

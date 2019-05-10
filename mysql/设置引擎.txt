@@ -1,0 +1,5 @@
+﻿mysql默认是关闭InnoDB存储引擎的使用的，将InnoDB设置为默认的引擎如下。
+1. 查看mysql存储引擎情况： mysql>show engines。 InnoDB | YES，说明此mysql数据库服务器支持InnoDB引擎。
+2. 设置InnoDB为默认引擎：在配置文件my.ini中的 [mysqld] 下面加入default-storage-engine=INNODB
+3. 重启mysql服务器
+4. 登录mysql数据库，mysql>show engines。如果出现 InnoDB |DEFAULT，则表示设置InnoDB为默认引擎成功。

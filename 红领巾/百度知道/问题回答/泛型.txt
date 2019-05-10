@@ -1,0 +1,7 @@
+﻿​泛型可以用"<T>"代表，任意类型的。
+解释： “<T>”是泛型的默认值，可以被任意类型所代替，如：
+List<String> list = new ArayList<String>()；这个就定义了一个String类型的”泛型“集合，那么T的类型就是字符串。
+List<T> list = new ArayList<T>()；
+可以赋值给list：list.add("StringBatch");
+可以获取到list的值：list.get(0),结果就是”StringBatch“；
+这个时候T的类型也是String。也就是说T是动态的，可以被任意指定类型。

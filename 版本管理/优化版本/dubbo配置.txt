@@ -1,0 +1,6 @@
+﻿#zookeeper 集群地址，节点之间用英文","分隔
+dubbo.provider.registry.address=192.161.14.124:2181,192.161.14.125:2181,192.161.14.126:2181
+#dubbo协议中threads 业务线程数
+dubbo.provider.protocol.threads=200
+#远程服务调用超时时间
+dubbo.provider.service.timeout=100000

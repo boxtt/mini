@@ -1,0 +1,42 @@
+﻿下周任务：
+1、	ASP_S_20170003（广州浦发微信）-完成配合测试支持，视情况支持上线（高大容、梁波）
+2、	SP_S_20170006（徽商2.2）-完成配合测试，完成上线支持（游志青、高大容、高德宝）
+3、	SP_S_20170002-提交配合测试，进行配合测试支持（游志青、高大容、白志远、梁波、高德宝）
+4、	SP_S_20170004（敏感数据，方案）-完成各系统切面梳理（高大容、白志远、梁波、高德宝）
+5、	SP_S_20170004（敏感数据，开发）-完成数据库通用切面的编码，启动其他系统的开发（游志青、高大容、白志远、梁波、高德宝）
+
+游志青
+	任务2
+	任务3
+	任务5
+
+高大容
+	任务1
+	任务2
+	任务3
+	任务4
+	任务5
+
+白志远
+	任务3
+	任务4
+	任务5
+
+梁波
+	任务1
+	任务3
+	任务4
+	任务5
+
+高德宝
+	任务2
+	任务3
+	任务4
+	任务5
+	
+	
+	
+	update merchant_checkaccount_progress t set t.checkaccount_date=to_date('20170320','yyyymmdd') where
+ t.type=0
+  and t.checkaccount_date>to_date('20170320','yyyymmdd')
+       and t.merchant_code in (select t1.merchant_code from merchant t1 where t1.fld9='1'and t1.status = 1);

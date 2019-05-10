@@ -1,0 +1,40 @@
+﻿provisions
+
+
+
+
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare exchange name=com.sumapay.mq.exchange.provisionsbankcheck type=direct durable=true
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.provisionsbankcheck
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.provisionsbankcheck destination=com.sumapay.mq.queue.provisionsbankcheck routing_key=provisionsbankcheck
+
+sumapay.provisionsbankcheck.queue=com.sumapay.mq.queue.provisionsbankcheck
+sumapay.provisionsbankcheck.trade.exchange=com.sumapay.mq.exchange.provisionsbankcheck
+provisionsbankcheck.mq.replyTo.queue=amq.direct://com.sumapay.mq.exchange.provisionsbankcheck/provisionsbankcheck
+
+provisionsbankcheck.account.banks=unionprov_disburse,unionprov_disburse
+
+
+
+
+
+  调度2.5系统添加调度文件（不需要重新打徽商存管系统的client包）：
+
+/sumapayex/config/sumapay-config.properties文件添加配置参数
+provisionsbankcheck.springremote.haproxy.server=192.161.14.92:8989
+
+#获取对账单调度时间执行时间为：0 0 4 * * ? *
+provisionsbankcheck.unionpay.getBankCheckRecord.service.url=http://${provisionsbankcheck.springremote.haproxy.server}/provBankCheck/remote/getBankCheckRecordAsyncRemoteService
+provisionsbankcheck.unionpay.getBankCheckRecord.service.businessInterface=com.sumavision.ecommerce.plateform.core.provisions.bankcheck.service.GetBankCheckRecordAsyncService
+
+#执行对账调度时间执行时间为：0 0 11 * * ? *
+provisionsbankcheck.unionpay.bankCheckProcess.service.url=http://${provisionsbankcheck.springremote.haproxy.server}/provBankCheck/remote/unionpayBankCheckProcessRemoteService
+provisionsbankcheck.unionpay.bankCheckProcess.service.businessInterface=com.sumavision.ecommerce.plateform.core.provisions.bankcheck.service.BankCheckProcessService
+
+
+
+
+ 
+
+
+
+

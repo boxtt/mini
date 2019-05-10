@@ -1,0 +1,50 @@
+﻿丰付系统rabbitmq直接返回队列升级实施步骤》是临时队列转永久队列的方案，《丰付系统mq组件添加长时线程监控升级方案》是加监控的方案
+
+调度2.5、支付2.5：白志远
+运营管理系统、徽商2.0接口系统：高大容
+商户自助网站、代扣2.5：高德宝
+徽商2.0业务系统、付款2.5：游志青
+通用2.5、商户2.5：侯晓谦
+
+
+添加mbean。
+
+<!-- 暴露监控设备 -->
+
+<bean id="adjustableAmqpProxyFactoryBeanJmx" class="org.springframework.jmx.export.MBeanExporter"
+
+        lazy-init="false">
+
+        <property name="beans">
+
+            <map>
+
+                <entry key="bean:name={系统rootContext}RabbitmqClientJmx" value-ref="{springAmqpClient}"/>
+
+            </map>
+
+        </property>
+
+</bean>
+
+改为
+添加mbean。
+
+<!-- 暴露监控设备 -->
+
+<bean id="adjustableAmqpProxyFactoryBeanJmx" class="org.springframework.jmx.export.MBeanExporter"
+
+        lazy-init="false">
+
+        <property name="beans">
+
+            <map>
+
+                <entry key="bean:name={系统rootContext}RabbitmqClientJmx" value-ref="&amp;{springAmqpClient}"/>
+
+            </map>
+
+        </property>
+
+</bean>
+

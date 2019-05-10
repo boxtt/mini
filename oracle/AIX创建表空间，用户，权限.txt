@@ -1,0 +1,55 @@
+﻿select userenv('language') from dual;---------查看数据库的编码格式
+create tablespace gaodebao datafile 'gaodebao.dbf' size 1000m;---------创建表空间
+
+提问者所指的数据库应该是表空间。
+创建表空间：
+CREATE TABLESPACE TBS_ETL_DATA LOGGING DATAFILE 'G:\oracle\product\10.2.0\oradata\tbs_etl_data01.dbf' SIZE 521M AUTOEXTEND OFF;
+创建用户：
+create user vpetl identified by vpetl default tablespace TBS_ETL_DATA;
+赋权限：
+grant connect,resource,alter system,debug connect session,select any table,delete any table,drop any table,alter any table to vpetl;
+创建表：
+create table tablename(id varchar2(20));
+备注：创建表空间的file路径根据实际需要修改为linux等系统的路径即可。
+
+
+dbms_job.remove(365);
+
+select job,priv_user from user_jobs;
+select * from user_jobs
+
+execute dbms_job.remove(29);
+
+select * from user_procedures  t where t.object_type  like '%PRO%';
+select *  from user_tables;
+select *  from user_objects  t where t.object_type  like 'TABLE';
+
+select  distinct(t.OBJECT_TYPE) from user_objects  t;
+
+select 'drop table '|| t.OBJECT_NAME  from user_objects  t where t.object_type  like 'TABLE';
+ Select Tablespace_Name,Sum(bytes)/1024/1024 From Dba_Segments Group By Tablespace_Name
+
+
+select username,default_tablespace from user_users;------查看用户默认的表空间
+ Select Tablespace_Name,Sum(bytes)/1024/1024 From Dba_Segments Group By Tablespace_Name ;-------------查看用户的所有表空间
+ 
+ 
+ 
+ 可以自增长表空间大小就可以了.
+增加表空间大小的四种方法
+Meathod1：给表空间增加数据文件
+ALTER TABLESPACE app_data ADD DATAFILE
+'D:\ORACLE\PRODUCT\10.2.0\ORADATA\EDWTEST\APP03.DBF' SIZE 50M;
+ 
+Meathod2：新增数据文件，并且允许数据文件自动增长
+ALTER TABLESPACE app_data ADD DATAFILE
+'D:\ORACLE\PRODUCT\10.2.0\ORADATA\EDWTEST\APP04.DBF' SIZE 50M
+AUTOEXTEND ON NEXT 5M MAXSIZE 100M;
+ 
+Meathod3：允许已存在的数据文件自动增长
+ALTER DATABASE DATAFILE 'D:\ORACLE\PRODUCT\10.2.0\ORADATA\EDWTEST\APP03.DBF'
+AUTOEXTEND ON NEXT 5M MAXSIZE 100M;
+ 
+Meathod4：手工改变已存在数据文件的大小
+ALTER DATABASE DATAFILE 'D:\ORACLE\PRODUCT\10.2.0\ORADATA\EDWTEST\APP02.DBF'
+RESIZE 100M;

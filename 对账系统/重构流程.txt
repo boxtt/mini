@@ -1,0 +1,2 @@
+﻿1、背景
+JAVA_OPTS	-agentlib:jdwp=transport=dt_socket,address=127.0.0.1:9009,suspend=y,server=n

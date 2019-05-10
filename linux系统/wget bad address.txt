@@ -1,0 +1,13 @@
+﻿wget: unable to resolve host address的解决方法
+摘要：
+wget：无法解析主机地址。这就能看出是DNS解析的问题。
+
+wget：无法解析主机地址。这就能看出是DNS解析的问题。
+
+解决办法：
+
+登入root（VPS）。
+进入/etc/resolv.conf。
+修改内容为下
+nameserver 8.8.8.8 #google域名服务器
+nameserver 8.8.4.4 #google域名服务器

@@ -1,0 +1,7 @@
+﻿银行对账系统
+/sumapayex/config/sumapay-config.properties
+checkaccount.banks 追加,epcc
+#根据渠道请求流水号对账银行
+bankcheck.channelRequestId.bankCodes=epcc
+
+bankcheck.realRefund.bankCodes追加,epcc

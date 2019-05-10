@@ -1,0 +1,17 @@
+﻿
+徽商处理器系统172.16.4.9、172.16.4.11
+/sumapay25/config/sumapay-config.properties文件添加配置参数
+#徽商2.0结果文件需要特殊处理的商户列表（和侯晓谦的代码可能重复）
+hsb.batchFileResult.modifyFtpPath.merchants=
+
+
+调度2.0系统172.16.8.9添加调度文件（需要重新打徽商2.0的client包）：hsb2ProviderCheckAccount.xml
+调度时间执行时间为：0 30 4 * * ? *
+/sumapay/config/sumapay-config.properties文件添加配置参数（172.16.8.9）
+hsb2Bankcheck.hsb.providerAccount.service.url=http://${trusteeship.springremote.haproxy.server}/p2pBankCheck/remote/p2pHsb2ProviderAccountProcessRemoteService
+hsb2Bankcheck.hsb.providerAccount.service.businessInterface = com.sumavision.ecommerce.plateform.core.trusteeship.bankcheck.service.ProviderAccountService
+
+
+说明：调度生成对账文件如果没有指定对账单生成起始日期，会从当前日期的前一天开始生成
+如今天是2017-06-03 ，那么调度执行后，只会生成20170602的对账单文件
+

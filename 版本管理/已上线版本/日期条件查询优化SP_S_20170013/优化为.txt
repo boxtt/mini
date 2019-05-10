@@ -1,0 +1,12 @@
+﻿java代码中传字符串，
+to_date(#endTime#, 'yyyy-mm-dd')
+
+to_date(#endTime#, 'yyyy-mm-dd')
+
+OP_TIME
+TRADE_START_TIME
+
+
+to_date(#startDate#, 'yyyymmdd hh24:mi:ss') 
+
+"startDate" -> "2017-07-06 00:00:00"

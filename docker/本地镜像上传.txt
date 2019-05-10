@@ -1,0 +1,19 @@
+﻿使用docker images查看本机所有的镜像文件
+
+docker如何导入导出镜像
+docker save eb40dcf64078> /root/mydjango-save-1016.tar  将镜像保存为本地文件，其中eb40dcf64078为image id
+
+docker如何导入导出镜像
+将保存到本地的文件上传到不能pull的服务器上，网络是相通的我这里直接使用的是scp命令
+
+docker如何导入导出镜像
+使用load方法加载刚才上传的tar文件
+
+docker load < /root/mydjango-save-1016.tar  
+
+docker如何导入导出镜像
+在新的机器上再此使用docker images命令查看本机的镜像，检查刚才load的镜像有没有加载进来，发现加载进来的镜像名称、标签均为none，使用docker tag eb40dcf64078 django:latest 修改为原来的镜像名称和标签名称，其中eb40dcf64078 为images id
+
+docker如何导入导出镜像
+6
+使用docker run -itd django:latest加载进行，验证镜像是否能够成功的“run”

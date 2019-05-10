@@ -1,0 +1,86 @@
+﻿YK5001  邮箱请求验证处理器   增加code
+DJ0001  冻结资金处理器
+CX0052 开户支行查询处理器
+KB0001 卡BIN校验处理器
+CX1001 支付各种交易费率计算
+CX0036 查询商户费率信息
+CX0041 查询商户银行列表 
+CX0075 获取系统基本配置处理器
+CX0012 支持的银行信息列表查询处理器
+YK0005 发送邮件请求处理器
+SH0013 发送商户通知请求处理器
+YK0004 发送短信请求处理器
+CX0001 交易状态查询处理器
+DJ0002  解冻资金处理器
+YK0006 短信请求验证处理器
+CX0009短信请求验证处理器
+
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare exchange name=com.sumapay.mq.exchange.trade type=direct durable=true
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.exchange.trade
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.integration routing_key=YK5001
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.integration routing_key=DJ0001
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.integration routing_key=CX0052
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.integration routing_key=KB0001
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.integration routing_key=CX1001
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.integration routing_key=CX0036
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.integration routing_key=CX0041
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.integration routing_key=CX0075
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.integration routing_key=CX0012
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.integration routing_key=YK0005
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.integration routing_key=SH0013
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.integration routing_key=YK0004
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.integration routing_key=CX0001
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.integration routing_key=DJ0002
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.integration routing_key=YK0006
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.integration routing_key=CX0009
+
+
+
+
+
+#########integration-exception.properties添加内容########## 
+200300282=所选银行与该卡所属银行不一致
+#商户未开通该业务
+200300344=商户未开通该业务
+#邮件验证已经使用过
+200300254={0}链接已失效
+#暂不支持语音验证码
+200300349=暂不支持语音验证码
+200300373=短信发送失败，请重新获取
+#原支付订单不存在（退款）
+200300031=原支付订单不存在
+
+#短信服务
+200700000=网络异常，请致电4008908970
+#短信验证失败，验证失败
+200700003=短信验证失败,请重新获取
+#短信验证码过期，验证失败
+200700004=短信验证码过期,请重新获取
+#发送短信失败，60秒内重复发送短信
+200700012=60秒内重复发送短信
+
+
+
+
+
+
+
+##############
+#商户自助登录邮件校验通知
+user.mail.merchantLoginRequestSubject=\u5546\u6237\u81ea\u52a9\u767b\u5f55\u90ae\u4ef6\u6821\u9a8c\u901a\u77e5
+user.mail.merchantLoginRequestPath=/sumapay/mailTemplate/MAIL_MERCHANT_LOGIN_SYSTEM.txt
+内容举例：
+商户%MERCHANT_CODE% 您好： 正在登陆商户自助网站，校验码为：%RANDOMCODE%。
+#商户单笔付款邮件校验通知
+user.mail.merchantSingleTransferRequestSubject=\u5546\u6237\u5355\u7b14\u4ed8\u6b3e\u90ae\u4ef6\u6821\u9a8c\u901a\u77e5
+user.mail.merchantSingleTransferRequestPath=/sumapay/mailTemplate/MAIL_MERCHANT_SINGLE_TRANSFER.txt
+内容举例：
+商户%MERCHANT_CODE% 您好： 正在通过商户自助网站发起单笔付款请求，校验码为：%RANDOMCODE%。
+
+#商户自助单笔付款短信通知
+user.sms.merchantSingleTransferPath=/sumapay/smsTemplate/SMS_MERCHANT_SINGLE_TRANSFER.txt
+短信类型：65
+短信验证码内容：RANDOM_CODE（丰付商户服务平台验证码），3分钟有效，请勿泄露！感谢您一直以来对丰付的支持！【丰付支付】
+
+
+**************需要修改所有模板内容中的丰付支付字样***************

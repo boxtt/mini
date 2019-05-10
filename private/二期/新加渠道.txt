@@ -1,0 +1,42 @@
+﻿
+这是更新的渠道列表。易信：京东h5、网银、银联h5                    已经接入：QQ扫码、代付
+先锋：银联扫码、银联H5、快捷API           已有的网关、手Q扫码、代付
+
+
+insert into TRADE_TYPE (ID, CODE, NAME, STATUS, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4)
+values ('5270', 'ZF0419', '银联支付-扫码', '1', null, to_date('21-10-2016 01:12:19', 'dd-mm-yyyy hh24:mi:ss'), 'sys', null, '1', null, null, null);
+
+insert into TRADE_TYPE (ID, CODE, NAME, STATUS, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4)
+values ('5271', 'ZF0420', '银联支付-H5', '1', null, to_date('21-10-2016 01:12:19', 'dd-mm-yyyy hh24:mi:ss'), 'sys', null, '1', null, null, null);
+
+insert into TRADE_TYPE (ID, CODE, NAME, STATUS, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4)
+values ('5272', 'ZF0421', '京东支付-H5', '1', null, to_date('21-10-2016 01:12:19', 'dd-mm-yyyy hh24:mi:ss'), 'sys', null, '1', null, null, null);
+
+
+
+
+insert into PAY_TYPE (ID, CODE, NAME, DESCRIPTION, FLD1, FLD2, FLD3, FLD4, FLD5, FLD6, FLD7, FLD8, FLD9, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, PARENT_ID, HAS_CHILD)
+values ('597', '23', '银联支付', '银联支付', null, null, null, null, null, null, null, null, null, to_date('21-10-2016 01:12:19', 'dd-mm-yyyy hh24:mi:ss'), 'sys', 'sys', null, '1');
+
+insert into PAY_TYPE (ID, CODE, NAME, DESCRIPTION, FLD1, FLD2, FLD3, FLD4, FLD5, FLD6, FLD7, FLD8, FLD9, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, PARENT_ID, HAS_CHILD)
+values ('598', '24', '银联支付-扫码', '银联支付-扫码', null, null, null, null, null, null, null, null, null, to_date('21-10-2016 01:12:19', 'dd-mm-yyyy hh24:mi:ss'), 'sys', 'sys', '597', '0');
+
+insert into PAY_TYPE (ID, CODE, NAME, DESCRIPTION, FLD1, FLD2, FLD3, FLD4, FLD5, FLD6, FLD7, FLD8, FLD9, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, PARENT_ID, HAS_CHILD)
+values ('599', '25', '银联支付-收银台式H5', '银联支付-收银台式H5', null, null, null, null, null, null, null, null, null, to_date('21-10-2016 01:12:19', 'dd-mm-yyyy hh24:mi:ss'), 'sys', 'sys', '597', '0');
+
+insert into PAY_TYPE (ID, CODE, NAME, DESCRIPTION, FLD1, FLD2, FLD3, FLD4, FLD5, FLD6, FLD7, FLD8, FLD9, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, PARENT_ID, HAS_CHILD)
+values ('600', '26', '银联支付-直连式H5', '银联支付-直连式H5', null, null, null, null, null, null, null, null, null, to_date('21-10-2016 01:12:19', 'dd-mm-yyyy hh24:mi:ss'), 'sys', 'sys', '597', '0');
+
+insert into PAY_TYPE (ID, CODE, NAME, DESCRIPTION, FLD1, FLD2, FLD3, FLD4, FLD5, FLD6, FLD7, FLD8, FLD9, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, PARENT_ID, HAS_CHILD)
+values ('601', '27', '京东支付-H5', '京东支付-H5', null, null, null, null, null, null, null, null, null, to_date('21-10-2016 01:12:19', 'dd-mm-yyyy hh24:mi:ss'), 'sys', 'sys', '593', '0');
+
+insert into TRADE_TYPE (ID, CODE, NAME, STATUS, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4)
+values ('5270', 'ZF0419', '银联支付-扫码', '1', null, to_date('21-10-2016 01:12:19', 'dd-mm-yyyy hh24:mi:ss'), 'sys', null, '1', null, null, null);
+
+insert into TRADE_TYPE (ID, CODE, NAME, STATUS, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4)
+values ('5271', 'ZF0420', '银联支付-H5', '1', null, to_date('21-10-2016 01:12:19', 'dd-mm-yyyy hh24:mi:ss'), 'sys', null, '1', null, null, null);
+
+insert into TRADE_TYPE (ID, CODE, NAME, STATUS, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4)
+values ('5272', 'ZF0421', '京东支付-H5', '1', null, to_date('21-10-2016 01:12:19', 'dd-mm-yyyy hh24:mi:ss'), 'sys', null, '1', null, null, null);
+
+commit;

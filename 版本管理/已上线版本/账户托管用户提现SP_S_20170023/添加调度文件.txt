@@ -1,0 +1,7 @@
+﻿sumapay-schedual>task add --file /sumapay/schedual/acceptBatchAccDepUserWithdrawRecord.schedual
+schedual task[batchAccDepUserWithdrawAcceptJobDetail] add ok
+sumapay-schedual>task add --file /sumapay/schedual/ccbBatchAccDepUserWithdrawOnline.schedual
+schedual task[ccbBatchAccDepUserWithdrawOnlineJobDetail] add ok
+sumapay-schedual>task add --file /sumapay/schedual/updateBatchAccDepUserWithdrawResult.schedual
+schedual task[updateBatchAccDepUserWithdrawResultJobDetail] add ok
+sumapay-schedual>task add --file /sumapay/schedual/updateBatchADUserWithdrawRecordStatus.schedual

@@ -1,0 +1,10 @@
+﻿web1	IP：	172.16.3.2	glassfish/58858547
+web2	IP：	172.16.3.3	glassfish/58858547
+web-vip	IP：	172.16.3.1	sumapay25/58858547
+
+
+/opt/SUNWappserver/domains/domain1/logs
+王亚强 10:41:15
+这个路径
+王亚强 10:42:30
+对了，一般测试环境的商户自助是布到domain3 下边的   /opt/SUNWappserver/domains/domain3/logs

@@ -1,0 +1,33 @@
+﻿ModifyMerchantLoginInfoProcessor
+ModifyMerchantInfoProcessor
+ModifyMerchantUserInfoProcessor
+
+
+
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.merchant routing_key=SH0019
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.merchant routing_key=SH0020
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.merchant routing_key=SH0021
+
+商户自助/sumapayex/config/sumapay-config.properties中
+spring.amqp.trade.code参数追加,SH0019,SH0020,SH0021
+
+商户自助/sumapayex/config/log-sensitivedata-config.properties中
+mobile 追加,MERCHANT_USER_MOBILE,CONTACT_TELEPHONE,contactTelephone
+userName追加,CONTACT_PERSON,contactPerson
+
+
+
+2.5商户系统/sumapayex/config/log-sensitivedata-config.properties中
+mobile 追加,MERCHANT_USER_MOBILE,CONTACT_TELEPHONE
+userName追加,CONTACT_PERSON
+
+2.5商户系统/sumapayex/config/db-sensitivedata-config.properties中修改
+Merchant=legalPerson,contactPerson,contactTelephone
+
+重新上传biz-merchant-exception.properties
+
+
+
+
+
+

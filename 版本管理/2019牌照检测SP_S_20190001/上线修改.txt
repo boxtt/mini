@@ -1,0 +1,2 @@
+﻿商户自助/sumapayex/config/log-sensitivedata-config.properties
+mobile最后面追加,newMobilePhone

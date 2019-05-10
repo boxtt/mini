@@ -1,0 +1,7 @@
+﻿172.16.4.9，，，，11  平台2.5
+domain3是付款       com.sumapay.biz.disburse
+domain2是支付	 com.sumapay.biz.pay
+domain4是徽商       com.sumapay.biz.hsbdepository
+domain1是代扣
+
+172.16.4.5，，，，7 平台2.0

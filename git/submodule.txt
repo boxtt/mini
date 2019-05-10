@@ -1,0 +1,30 @@
+﻿1.submodule是什么？
+git有一个git submodule命令，用来管理子模块。Git子模块允许在 主工程 中创建多个 子工程。
+几个要点：
+1.主工程与子工程是相互独立的
+2.主工程在暂存区（index文件）中维护各个子工程当前的commit id
+2.为什么会有merge冲突？
+举个简单例子，子工程修改后，主工程master更新了子工程（意味着其维护的commit id更新了）。但是本地的分支还未更新，因此merge时导致commit id冲突。
+并且，由于commit id保存在暂存区文件index中，所以我们无法手动更改。
+3.解决方案
+假设在自己的开发分支上已经准备merge master提交了（master已经pull过），
+这时如果master上的submodule有修改，直接merge会有冲突。
+两种方案：
+1.位于自己的开发分支，在merge之前可以执行以下命令
+git submodule foreach git checkout master //所有子工程切换到master分支
+git submodule foreach git pull          //所有子工程更新代码
+git add 所有子工程目录
+git commit -m "update submodule"      //这里的提交应该是更新commit id，使其保持最新，与master相同
+注意：这种情况必须确认主工程master维护的是最新的子工程master代码，不够灵活。
+2.位于master分支，在merge之前可以执行以下命令
+git submodule update                    //这里的操作，是根据master维护的commit id更新各个子工程的代码
+git checkout 自己的开发分支名
+git add 所有子工程目录                     //因为各个子工程的代码已更新，所以add一遍，使主工程更新其维护的commit id
+git commit -m "update submodule"      //这里的提交应该是更新commit id，使其保持最新，与master相同
+方案2，完全根据主工程master维护的各个子工程commit id来更新子工程，如果不确定master维护的commit id是否为子工程最新代码，推荐使用此方案。
+这样，确保各个submodule更新，并且主项目维护的子项目commit id也更新，之后在进行merge即可
+4.配置git别名简化操作
+1.针对方案一，在.gitconfig文件中配置别名
+upsubc = !git submodule foreach git checkout master && git submodule foreach git pull &&  git commit -am \"update submodule\"
+2.针对方案二，配置接受参数的shell别名
+暂略……

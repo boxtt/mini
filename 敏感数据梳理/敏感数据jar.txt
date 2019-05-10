@@ -1,0 +1,27 @@
+﻿现在敏感数据那个处理改成使用单独jar包了，使用方法：
+1：ivy.xml中加入依赖
+<dependency org="com.sumapay.sensitivedata.formater" name="com.sumapay.sensitivedata.formater" rev="1.0.0.0" changing="true"/>
+2：配置文件中加入以下配置：
+<bean id="logUtil" class="com.sumapay.sensitivedata.formater.util.LogFormatUtil" init-method="initConfig">
+		<property name="messageSource" ref="propertyConfigurer" />
+</bean>
+3：在需要处理的地方使用下面的方法
+LogFormatUtil.formatStrSensitiveData(bankAccount, SensitiveDataTypeEnum.BANK_ACCOUNT.getValue())
+
+在 propertyConfigurer 指向的属性配置bean里要加上敏感数据规则的配置文件地址，例如。
+file:///sumapay25/config/sumpay-sensitivedata-rule-config.properties
+
+
+
+
+1，修复bug map中敏感数据传入log打印后，会导致map原始数据被改变。
+修改方案：ivy增加以下红色部分配置，重新更新jar包（注意看下ivy缓存的jara是否更新）
+ 
+ 
+<dependency org="org.slf4j-sumapay" name="slf4j-api-sumapay" rev="1.7.24"/>
+<dependency org="org.slf4j" name="slf4j-log4j12" rev="1.7.24"/>
+<dependency org="json" name="json-lib" rev="2.4"/>
+<dependency org="org.jaxen" name="jaxen-1.1-beta-6" rev="1.1"/>
+<dependency org="dom4j" name="dom4j" rev="1.6.1"/>
+<dependency org="net.sf.ezmorph" name="ezmorph" rev="1.0.6"/>
+<dependency org="commons-collections" name="commons-collections" rev="3.2.1"/>

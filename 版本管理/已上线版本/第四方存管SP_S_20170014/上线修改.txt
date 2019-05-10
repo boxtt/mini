@@ -1,0 +1,10 @@
+﻿商户自助 
+修改sumapayex/config/db-sensitivedata-config.properties文件，
+在“Merchant=legalPerson”后面追加：,contactPerson,contactTelephone
+AccountDepositoryUser=realName,idNumber,mobilePhone,email
+
+修改sumapayex/config/sumapay-config.properties文件（分账列表），
+merchantActualSubledgerTradeCodes 追加,CZ0201,TX0202
+
+AccountDepositoryUser
+ACCOUNT_DEPOSITORY_USER

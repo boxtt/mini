@@ -1,0 +1,14 @@
+﻿http://192.161.14.84:8080/settlement/sumapay30/config?type=check
+http://192.161.14.84:8080/channelCheck//config?type=check
+
+http://192.161.14.84:8080/settlement/dubboCheckServlet?beanName=hpsRedisQueryController
+hpsRedisQueryController,hpsBizProcessController,frozenBalanceService,thawBalanceService,financeTransactionService
+
+
+http://192.161.14.84:8080/channelCheck/dubboCheckServlet?beanName=hpsBizProcessController
+hpsRedisQueryController,hpsBizProcessController
+
+
+
+http://192.161.14.82:8080/bankCheck/dubboCheckServlet?beanName=hpsBankCheckQueryController
+hpsBankCheckQueryController

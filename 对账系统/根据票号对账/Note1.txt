@@ -1,0 +1,37 @@
+﻿  update bank_check_record b 
+     set b.check_status = 1,
+       b.fld1 = null,
+       (b.trade_id,b.trade_start_time) = (select  t.id,t.trade_start_time from trade_record t where b.bank_sn = t.bank_sn and b.bank_sn in ('1111') )
+   where b.bank_sn in ('1111')
+
+update bank_check_record b 
+     set b.check_status = 1,
+       b.fld1 = null,
+		   (b.trade_id,b.trade_start_time) = (select  t.id,t.trade_start_time from trade_record t where b.bank_sn = t.bank_sn )
+	 where b.bank_sn in ('11','1','111','11111');
+   commit;
+   
+   select  t.*  from trade_record t,bank_check_record b where b.bank_sn = t.bank_sn;
+   select  * from bank_check_record where  bank_sn in ('11','1','111','11111');
+   select  * from trade_record where  bank_sn in ('11','1','111','11111');
+   
+   
+   update bank_check_record b 
+     set b.check_status = 1,
+       b.fld1 = null,
+       (b.trade_id,b.trade_start_time) = (select  t.id,t.trade_start_time from trade_record t where b.bank_sn = t.bank_sn)
+   where b.bank_sn in ('11','1','111','11')
+   
+   
+   
+   select  to_date( '20'||SUBSTR('11111111111',0, 6),'yyyyMMdd')  from dual;
+select  *  from trade_record t where LENGTH(t.id)>15;
+ select  '20'||SUBSTR(t.id,0, 6),t.id  from trade_record t ;
+ select  to_date('20'||SUBSTR(t.id,0, 6),'yyyyMMdd')  from trade_record t;
+ 
+ 
+   UPDATE BANK_CHECK_RECORD B 
+     SET B.CHECK_STATUS = 1,
+       B.FLD1 = NULL,
+       (B.TRADE_ID,B.FISCAL_DATE,B.TRADE_START_TIME) = (SELECT  T.ID,  TO_DATE('20'||SUBSTR(T.ID, 0, 6),'YYYYMMDD') ,T.TRADE_START_TIME FROM TRADE_RECORD T WHERE B.BANK_SN = T.BANK_SN   )
+   WHERE B.BANK_SN IN ('11','1','111','11111')

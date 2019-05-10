@@ -1,0 +1,14 @@
+﻿#付款系统网联渠道编码
+disburse.wl.channel.bankCode=epcc_disburse
+
+
+
+2.5调度系统添加调度
+#网联控制位获取
+#updateDisburseSerialNumberControl.schedual
+#批量代发线上发送
+epccAutoOnlineBatchpay.schedual
+
+
+#rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=YK0021
+

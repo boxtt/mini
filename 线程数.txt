@@ -1,0 +1,9 @@
+﻿1、所有应用参数配置， 线程数，mq ，dubbo，mysql，galssfish
+2、优化过程
+1、mq问题，最长延时
+2、glassfish中线程池配置 8.32  8.132  数据源使用线程池 com.mysql.cj.jdbc.MysqlConnectionPoolDataSource
+
+
+
+1、压测过程
+2、

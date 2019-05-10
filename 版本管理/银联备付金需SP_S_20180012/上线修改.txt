@@ -1,0 +1,118 @@
+﻿rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.trade.provisions
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.provisions routing_key=YL0001
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.provisions routing_key=YL0002
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.provisions routing_key=YL0003
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.provisions routing_key=YL0004
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.provisions routing_key=YL0005
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.provisions routing_key=YL0006
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.provisions routing_key=YL0007
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.provisions routing_key=YL0008
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.provisions routing_key=YL0009
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.provisions routing_key=YL0010
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.provisions routing_key=YL0011
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.provisions routing_key=YL1001
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.provisions routing_key=YL1002
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.provisions routing_key=YL1003
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.provisions routing_key=YL1004
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.provisions routing_key=YL1005
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.provisions routing_key=YL1006
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.provisions routing_key=YL1007
+
+
+
+/sumapayex/config/sumapay-config.perperties
+biz.provisions.queue=com.sumapay.mq.queue.trade.provisions
+biz.provisions.processor.package=com.sumapay.biz.provisions.processor
+
+
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=AN0019
+
+4.9，4.11，4.13系列/sumapayex/config/sumapay-config.perperties
+#付款系统银联渠道编码（多个渠道以英文逗号分隔）
+disburse.unionPay.channel.bankCodes=unionprov_disburse
+
+
+###备付金存管对账系统
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare exchange name=com.sumapay.mq.exchange.provisionsbankcheck type=direct durable=true
+rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.provisionsbankcheck
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.provisionsbankcheck destination=com.sumapay.mq.queue.provisionsbankcheck routing_key=provisionsbankcheck
+
+
+219.103###备付金存管对账系统/sumapayex/config/sumapay-config.perperties
+sumapay.provisionsbankcheck.queue=com.sumapay.mq.queue.provisionsbankcheck
+sumapay.provisionsbankcheck.trade.exchange=com.sumapay.mq.exchange.provisionsbankcheck
+provisionsbankcheck.mq.replyTo.queue=amq.direct://com.sumapay.mq.exchange.provisionsbankcheck/provisionsbankcheck
+
+provisionsbankcheck.account.banks=unionpay_provisions
+sumapay.platform.trade.exchange=com.sumapay.mq.exchange.trade
+
+####备付金存管对账系统/sumapayex/config/db-sensitivedata-config.properties加密文件
+ProvisionsUnionpayCheckRec=acctNo,othAcctNo,acctName,othAcctName,merName
+
+
+
+调度2.5系统添加调度文件（需要重新打client包）：
+
+/sumapayex/config/sumapay-config.properties文件添加配置参数
+provisionsbankcheck.springremote.haproxy.server=172.16.7.120:8789
+
+#备付金银联存管获取对账单调度时间执行时间为：0 0 4 * * ? *
+provisionsbankcheck.unionpay.getBankCheckRecord.service.url=http://${provisionsbankcheck.springremote.haproxy.server}/provBankCheck/remote/getBankCheckRecordAsyncRemoteService
+provisionsbankcheck.unionpay.getBankCheckRecord.service.businessInterface=com.sumavision.ecommerce.plateform.core.provisions.bankcheck.service.GetBankCheckRecordAsyncService
+
+#备付金银联存管执行对账调度时间执行时间为：0 30 5 * * ? *
+provisionsbankcheck.unionpay.bankCheckProcess.service.url=http://${provisionsbankcheck.springremote.haproxy.server}/provBankCheck/remote/unionpayBankCheckProcessRemoteService
+provisionsbankcheck.unionpay.bankCheckProcess.service.businessInterface=com.sumavision.ecommerce.plateform.core.provisions.bankcheck.service.BankCheckProcessService
+
+
+insert into settings (KEY, VALUE, REMARK, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS)
+values ('provisionsUnequalRecordNoticeMails', 'zhangmin_22581@dvt.dvt.com,dongyongxia@dvt.dvt.com', '备付金存管不平记录通知邮箱', null, sysdate, 'system', null);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

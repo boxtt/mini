@@ -1,0 +1,31 @@
+﻿去除代扣合同，
+
+代扣配置沿用老系统配置，暂时不迁移，通过query进行查询
+
+代扣协议迁移到新系统
+
+代扣笔数，金额需要梳理mm图-重新讨论
+
+线下代扣逻辑去掉
+
+DK0019挪到新系统
+
+银行鉴权记录放老系统- query
+
+需要迁移老系统中代扣协议、原生代扣协议到新系统
+
+
+代扣冻结和解冻逻辑迁移到新系统-保留所有逻辑（分账和记账在本系统完成）
+
+新开发merchantCheck系统进行代扣-原生代扣对账单生成，删除batch框架，迁移调度系统中生成代扣和原生代扣对账单逻辑，ftp等公用一套
+
+批量代扣相关本期不实现。如果做的话，其中批量手续不实时计算，调用清结算系统完成。
+
+监控添加对可用账户余额为0的监控- 需确认
+
+
+
+ID ,REQUEST_ID请求流水号, TRADE_ID关联交易流水号, MERCHANT_CODE商户编码, MERCHANT_ID商户ID, ID_TYPE证件类型（固定为0身份证）, ID_NUMBER证件号码, BANK_CODE银行编码, BANK_ACCOUNT_TYPE银行账户类型（固定为0借记卡）, BANK_ACCOUNT银行账号,  BANK_ACCOUNT_NAME银行开户名, MOBILE_PHONE银行预留手机号, FUND请求金额, FEE手续费, MER_FUND商户应得金额 ,CHARGE_TYPE手续费收取类型（0实时,1预付,3后付）, STATUS状态（0校验失败   4成功 5失败 7已请求 8锁表处理中）, CHANNEL渠道, PURPOSE扣款用途, REQUEST_TIME请求时间, DEAL_TIME处理时间, FAIL_REASON失败原因, MER_INFO商户信息 ,FLD1,FLD2,FLD3,FLD4,FLD5,  ROW_CREATE_TIME
+
+ID, REQUEST_ID    请求流水号,TRADE_ID    关联交易流水号,MERCHANT_CODE    商户代码,MERCHANT_ID    商户ID,ID_TYPE    证件类型，固定为0身份证,ID_NUMBER    证件号码,BANK_CODE    银行代码,BANK_ACCOUNT_TYPE    "银行账户类型（固定为0借记卡）",BANK_ACCOUNT    银行账号,BANK_ACCOUNT_NAME    银行开户名,MOBILE_PHONE    银行预留手机号,FUND    请求金额,FEE    手续费,MER_FUND    商户应得金额,CHARGE_TYPE    丰付手续费收取类型，0为实时，1为预付，3后付,STATUS    状态（0校验失败 1已接收  2处理中   4成功 5失败 6冻结 7已请求 8锁表处理中）,CHANNEL    渠道,PURPOSE    扣款用途,REQUEST_TIME    请求时间,DEAL_TIME    处理时间,FAIL_REASON    失败原因,MER_INFO    商户信息,FLD1,FLD2,FLD3,FLD4,FLD5,ROW_CREATE_TIME
+

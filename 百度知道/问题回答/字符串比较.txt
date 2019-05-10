@@ -1,0 +1,16 @@
+﻿compareTo方法原理：先读取出字符串的第一个“字母”进行比较，比较的方法是ascii码表的值（字符所对应的十进制值），如果前面的大那么返回1，后面的大返回-1；此位置相同，继续比较下一位，直到最后一位，如果都相同的话，就返回0；
+举例：
+int cc= "13".compareTo("12");
+System.out.println(cc);
+int dd= "11".compareTo("12");
+System.out.println(cc);
+int dd= "aaa".compareTo("aaa");
+System.out.println(cc);
+结果就是：1（换行） -1（换行）0。
+
+
+该方法在Java调用init方法后被自动调用。
+每次applet出现在屏幕上时都会调用这个方法，例如，applet的第一次显示、用户转移到另一个应用程序再返回到这个包含applet的页面、从最小化状态返回等都会调用start方法。
+start方法可以被重复调用多次而不是仅仅一次，这与init方法不同。
+start方法通常是为applet重新启动一个线程的地方，比如继续一个动画。
+如果当用户离开当前页面时你的applet不需要做任何挂起处理，那么你就不需要实现此方法。

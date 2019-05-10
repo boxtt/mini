@@ -1,0 +1,1 @@
+﻿sed -i "s/SUMA/SIMPLEPAY/g"  `grep SUMA -rl /sumapay/schedual/tasks/`

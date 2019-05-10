@@ -1,0 +1,2 @@
+﻿explain plan  set statement_id ='zhangsan' for select ID, CODE, NAME, CLASS_1_NAME, CLASS_2_NAME, CLASS_3_NAME, CLASS_1_CODE, CLASS_2_CODE,       CLASS_3_CODE, INNER_CODE, STATUS, FEE_RULE_ID, FEE_GROUP_CODE, LAST_EDIT_TIME, LAST_EDITOR,     LAST_EDIT_PROCESS, FLD1, FLD2, FLD3, FLD4     from BIZ_TYPE     order by CODE;
+select  p.operation,p.options,p.object_name,p.id,p.parent_id,p.statement_id from plan_table p;

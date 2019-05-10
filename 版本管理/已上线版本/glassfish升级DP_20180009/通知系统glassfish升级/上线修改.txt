@@ -1,0 +1,17 @@
+﻿商户通知系统。
+挪动文件
+sumapay25/config/sumapay-config.properties
+sumapay25/config/db-sensitivedata-config.properties
+sumapay25/config/redis-sentinel-client.properties
+sumapay25/exception/front-exception.properties
+sumapay25/config/merchantnotice-whiteurl.properties
+sumapay25/config/redis-sentinel-client-reload.properties
+
+sumapayex/config/sumapay-config.properties
+sumapayex/config/db-sensitivedata-config.properties
+sumapayex/config/redis-sentinel-client.properties
+sumapayex/exception/front-exception.properties
+sumapayex/config/merchantnotice-whiteurl.properties
+sumapayex/config/redis-sentinel-client-reload.properties
+
+商户通知系统修改notice分发地址和端口到升级后的服务地址和端口

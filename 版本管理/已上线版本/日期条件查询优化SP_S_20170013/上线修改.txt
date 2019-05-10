@@ -1,0 +1,19 @@
+﻿代扣系统添加错误码
+#请求记录不存在
+200300291=请求记录不存在
+
+#徽商2.0不平记录通知邮箱配置，邮箱用逗号分隔，通知邮箱之一成功，标记为成功
+insert into settings (KEY, VALUE, REMARK, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS)
+values ('Hsb2UnequalRecordNoticeMails', 'gaodebao@dvt.dvt.com,gaodarong@dvt.dvt.com,598802631@qq.com', '徽商2.0不平记录通知邮箱', null, sysdate, 'system', null);
+
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade destination=com.sumapay.mq.queue.trade.hsb2depository routing_key=HS0039
+
+调度2.5系统增加调度：Hsb2UnequalRecordNoticeProcessorSchedual.schedual 
+执行时间：03:30分
+
+修改版本号为：SP_S_20170013
+
+本次修改系统：商户自助、商户通知、银行对账、徽商对账、代扣处理器系统、徽商处理器系统
+
+
+13381223981

@@ -1,0 +1,43 @@
+﻿		/**
+		 * 数字类型转换为字符串
+		 * 将xls、xlsx中Type为CELL_TYPE_NUMERIC转化为String类型
+		 */
+		private static String cellNumber2str(Cell cell){
+			
+			String strCell ="";
+			//将数值型参数转成文本格式，该算法不能保证1.00这种类型数值的精确度
+			DecimalFormat df = (DecimalFormat) NumberFormat.getPercentInstance();  
+			StringBuffer sb = new StringBuffer();
+			sb.append("0");
+			df.applyPattern(sb.toString());
+			
+			if (HSSFDateUtil.isCellDateFormatted(cell)) {// 处理日期格式、时间格式  
+                SimpleDateFormat sdf = null;
+                CellStyle cs = cell.getCellStyle();
+                if (cs.getDataFormat() == BuiltinFormats.getBuiltinFormat("h:mm")) {  
+                    sdf = new SimpleDateFormat("HH:mm");  // 单元格格式id为20
+                } else {// 日期  
+                    sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); // 单元格格式ID为14
+                }  
+                Date date = cell.getDateCellValue();  
+                strCell = sdf.format(date);  
+			} else {
+            	double value = cell.getNumericCellValue();
+            	while(Double.parseDouble(df.format(value))!=value){
+					if("0".equals(sb.toString())){
+						sb.append(".0");
+					}else{
+						sb.append("0");
+					}
+					df.applyPattern(sb.toString());
+				}
+				strCell = df.format(value); 
+            } 
+			return strCell;
+		}
+		
+		
+CellStyle cs = cell.getCellStyle();
+			   System.out.println(cs.getDataFormatString());
+			int c = BuiltinFormats.getBuiltinFormat(cs.getDataFormatString());
+			System.out.println(c);		

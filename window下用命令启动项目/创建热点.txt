@@ -1,0 +1,7 @@
+﻿你可以开启windows 7的隐藏功能：虚拟WiFi和SoftAP（即虚拟无线AP），就可以让电脑变成无线路由器，实现共享上网。
+点开始  所有程序   命令提示符右键管理员身份运行命令提示符  运行命令：netsh wlan set hostednetwork mode=allow ssid=test-WiFi key=12345678
+此命令有三个参数，mode：是否启用虚拟WiFi网卡，改为disallow则为禁用 。               ssid：无线网名称，最好用英文(以wuminPC为例)。 key：无线网密码，八个以上字符(以wuminWiFi为例)。   
+  以上三个参数可以自己设置，例如只使用mode=disallow可以直接禁用虚拟Wifi网卡。
+   开启成功后，网络连接中会多出一个网卡为“Microsoft Virtual WiFi Miniport Adapter”的无线连接2，为方便起见，将其重命名为虚拟WiFi。有些win7可能找不到网络连接，在 控制面板\网络和 Internet\网络和共享中心 点左边的更改适配器设置就是网络连接。
+在“网络连接”窗口中，右键单击已连接到Internet的网络连接，选择“属性”→“共享”，勾上“允许其他······连接(N)”并选择“虚拟WiFi”。确定之后，提供共享的网卡图标旁会出现“共享的”字样，表示“宽带连接”已共享至“虚拟WiFi”。
+     继续在命令提示符中运行：netsh wlan start hostednetwork    （将start改为stop即可关闭该无线网，以后开机后要启用该无线网只需再次运行此命令即可）  至此，虚拟WiFi的红叉叉消失，WiFi基站已组建好，主机设置完毕。笔记本、带WiFi模块的手机等子机搜索到无线网络wuminPC，输入密码wuminWiFi，就能共享上网啦！ 

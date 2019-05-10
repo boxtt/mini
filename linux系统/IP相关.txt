@@ -1,0 +1,56 @@
+﻿[sumapay@HA1 network-scripts]$ ifconfig
+eth0      Link encap:Ethernet  HWaddr 00:50:56:99:0E:D1  
+          inet addr:192.161.14.94  Bcast:192.161.14.255  Mask:255.255.255.0
+          inet6 addr: fe80::250:56ff:fe99:ed1/64 Scope:Link
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+          RX packets:144702533 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:119517204 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:1000 
+          RX bytes:16508758305 (15.3 GiB)  TX bytes:23900775236 (22.2 GiB)
+
+eth0:1    Link encap:Ethernet  HWaddr 00:50:56:99:0E:D1  
+          inet addr:192.168.3.94  Bcast:192.168.3.255  Mask:255.255.255.0
+          UP BROADCAST RUNNING MULTICAST  MTU:1500  Metric:1
+
+lo        Link encap:Local Loopback  
+          inet addr:127.0.0.1  Mask:255.0.0.0
+          inet6 addr: ::1/128 Scope:Host
+          UP LOOPBACK RUNNING  MTU:16436  Metric:1
+          RX packets:13871271 errors:0 dropped:0 overruns:0 frame:0
+          TX packets:13871271 errors:0 dropped:0 overruns:0 carrier:0
+          collisions:0 txqueuelen:0 
+          RX bytes:754395180 (719.4 MiB)  TX bytes:754395180 (719.4 MiB)
+
+路由和网关设置
+临时生效
+route add default gw 192.166.69.12
+route del default gw 192.161.14.92                 
+[sumapay@HA1 network-scripts]$ route -n
+Kernel IP routing table
+Destination     Gateway         Genmask         Flags Metric Ref    Use Iface
+192.161.14.0    0.0.0.0         255.255.255.0   U     0      0        0 eth0
+192.168.3.0     0.0.0.0         255.255.255.0   U     0      0        0 eth0
+192.168.1.0     192.161.14.1    255.255.255.0   UG    0      0        0 eth0
+192.166.0.0     192.161.14.1    255.255.0.0     UG    0      0        0 eth0
+192.162.0.0     192.161.14.1    255.255.0.0     UG    0      0        0 eth0
+192.163.0.0     192.161.14.1    255.255.0.0     UG    0      0        0 eth0
+169.254.0.0     0.0.0.0         255.255.0.0     U     0      0        0 eth0
+192.160.0.0     192.161.14.1    255.248.0.0     UG    0      0        0 eth0          
+永久生效
+/etc/sysconfig/network
+GETWORK=192.161.69.16
+
+
+
+[sumapay@HA1 network-scripts]$ cat /etc/hosts       
+# Do not remove the following line, or various programs
+# that require network functionality will fail.
+127.0.0.1               localhost.localdomain localhost
+::1             localhost6.localdomain6 localhost6
+192.161.14.94           HA1 test.sumapay.com merchant.sumapay.com
+192.161.14.194          HA2
+
+
+[sumapay@HA1 network-scripts]$ cat /etc/resolv.conf 
+#nameserver 202.106.196.115
+nameserver 202.106.0.20

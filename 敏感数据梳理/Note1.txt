@@ -1,0 +1,10 @@
+﻿			try {
+				receiptParam.put("NAME", SensitiveDataUtils.sensitiveDataDecode(record.getBankAccountName()));
+				receiptParam.put(Constant.BANK_ACCOUNT, SensitiveDataUtils.sensitiveDataDecode( record.getBankAccount()));
+			} catch (Exception e) {
+				LOGGER.error("敏感数据解密过程异常：",e);
+			}
+			
+			
+			java.lang.NoSuchMethodError: org.apache.commons.codec.binary.Base64.encodeBase64String([B)Ljava/lang/String;
+			

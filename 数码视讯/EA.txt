@@ -1,0 +1,7 @@
+﻿项目路径：tvpay2model --- DBType=0;Connect=Provider=MSDASQL.1;Persist Security Info=False;Data Source=TVPAY2MODEL
+tvpay2model --- DBType=0;Connect=Provider=MSDASQL.1;Persist Security Info=False;Data Source=TVPAY2MODEL
+
+
+ea的用户名是gaodebao
+
+

@@ -1,0 +1,4 @@
+﻿less +F log/production.log
+less +F works exactly like tail -f, with more:
+Simply press ctrl+c to switch to editing model, so you can scroll backward and using any more/vi command, such as /pattern to search
+Press shift+f again to switch back to tail model

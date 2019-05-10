@@ -1,0 +1,4 @@
+﻿redis-cli -h 127.0.0.1 -p 7000 -c
+
+
+spring:session:merchant:sessions:expires:0c32a444-5565-4c26-a8d9-690a5fbc6609

@@ -1,0 +1,4 @@
+﻿克隆：git   clone  git@git.honglingjinclub.com:paycenter/paycenter.git
+创建分支：git branch develop 
+切换分支：git checkout  develop 
+同步分支：git merge  develop

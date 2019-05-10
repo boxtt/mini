@@ -1,0 +1,13 @@
+﻿1、主要是熟悉了下paycenter项目设计（通过spring注解管理）和代码
+2、编写调试wxApp，aliApp支付接口；
+3、修改wxApp，aliApp支付相关接口内容
+4、编写paycenter.sh来快速启动、停止、重启动paycenter.jar。
+5、编写财务组入职引导
+由于微信App当前没有支付权限，所以没有进行联调测试。
+
+进行app相关接口联调
+补全部分接口流程图
+
+
+
+

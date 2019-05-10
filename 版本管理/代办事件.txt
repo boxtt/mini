@@ -1,0 +1,6 @@
+﻿@ProcessorExtends(tradeCode="SF1039", name="MerTransferRefundRequestProcessor", description="付款渠道退款审核通过处理器") 。快速模式，跨行，不是免联行号形式的 不能发起付款
+参考
+@ProcessorExtends(
+		tradeCode="SF1006",
+		name="TransferRequestProcessor",
+		description="商户单笔付款提交请求处理器")

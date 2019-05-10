@@ -1,0 +1,403 @@
+﻿地址：172.16.7.120
+
+global  #全局设置
+    log 127.0.0.1   local3 #日志输出配置，所有日志都记录在本机，通过local3输出
+    maxconn 32768    #每个进程可用的最大连接数
+    chroot /usr/local/haproxy/workspace    #改变当前工作目录
+    user haproxy           #haproxy用户
+    group haproxy           #haproxy用户组
+    daemon       #以后台形式运行ha-proxy
+    nbproc 1     #启动1个ha-proxy进程
+    pidfile /usr/local/haproxy/run/haproxy.pid     #pid文件位置
+    debug    #调试模式，输出启动信息到标准输出
+    #quiet     #安静模式，启动时无输出
+
+defaults               #默认设置
+    log     global
+    balance roundrobin             #负载均衡算法
+    timeout client      300000          #连接超时时间
+    timeout server      300000          #客户端连接超时时间
+    timeout connect     300000         #服务器端连接超时时间 略大于系统间调用的spring remote 超时时间即可
+########统计页面配置############
+listen admin_stats
+    #监听端口
+    bind 0.0.0.0:8000
+    #http的7层模式
+    mode http
+    #统计页面自动刷新时间
+    stats refresh 30s
+    #统计页面url
+    stats uri /admin_stats
+    #统计页面用户名和密码设置
+    stats auth admin:admin
+    #stats realm "password remider" #监控页面密码提示信息
+    #隐藏统计页面上HAProxy的版本信息
+    stats hide-version
+    stats enable	#开关
+
+
+##################2.0平台	开始
+frontend frontend_sumapay2front
+	bind 0.0.0.0:8080
+	maxconn 20480
+	mode http
+	log global
+	option httplog
+	option httpclose
+	option forwardfor
+	acl sumapay2front_policy url_beg /front
+	use_backend	backend_sumapay2front	if	sumapay2front_policy
+backend backend_sumapay2front
+	mode http
+	option httpchk GET /front
+	balance roundrobin
+    server sumapay2front1 172.16.4.5:8080 maxconn 8192 check inter 5000 rise 10 fall 2 weight 2
+    server sumapay2front2 172.16.4.7:8080 maxconn 8192 check inter 5000 rise 10 fall 2 weight 2
+    server sumapay2front3 172.16.4.3:8080 maxconn 8192 check inter 1000 rise 10 fall 2 weight 2
+listen sumapay2front_status
+    bind 0.0.0.0:8081
+    mode http
+    #网站健康检测URL，用来检测HAProxy管理的网站是否可以用，正常返回200，不正常返回503
+    monitor-uri /status
+    ########acl策略配置############# 
+    #当挂在负载均衡上的指定backend的中有效机器数小于2台时返回true
+    acl site_warnning nbsrv(backend_sumapay2front) lt 2
+    #当满足策略的时候返回503
+    monitor fail if site_warnning
+##################2.0平台	结束
+	
+
+	
+##################2.0账务系统	开始
+frontend frontend_sumapay2finance
+	bind 0.0.0.0:8181
+	mode http
+	log global
+	option httplog
+	option httpclose
+	option forwardfor
+	acl sumapay2finance_policy url_beg /finance
+	use_backend	backend_sumapay2finance	if	sumapay2finance_policy
+backend backend_sumapay2finance
+	mode http
+	balance roundrobin
+	option httpchk GET /finance
+    server sumapay2finance1 172.16.4.5:9090 maxconn 8192 check inter 5000 rise 10 fall 2 weight 2
+    server sumapay2finance2 172.16.4.7:9090 maxconn 8192 check inter 5000 rise 10 fall 2 weight 2
+    server sumapay2finance3 172.16.4.3:9090 maxconn 8192 check inter 1000 rise 10 fall 2 weight 2
+listen sumapay2finance_status
+    bind 0.0.0.0:8182
+    mode http
+    #网站健康检测URL，用来检测HAProxy管理的网站是否可以用，正常返回200，不正常返回503
+    monitor-uri /status
+    ########acl策略配置############# 
+    #当挂在负载均衡上的指定backend的中有效机器数小于2台时返回true
+    acl site_warnning nbsrv(backend_sumapay2finance) lt 2
+    #当满足策略的时候返回503
+    monitor fail if site_warnning
+##################2.0账务系统	结束
+	
+	
+##################2.0连接器管理器	开始
+frontend frontend_sumapay2cm
+	bind 0.0.0.0:8282
+	mode http
+	log global
+	option httplog
+	option httpclose
+	option forwardfor
+	acl sumapay2cm_policy url_beg /connectorRemoteService
+	use_backend	backend_sumapay2cm	if	sumapay2cm_policy
+backend backend_sumapay2cm
+	mode http
+	balance roundrobin
+	option httpchk GET /connectorRemoteService
+    server sumapay2cm1 172.16.8.3:9090 maxconn 8192 check inter 1000 rise 10 fall 2 weight 2
+    server sumapay2cm2 172.16.8.5:9090 maxconn 8192 check inter 1000 rise 10 fall 2 weight 2
+    server sumapay2cm3 172.16.8.7:9090 maxconn 8192 check inter 1000 rise 10 fall 2 weight 2
+
+listen sumapay2cm_status
+    bind 0.0.0.0:8283
+    mode http
+    #网站健康检测URL，用来检测HAProxy管理的网站是否可以用，正常返回200，不正常返回503
+    monitor-uri /status
+    ########acl策略配置############# 
+    #当挂在负载均衡上的指定backend的中有效机器数小于2台时返回true
+    acl site_warnning nbsrv(backend_sumapay2cm) lt 2
+    #当满足策略的时候返回503
+    monitor fail if site_warnning
+##################2.0连接器管理器	结束
+
+
+##################2.5账务	开始
+frontend frontend_sumapay25finance
+	bind 0.0.0.0:8383
+	mode http
+	log global
+	option httplog
+	option httpclose
+	option forwardfor
+	acl sumapay25finance_policy url_beg /finance
+	use_backend	backend_sumapay25finance	if	sumapay25finance_policy
+backend backend_sumapay25finance
+	mode http
+	option httpchk GET /finance
+	balance roundrobin
+    server sumapay25finance1 172.16.8.3:8080 maxconn 8192 check inter 5000 rise 10 fall 2 weight 2
+    server sumapay25finance2 172.16.8.5:8080 maxconn 8192 check inter 5000 rise 10 fall 2 weight 2
+    server sumapay25finance3 172.16.8.7:8080 maxconn 8192 check inter 1000 rise 10 fall 2 weight 2
+listen sumapay25finance_status
+    bind 0.0.0.0:8384
+    mode http
+    #网站健康检测URL，用来检测HAProxy管理的网站是否可以用，正常返回200，不正常返回503
+    monitor-uri /status
+    ########acl策略配置############# 
+    #当挂在负载均衡上的指定backend的中有效机器数小于2台时返回true
+    acl site_warnning nbsrv(backend_sumapay25finance) lt 2
+    #当满足策略的时候返回503
+    monitor fail if site_warnning
+##################2.5账务	结束
+	
+
+##################2.5连接器管理器	开始
+frontend frontend_sumapay25cm
+	bind 0.0.0.0:8484
+	mode http
+	log global
+	option httplog
+	option httpclose
+	option forwardfor
+	acl sumapay25cm_policy url_beg /connectorRemoteService
+	use_backend	backend_sumapay25cm	if	sumapay25cm_policy
+backend backend_sumapay25cm
+	mode http
+	option httpchk GET /connectorRemoteService
+	balance roundrobin
+    server sumapay25cm1 172.16.8.3:9090 maxconn 8192 check inter 5000 rise 10 fall 2 weight 2
+    server sumapay25cm2 172.16.8.5:9090 maxconn 8192 check inter 5000 rise 10 fall 2 weight 2
+    server sumapay25cm3 172.16.8.7:9090 maxconn 8192 check inter 1000 rise 10 fall 2 weight 2
+listen sumapay25cm_status
+    bind 0.0.0.0:8485
+    mode http
+    #网站健康检测URL，用来检测HAProxy管理的网站是否可以用，正常返回200，不正常返回503
+    monitor-uri /status
+    ########acl策略配置############# 
+    #当挂在负载均衡上的指定backend的中有效机器数小于2台时返回true
+    acl site_warnning nbsrv(backend_sumapay25cm) lt 2
+    #当满足策略的时候返回503
+    monitor fail if site_warnning
+##################2.5连接器管理器	结束
+	
+
+##################2.5商户通知	开始
+frontend frontend_sumapay25mn
+	bind 0.0.0.0:8585
+	mode http
+	log global
+	option httplog
+	option httpclose
+	option forwardfor
+	acl sumapay25mn_policy url_beg /notice
+	use_backend	backend_sumapay25mn	if	sumapay25mn_policy
+backend backend_sumapay25mn
+	mode http
+	option httpchk GET /notice
+	balance roundrobin
+    server sumapay25mn1 172.16.8.3:9393 maxconn 8192 check inter 5000 rise 10 fall 2 weight 2
+    server sumapay25mn2 172.16.8.5:9393 maxconn 8192 check inter 5000 rise 10 fall 2 weight 2
+    server sumapay25mn3 172.16.8.7:9393 maxconn 8192 check inter 1000 rise 10 fall 2 weight 2
+listen sumapay25mn_status
+    bind 0.0.0.0:8586
+    mode http
+    #网站健康检测URL，用来检测HAProxy管理的网站是否可以用，正常返回200，不正常返回503
+    monitor-uri /status
+    ########acl策略配置############# 
+    #当挂在负载均衡上的指定backend的中有效机器数小于2台时返回true
+    acl site_warnning nbsrv(backend_sumapay25mn) lt 2
+    #当满足策略的时候返回503
+    monitor fail if site_warnning
+##################2.5商户通知	结束
+
+##################2.5渠道通知 开始
+frontend frontend_sumapay25cn
+bind 0.0.0.0:8587
+mode http
+log global
+option httplog
+option httpclose
+option forwardfor
+acl sumapay25cn_policy url_beg /channelNotice
+use_backend backend_sumapay25cn if sumapay25cn_policy
+backend backend_sumapay25cn
+mode http
+option httpchk GET /channelNotice
+balance roundrobin
+    server sumapay25cn1 172.16.8.3:9393 maxconn 8192 check inter 1000 rise 10 fall 2 weight 2
+    server sumapay25cn2 172.16.8.5:9393 maxconn 8192 check inter 1000 rise 10 fall 2 weight 2
+    server sumapay25cn3 172.16.8.7:9393 maxconn 8192 check inter 1000 rise 10 fall 2 weight 2
+listen sumapay25cn_status
+    bind 0.0.0.0:8588
+    mode http
+    #网站健康检测URL，用来检测HAProxy管理的网站是否可以用，正常返回200，不正常返回503
+    monitor-uri /status
+    ########acl策略配置############# 
+    #当挂在负载均衡上的指定backend的中有效机器数小于2台时返回true
+    acl site_warnning nbsrv(backend_sumapay25cn) lt 2
+    #当满足策略的时候返回503
+    monitor fail if site_warnning
+##################2.5渠道通知 结束
+
+
+##################签名验签   开始
+frontend frontend_sumapay25pki
+        bind 0.0.0.0:8686
+        mode http
+        log global
+        option httplog
+        option httpclose
+        option forwardfor
+        acl sumapay25pki_policy url_beg /pki
+        use_backend     backend_sumapay25pki     if      sumapay25pki_policy
+backend backend_sumapay25pki
+        mode http
+        option httpchk GET /pki
+        balance roundrobin
+        server sumapay25pki1 172.16.8.3:9595 maxconn 8192 check inter 5000 rise 10 fall 2 weight 2
+        server sumapay25pki2 172.16.8.3:9595 maxconn 8192 check inter 5000 rise 10 fall 2 weight 2
+        server sumapay25pki3 172.16.8.7:9595 maxconn 8192 check inter 1000 rise 10 fall 2 weight 2
+listen sumapay25pki_status
+    bind 0.0.0.0:8687
+    mode http
+    #网站健康检测URL，用来检测HAProxy管理的网站是否可以用，正常返回200，不正常返回503
+    monitor-uri /status
+    ########acl策略配置############# 
+    #当挂在负载均衡上的指定backend的中有效机器数小于2台时返回true
+    acl site_warnning nbsrv(backend_sumapay25pki) lt 1
+    #当满足策略的时候返回503
+    monitor fail if site_warnning
+##################签名验签   结束
+
+
+##################银行对账系统   开始
+frontend frontend_sumapaybankcheck
+	bind 0.0.0.0:8787
+ mode http
+        log global
+		maxconn 1000
+        option httplog
+        option httpclose
+        option forwardfor
+        acl sumapaybankcheck_policy url_beg /bankCheck
+        use_backend backend_sumapaybankcheck if sumapaybankcheck_policy
+backend backend_sumapaybankcheck
+        mode http
+		fullconn 1000
+        option httpchk GET /bankCheck
+        balance roundrobin
+        server sumapaybankcheck1 172.16.219.103:8080 maxconn 500 check inter 1000 rise 10 fall 2 weight 2
+listen sumapaybankcheck_status
+    bind 0.0.0.0:8788
+    mode http
+    #网站健康检测URL，用来检测HAProxy管理的网站是否可以用，正常返回200，不正常返回503
+    monitor-uri /status
+    ########acl策略配置############# 
+    #当挂在负载均衡上的指定backend的中有效机器数小于2台时返回true
+    acl site_warnning nbsrv(backend_sumapaybankcheck) lt 1
+    #当满足策略的时候返回503
+    monitor fail if site_warnning
+##################银行对账系统   结束
+
+
+
+##################商户对账系统   开始
+frontend frontend_sumapaymerchantcheck
+	bind 0.0.0.0:8888
+ mode http
+        log global
+		maxconn 1000
+        option httplog
+        option httpclose
+        option forwardfor
+        acl sumapaymerchantcheck_policy url_beg /bankCheck
+        use_backend backend_sumapaymerchantcheck if sumapaymerchantcheck_policy
+backend backend_sumapaymerchantcheck
+        mode http
+		fullconn 1000
+        option httpchk GET /bankCheck
+        balance roundrobin
+        server sumapaymerchantcheck1 172.16.219.103:9090 maxconn 500 check inter 1000 rise 10 fall 2 weight 2
+listen sumapaymerchantcheck_status
+    bind 0.0.0.0:8889
+    mode http
+    #网站健康检测URL，用来检测HAProxy管理的网站是否可以用，正常返回200，不正常返回503
+    monitor-uri /status
+    ########acl策略配置############# 
+    #当挂在负载均衡上的指定backend的中有效机器数小于2台时返回true
+    acl site_warnning nbsrv(backend_sumapaymerchantcheck) lt 1
+    #当满足策略的时候返回503
+    monitor fail if site_warnning
+##################商户对账系统   结束
+
+
+
+##################银行存款对账系统   开始
+frontend frontend_sumapayp2pbankcheck
+	bind 0.0.0.0:8989
+ mode http
+        log global
+		maxconn 1000
+        option httplog
+        option httpclose
+        option forwardfor
+        acl sumapayp2pbankcheck_policy url_beg /p2pBankCheck
+        use_backend backend_sumapayp2pbankcheck if sumapayp2pbankcheck_policy
+backend backend_sumapayp2pbankcheck
+        mode http
+		fullconn 1000
+        option httpchk GET /p2pBankCheck
+        balance roundrobin
+        server sumapayp2pbankcheck1 172.16.219.103:9090 maxconn 500 check inter 1000 rise 10 fall 2 weight 2
+listen sumapayp2pbankcheck_status
+    bind 0.0.0.0:8990
+    mode http
+    #网站健康检测URL，用来检测HAProxy管理的网站是否可以用，正常返回200，不正常返回503
+    monitor-uri /status
+    ########acl策略配置############# 
+    #当挂在负载均衡上的指定backend的中有效机器数小于2台时返回true
+    acl site_warnning nbsrv(backend_sumapayp2pbankcheck) lt 1
+    #当满足策略的时候返回503
+    monitor fail if site_warnning
+##################银行存款对账系统   结束
+
+
+ ##################des加密系统   开始
+frontend frontend_sumapaydes
+bind 0.0.0.0:9090
+ mode http
+        log global
+maxconn 1000
+        option httplog
+        option httpclose
+        option forwardfor
+        acl sumapaypdes_policy url_beg /des
+        use_backend backend_sumapaypdes if sumapaypdes_policy
+backend backend_sumapaypdes
+        mode http
+fullconn 1000
+        option httpchk GET /des
+        balance roundrobin
+        server sumapaydes1 172.16.8.3:9696 maxconn 500 check inter 1000 rise 10 fall 2 weight 2
+server sumapaydes2 172.16.8.5:9696 maxconn 500 check inter 1000 rise 10 fall 2 weight 2
+server sumapaydes3 172.16.8.7:9696 maxconn 500 check inter 1000 rise 10 fall 2 weight 2
+listen sumapaypdes_status
+    bind 0.0.0.0:9091
+    mode http
+    #网站健康检测URL，用来检测HAProxy管理的网站是否可以用，正常返回200，不正常返回503
+    monitor-uri /status
+    ########acl策略配置############# 
+    #当挂在负载均衡上的指定backend的中有效机器数小于2台时返回true
+    acl site_warnning nbsrv(backend_sumapaypdes) lt 1
+    #当满足策略的时候返回503
+    monitor fail if site_warnning
+##################des加密系统   结束
+

@@ -1,0 +1,7 @@
+﻿$('#tt').datagrid({   
+    rowStyler:function(index,row){   
+        if (row.isexception==1){   
+            return 'background-color:red;';   
+        }   
+    }   
+});

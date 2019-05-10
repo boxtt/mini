@@ -1,0 +1,20 @@
+﻿1、将web.xml中
+<context-param>
+<param-name>contextConfigLocation</param-name>
+<param-value>
+/WEB-INF/classes/spring/applicationContext.xml
+</param-value>
+</context-param>
+spring配置文件改为绝对路径，并删除注释掉的其他路径
+
+2、将antlr-2.7.6.jar包，放到weblogic用的jdk的jre的扩展包中
+相对路径：${JAVA_HOME}/jre/lib/ext/
+其中${JAVA_HOME}为weblogic所用的jdk目录
+
+3、修改weblogic.xml
+将文件中下面代码注释掉
+
+            <package-name>antlr.*</package-name>
+            <package-name>org.apache.commons.io.*</package-name>
+            <package-name>com.ctc.wstx.*</package-name>
+        </prefer-application-packages>

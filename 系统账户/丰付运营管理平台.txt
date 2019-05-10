@@ -1,0 +1,6 @@
+﻿开发环境：
+http://192.161.14.94:8080/Admin/admin/system_admin_main.jsp
+lb ：111111
+gdb：111111、gaodebao19890124
+administrator 、111111
+gdb ：c9Yyy96W

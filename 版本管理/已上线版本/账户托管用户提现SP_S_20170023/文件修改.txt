@@ -1,0 +1,7 @@
+﻿批量提现请求返回结果参数增加多个
+确认处理中批次id改为BATCH_NO
+
+风控审核、财务参数变更 AUDITING_OPERATOR （之前写错了）CONFIRM_OPERATOR
+
+
+BatchAccDepUserWithdrawPreDealingServiceImpl

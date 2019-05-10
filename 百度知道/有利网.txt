@@ -1,0 +1,52 @@
+﻿流程化的：
+1，HR带我进会议室，做面试题目
+2，一个做技术的，进行了技术面试，因为我是5年Java开发转测试开发，问了很多关于Java方面的问题，如：
+java 单例最好的实现方式 ？
+public class Singleton {  
+    /**  
+     * 类级的内部类，也就是静态的成员式内部类，该内部类的实例与外部类的实例  
+     * 没有绑定关系，而且只有被调用到时才会装载，从而实现了延迟加载  
+     */  
+    private static class SingletonHolder{  
+        /**  
+         * 静态初始化器，由JVM来保证线程安全  
+         */  
+        private static Singleton instance = new Singleton();  
+    }  
+    /**  
+     * 私有化构造方法  
+     */  
+    private Singleton(){  
+    }  
+    public static  Singleton getInstance(){  
+        return SingletonHolder.instance;  
+    }  
+    
+集合类有那些？
+ArrayList,vector.hashmap,linklist,treemap,hashset等多种实现.
+hashMap HashTable区别？
+HashMap是Hashtable的轻量级实现（非线程安全的实现），他们都完成了Map接口，主要区别在于HashMap允许空（null）键值（key）,由于非线程安全，效率上可能高于Hashtable。
+ HashMap允许将null作为一个entry的key或者value，而Hashtable不允许。
+ HashMap把Hashtable的contains方法去掉了，改成containsvalue和containsKey。因为contains方法容易让人引起误解。 
+ Hashtable继承自Dictionary类，而HashMap是Java1.2引进的Map interface的一个实现。
+ 最大的不同是，Hashtable的方法是Synchronize的，而HashMap不是，在多个线程访问Hashtable时，不需要自己为它的方法实现同步，而HashMap 就必须为之提供外同步。 
+ Hashtable和HashMap采用的hash/rehash算法都大概一样，所以性能不会有很大的差异
+ 
+Arraylist和LinkedList区别？
+1.ArrayList是实现了基于动态数组的数据结构，LinkedList基于链表的数据结构。 
+2.对于随机访问get和set，ArrayList觉得优于LinkedList，因为LinkedList要移动指针。 
+3.对于新增和删除操作add和remove，LinedList比较占优势，因为ArrayList要移动数据。 
+
+HashMap安全吗？如何实现一个安全的HashMap？
+
+有2种办法让HashMap线程安全，分别如下：
+　　方法一：通过Collections.synchronizedMap()返回一个新的Map，这个新的map就是线程安全的。 这个要求大家习惯基于接口编程，因为返回的并不是HashMap，而是一个Map的实现。
+　　方法二：重新改写了HashMap，具体的可以查看java.util.concurrent.ConcurrentHashMap. 这个方法比方法一有了很大的改进。
+　　
+springMVC 框架的一些问题？
+数据优化？
+分库分表如何实现？
+
+3，测试的大Boss进来聊，问关于Socket我不太了解，被鄙视了。。。
+
+4，HR让回去等消息

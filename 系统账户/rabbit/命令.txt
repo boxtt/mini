@@ -1,0 +1,12 @@
+﻿查看状态：
+
+service  rabbitmq-server status
+
+启动：
+service rabbitmq-server start
+http://192.161.14.93:15672/#/
+用户名：admin
+密码：58858547
+
+
+启动：rabbitmq-service.bat start ，stop

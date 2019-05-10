@@ -1,0 +1,388 @@
+﻿package xyz.hlj.datacenter.business.dao;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
+import org.springframework.stereotype.Repository;
+
+import xyz.hlj.datacenter.business.config.PageSetting;
+import xyz.hlj.datacenter.business.model.Bank;
+import xyz.hlj.datacenter.business.model.Location;
+import xyz.hlj.datacenter.business.model.BankInfo;
+
+
+@Repository
+public class BankDao {
+
+
+	@Autowired
+	JdbcTemplate jdbcTemplate;
+	@Autowired
+	NamedParameterJdbcTemplate npjdbcTemplate;
+	
+	protected Logger logger=LoggerFactory.getLogger(getClass());
+
+	
+	/**
+	 * 查找省份
+	 * @return
+	 */
+	public List<BankInfo> findProv(){
+
+		String sql="select distinct provincename,provinceid from bank where provinceid != 0";
+
+		List<BankInfo> list=this.jdbcTemplate.query(sql,new ProvBankMapper());
+
+		return list;
+
+	}
+
+
+	/**
+	 *查找城市
+	 * @return
+	 */
+	public List<BankInfo> findCity(Integer provinceId){
+
+		String sql="select distinct cityname,cityid from bank where provinceid=?";
+
+		List<BankInfo> list=this.jdbcTemplate.query(sql,new CityBankMapper(),provinceId);
+		return list;
+	}
+
+
+	
+
+	/**
+	 * 查找总行
+	 * @return
+	 */
+	public Map<String,Object> findParentBank(Integer pageNum,Integer pageSize,String key){
+
+		pageNum = (pageNum==null)?1:pageNum;
+		pageSize = (pageSize==null)? PageSetting.DEF_PAGE_SIZE:pageSize;
+
+		String keyword="%"+key+"%";
+
+
+		Integer count=0;
+		if(key==null || key.equals("")){
+			String countSql="select count(1) from bank where parentid=0";
+			count= this.jdbcTemplate.queryForObject(countSql,Integer.class);
+		}else{
+			String countSql="select count(1) from bank where parentid=0 and name like ?";
+			count= this.jdbcTemplate.queryForObject(countSql,Integer.class,keyword);
+		}
+
+		Integer start = (pageNum-1)*pageSize;
+
+		String querySql=null;
+
+
+
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("total", count);
+
+		if(start>=count){
+			return null;
+		}
+
+		List<BankInfo> list=null;
+
+		if(key==null || key.trim().equals("")){
+			querySql="select name,id from bank where parentid=0 limit ?,?";
+			list=this.jdbcTemplate.query(querySql, new PareBankMapper(),start,pageSize);
+		}else{
+			querySql="select name,id from bank where parentid=0 and name like ? limit ?,?";
+			list=this.jdbcTemplate.query(querySql,new PareBankMapper(),keyword,start,pageSize);
+		}
+
+		map.put("list", list);
+		return map;
+	}
+
+
+
+
+	/**
+	 * 查找支行
+	 * @return
+	 */
+	public Map<String,Object> findBank(Integer provinceId,Integer cityId,Integer parentId,Integer pageNum,Integer pageSize,String key){
+
+		pageNum = (pageNum==null)?1:pageNum;
+		pageSize = (pageSize==null)? PageSetting.DEF_PAGE_SIZE:pageSize;
+
+		String keyword="%"+key+"%";
+		Integer count=0;
+		if(key==null || key.equals("")){
+			String countSql="select count(1) from bank where provinceid=? and parentid=?";
+			count= this.jdbcTemplate.queryForObject(countSql,Integer.class,provinceId,parentId);
+		}else{
+			String countSql="select count(1) from bank where provinceid=? and parentid=? and name like ?";
+			count= this.jdbcTemplate.queryForObject(countSql,Integer.class,provinceId,parentId,keyword);
+		}
+
+		Integer start = (pageNum-1)*pageSize;
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("total", count);
+
+		if(start>=count){
+
+			map.put("list", new ArrayList());
+			return map;
+		}
+
+		String querySql=null;
+		List<BankInfo> list=null;
+
+		if(key==null || key.equals("")){
+			querySql= "select * from bank where provinceid=? and parentid=? limit ?,?";
+			list=this.jdbcTemplate.query(querySql, new BankMapper(),provinceId,parentId,start,pageSize);
+		}else{
+			querySql = "select * from bank where provinceid=? and parentid=? and name like ? limit ?,?";
+			list=this.jdbcTemplate.query(querySql, new BankMapper(),provinceId,parentId,keyword,start,pageSize);
+		}
+
+		map.put("list", list);
+
+		return map;
+	}
+	
+	
+	
+	
+	/**
+	 * 查找所有支行
+	 * @return
+	 */
+	public Map<String,Object> findBankByCity(Integer provinceId,Integer cityId,Integer parentId,Integer pageNum,Integer pageSize,String key){
+
+		pageNum = (pageNum==null)?1:pageNum;
+		pageSize = (pageSize==null)? PageSetting.DEF_PAGE_SIZE:pageSize;
+
+		String keyword="%"+key+"%";
+		Integer count=0;
+		if(key==null || key.equals("")){
+			String countSql="select count(1) from bank where provinceid=? and cityid=? and parentid=?";
+			count= this.jdbcTemplate.queryForObject(countSql,Integer.class,provinceId,cityId,parentId);
+		}else{
+			String countSql="select count(1) from bank where provinceid=? and cityid=? and parentid=? and name like ?";
+			count= this.jdbcTemplate.queryForObject(countSql,Integer.class,provinceId,cityId,parentId,keyword);
+		}
+
+		Integer start = (pageNum-1)*pageSize;
+		Map<String,Object> map=new HashMap<String,Object>();
+		map.put("total", count);
+
+		if(start>=count){
+
+			map.put("list", new ArrayList());
+			return map;
+		}
+
+		String querySql=null;
+		List<Bank> list=null;
+
+		if(key==null || key.equals("")){
+			querySql= "select * from bank where provinceid=? and cityid=? and parentid=? limit ?,?";
+			list=this.jdbcTemplate.query(querySql, new AllBankMapper(),provinceId,cityId,parentId,start,pageSize);
+		}else{
+			querySql = "select * from bank where provinceid=? and cityid=? and parentid=? and name like ? limit ?,?";
+			list=this.jdbcTemplate.query(querySql, new AllBankMapper(),provinceId,cityId,parentId,keyword,start,pageSize);
+		}
+
+		map.put("list", list);
+
+		return map;
+	}
+	
+	
+	
+	/**
+	 * save
+	 * @param bank
+	 * @return
+	 */
+	public int saveBank(Bank bank){
+		String sql="insert into bank (parentid,outnum,provincename,name,cityname,cityid,provinceid,attr,status,addtime,modtime) "
+				+ "values (:parentid,:outnum,:provincename,:name,:cityname,:cityid,:provinceid,:attr,:status,:addtime,:modtime)";
+		
+		KeyHolder keyholder = new GeneratedKeyHolder();
+		SqlParameterSource sps = new BeanPropertySqlParameterSource(bank);
+		
+		this.npjdbcTemplate.update(sql,sps,keyholder);
+		return keyholder.getKey().intValue();
+	}
+	
+	/**
+	 * 根据id查找bank
+	 * @param id
+	 * @return
+	 */
+	public Bank findBankById(Integer id){
+		String sql="select * from bank where id=?";
+		List<Bank> list=this.jdbcTemplate.query(sql,new AllBankMapper(),id);
+		
+		if(list.size()==0){
+			return new Bank();
+		}
+		
+		Bank bank=list.get(0);
+		return bank;
+	}
+	
+	/**
+	 * 根据id返回bank及城市和省份code
+	 * @return
+	 */
+	public Integer findLocationCodeByName(String name){
+				
+		String cityCodeSql="select code from location_code where name=?";
+
+		List<Integer> codeList= this.jdbcTemplate.query(cityCodeSql,new CodeMapper(),name);
+		
+		if(name!=null && codeList.size()==0){
+			logger.error(name+"是错误的不能被匹配上");
+			return null;
+		}
+
+		return codeList.get(0);
+
+	}
+	
+	
+	
+
+	/**
+	 * 返回查找的支行对象
+	 * @author Administrator
+	 *
+	 */
+	private class BankMapper implements RowMapper<BankInfo>{
+
+		@Override
+		public BankInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
+			BankInfo bank = new BankInfo();
+			bank.setId(rs.getInt("id"));
+			bank.setName(rs.getString("name"));
+
+			return bank;
+		}
+
+	}
+
+
+	/**
+	 * 返回查找的总行对象
+	 * @author Administrator
+	 *
+	 */
+	private class PareBankMapper implements RowMapper<BankInfo>{
+
+		@Override
+		public BankInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
+			BankInfo bank = new BankInfo();
+			bank.setId(rs.getInt("id"));
+			bank.setName(rs.getString("name"));
+
+			return bank;
+		}
+
+	}
+	/**
+	 * 返回查找的城市对象
+	 * @author Administrator
+	 *
+	 */
+	private class CityBankMapper implements RowMapper<BankInfo>{
+
+		@Override
+		public BankInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
+			BankInfo bank = new BankInfo();
+			bank.setId(rs.getInt("cityid"));
+			bank.setName(rs.getString("cityname"));
+
+			return bank;
+		}
+
+	}
+
+	/**
+	 * 返回查找的省份对象
+	 * @author Administrator
+	 *
+	 */
+	private class ProvBankMapper implements RowMapper<BankInfo>{
+
+		@Override
+		public BankInfo mapRow(ResultSet rs, int rowNum) throws SQLException {
+			BankInfo bank = new BankInfo();
+			bank.setId(rs.getInt("provinceid"));
+			bank.setName(rs.getString("provincename"));
+
+			return bank;
+		}
+
+	}
+	
+	
+	/**
+	 * 返回所有信息
+	 * @author Administrator
+	 *
+	 */
+	private class AllBankMapper implements RowMapper<Bank>{
+
+		@Override
+		public Bank mapRow(ResultSet rs, int rowNum) throws SQLException {
+			Bank bank = new Bank();
+            bank.setId(rs.getInt("id"));
+            bank.setName(rs.getString("name"));
+            bank.setParentid(rs.getInt("parentid"));
+            bank.setProvinceid(rs.getInt("provinceid"));
+            bank.setProvincename(rs.getString("provincename"));
+            bank.setCityid(rs.getInt("cityid"));
+            bank.setCityname(rs.getString("cityname"));
+            bank.setOutnum(rs.getString("outnum"));
+            bank.setAttr(rs.getString("attr"));
+            bank.setAddtime(rs.getInt("addtime"));
+            bank.setStatus(rs.getInt("status"));
+            bank.setModtime(rs.getInt("modtime"));
+            
+           
+            return bank;
+		}
+		
+	}
+	
+	
+	/**
+	 * 获得code
+	 * @author Administrator
+	 *
+	 */
+	private class CodeMapper implements RowMapper<Integer>{
+
+		@Override
+		public Integer mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return  rs.getInt("code");
+		}
+		
+	}
+
+}

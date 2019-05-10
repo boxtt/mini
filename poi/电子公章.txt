@@ -1,0 +1,2 @@
+﻿将“电子公章.png”图片放到
+/sumapay/batchTransFileTemplet

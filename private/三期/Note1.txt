@@ -1,0 +1,13 @@
+﻿			商户注册通知
+			MAIL_REGISTER_MERCHANT.txt
+			%MERCHANT_NAME% 您好， 您已注册成功， 管理员用户名为Admin，登录密码为：%RANDOM_PASSWD%，通信秘钥为：%SIGN_KEY%，请妥善保管
+			MAIL_SEND_MERCHANT_SIGN_KEY.txt
+                       %MERCHANT_NAME% 您好，您的密钥为%SIGN_KEY%，请妥善保管
+                      MAIL_RESET_MERCHANT_PASSWD.txt
+                       %MERCHANT_NAME% 您好，您的管理员Admin密码已成功重置，登录密码为%RANDOM_PASSWD%，请妥善保管
+			
+您已注册成功
+
+请接收您的密钥
+
+管理员密码重置成功

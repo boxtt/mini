@@ -1,0 +1,81 @@
+﻿
+设置SET ORACLE_SID=ORCL
+ORCL--实例名称
+ 
+--停止oracle实例服务
+C:\Users\Administrator>net stop oracleserviceORCl
+OracleServiceORCL 服务正在停止.........
+OracleServiceORCL 服务已成功停止。
+ 
+--启动oracle实例服务
+C:\Users\Administrator>net start oracleserviceORCl
+OracleServiceORCL 服务正在启动 ........
+OracleServiceORCL 服务已经启动成功。
+
+--启动oracle监听服务
+C:\Users\Administrator>lsnrctl start
+
+LSNRCTL for 32-bit Windows: Version 10.2.0.1.0 - Production on 06-5月 -2011 11:2
+0:27
+
+Copyright (c) 1991, 2005, Oracle.  All rights reserved.
+
+启动tnslsnr: 请稍候...
+
+TNSLSNR for 32-bit Windows: Version 10.2.0.1.0 - Production
+系统参数文件为H:\oracle\product\10.2.0\db_1\network\admin\listener.ora
+写入H:\oracle\product\10.2.0\db_1\network\log\listener.log的日志信息
+监听: (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(PIPENAME=\\.\pipe\EXTPROC1ipc)))
+监听: (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=OUDH8N52JSGDDZG)(PORT=1521)))
+
+正在连接到 (DESCRIPTION=(ADDRESS=(PROTOCOL=IPC)(KEY=EXTPROC1)))
+LISTENER 的 STATUS
+------------------------
+别名                      LISTENER
+版本                      TNSLSNR for 32-bit Windows: Version 10.2.0.1.0 - Produ
+ction
+启动日期                  06-5月 -2011 11:20:34
+正常运行时间              0 天 0 小时 0 分 6 秒
+跟踪级别                  off
+安全性                    ON: Local OS Authentication
+SNMP                      OFF
+监听程序参数文件          H:\oracle\product\10.2.0\db_1\network\admin\listener.o
+ra
+监听程序日志文件          H:\oracle\product\10.2.0\db_1\network\log\listener.log
+
+监听端点概要...
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=ipc)(PIPENAME=\\.\pipe\EXTPROC1ipc)))
+  (DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=OUDH8N52JSGDDZG)(PORT=1521)))
+服务摘要..
+服务 "PLSExtProc" 包含 1 个例程。
+  例程 "PLSExtProc", 状态 UNKNOWN, 包含此服务的 1 个处理程序...
+命令执行成功
+
+--停止oracle监听服务
+
+C:\Users\Administrator>lsnrctl stop
+
+LSNRCTL for 32-bit Windows: Version 10.2.0.1.0 - Production on 06-5月 -2011 11:1
+4:30
+
+Copyright (c) 1991, 2005, Oracle.  All rights reserved.
+
+正在连接到 (DESCRIPTION=(ADDRESS=(PROTOCOL=IPC)(KEY=EXTPROC1)))
+命令执行成功
+
+--启动oracle控制台服务
+C:\Users\Administrator>emctl start dbconsole
+Oracle Enterprise Manager 10g Database Control Release 10.2.0.1.0
+Copyright (c) 1996, 2005 Oracle Corporation.  All rights reserved.
+http://OUDH8N52JSGDDZG:1158/em/console/aboutApplication
+Starting Oracle Enterprise Manager 10g Database Control ...OracleDBConsoleorcl
+服务正在启动 ................
+OracleDBConsoleorcl 服务已经启动成功。
+
+--停止oracle控制台服务
+C:\Users\Administrator>emctl stop dbconsole
+Oracle Enterprise Manager 10g Database Control Release 10.2.0.1.0
+Copyright (c) 1996, 2005 Oracle Corporation.  All rights reserved.
+http://OUDH8N52JSGDDZG:1158/em/console/aboutApplication
+OracleDBConsoleorcl 服务正在停止....
+OracleDBConsoleorcl 服务已成功停止。

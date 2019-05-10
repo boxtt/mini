@@ -1,0 +1,26 @@
+﻿	/**
+	 * 获取商户信息
+	 * @param merchantCode 商户编码
+	 * @return  商户信息
+	 */
+	public List<Merchant> getMerchantInfoList(String merchantCode){
+		MerchantExample me = new MerchantExample();
+		me.createCriteria().andMerchantCodeEqualTo(merchantCode).andStatusEqualTo(Constant.VALID_MERCHANT_STATUS);
+
+		List<Merchant> merList = null;
+		try {
+			merList = this.merchantDAO.selectByExample(me);
+		} catch (Exception e) {
+			logger.error("根据商户代码查询商户失败,原因:{}", e);
+			throw new PlateformMerchantException("200600023","根据商户代码查询商户失败!", e);
+		}
+		return merList;
+	}
+	
+	
+		/**
+	 * 获取商户信息
+	 * @param merchantCode 商户编码
+	 * @return  商户信息
+	 */
+	public List<Merchant> getMerchantInfoList(String merchantCode);

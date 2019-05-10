@@ -1,0 +1,3 @@
+﻿单笔付款功能
+有根据
+PRODUCT_BANK_ASSOCIATION 的fld1字段判断是否联行号必输：0表示必输，1表示选输

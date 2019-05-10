@@ -1,0 +1,50 @@
+﻿实现思路就是先将Timestamp转换为字符串，之后字符串转换为日期类型。举例：
+Long l = System.currentTimeMillis();//获取当前的Timestamp值
+SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");//定义日期类型格式
+String str2 = Timestamp.valueOf(format.format(l))；//转换为字符串
+System.out.println(str2);//打印获取的字符串
+​Date date = format .parse(str2);
+
+System.out.println(date);
+
+
+Date date1 = new Date();
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+String str = sdf.format(date1);
+System.out.println(str);
+Timestamp.valueOf(str);
+System.out.println(Timestamp.valueOf(str));
+
+
+
+
+
+
+可以通过日期的add(Calendar.MONTH, 1)方法进行月份切换，输出每个满足条件的值
+Date d1 = new SimpleDateFormat("yyyy-MM").parse("2015-6");//定义起始日期
+Date d2 = new SimpleDateFormat("yyyy-MM").parse("2016-5");//定义结束日期
+Calendar dd = Calendar.getInstance();//定义日期实例
+dd.setTime(d1);//设置日期起始时间
+while(dd.getTime().before(d2)){//判断是否到结束日期
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM");
+String str = sdf.format(dd.getTime());
+System.out.println(str);//输出日期结果
+dd.add(Calendar.MONTH, 1);//进行当前日期月份加1
+}
+
+
+直接通过格式转换的形式即可。举例：
+String	str0 = "2015年07月05日";
+Date d1 = new SimpleDateFormat("yyyy年MM月dd日").parse(str0);//定义起始日期
+SimpleDateFormat sdf0 = new SimpleDateFormat("yyyy");
+SimpleDateFormat sdf1 = new SimpleDateFormat("MM");
+SimpleDateFormat sdf2= new SimpleDateFormat("dd");
+String str1 = sdf0.format(d1);
+String str2 = sdf1.format(d1);
+String str3 = sdf2.format(d1);
+System.out.println("年份为："+str1);
+System.out.println("月份为："+str2);
+System.out.println("日为："+str3);
+结果：
+
+

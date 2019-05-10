@@ -1,0 +1,7 @@
+﻿资金归集请求处理器CA0001----请求
+集团商户资金下拨请求处理器CA0010-------请求
+
+spring.amqp.trade.code追加内容：,CA0001,CA0002,CA0003,CA0006,CA0007,CA0008,CA0010,CA0011,CA0012
+
+商户自助修改配置文件/sumapayex/config/sumapay-config.properties
+spring.amqp.trade.code =追加内容：,CX0001,CX1001,CZ1101,ZZ0001,CA0001,CA0002,CA0003,CA0006,CA0007,CA0008,CA0010,CA0011,CA0012

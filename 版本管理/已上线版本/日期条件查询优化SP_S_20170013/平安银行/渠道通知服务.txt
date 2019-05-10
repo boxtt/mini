@@ -1,0 +1,12 @@
+﻿update settings set key = 'lccb_noticeSendIncreaseTimes',remark='廊坊银行渠道通知发送递增次数（单位次）' where key='lfbNoticeSendIncreaseTimes';
+update settings set key = 'lccb_noticeSendInterval',remark='廊坊银行渠道通知发送间隔（单位分钟）' where key='lfbNoticeSendInterval';
+update settings set key = 'lccb_noticeRetryTimes',remark='廊坊银行渠道通知最大发送次数' where key='lfbNoticeRetryTimes';
+
+insert into settings (KEY, VALUE, REMARK, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS)
+values ('pab_noticeSendIncreaseTimes', '48', '平安银行渠道通知发送递增次数（单位次）', null, null, null, null);
+
+insert into settings (KEY, VALUE, REMARK, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS)
+values ('pab_noticeSendInterval', '30', '平安银行渠道通知发送间隔（单位分钟）', null, null, null, null);
+
+insert into settings (KEY, VALUE, REMARK, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS)
+values ('pab_noticeRetryTimes', '48', '平安银行渠道通知最大发送次数', null, null, null, null);

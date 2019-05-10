@@ -1,0 +1,6 @@
+﻿​第一步：开机按F2键进入BIOS，
+第二步：在 BIOS 的BOOT菜单下，将Secure Boot 改为 Disabled；
+第三步：将Boot List Option 改为 Legacy，重新启动；
+第四步：按F2再次进入BIOS界面，选择“Advanced BIOS Features”设置项，按回车键进入；
+第五步：选择第二项（从USB启动）；
+第六步：按F10，之后选择“Y”，点击“回车”即可完成设置，重新启动电脑即可。

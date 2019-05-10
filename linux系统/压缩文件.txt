@@ -1,0 +1,5 @@
+﻿sudo tar -zcvf pay.tar.gz  pay
+
+
+解压 tar zxvf 文件名.tar.gz
+压缩 tar zcvf 文件名.tar.gz 目标名

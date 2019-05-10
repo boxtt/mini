@@ -1,0 +1,9 @@
+﻿********************2.0调度系统（172.16.8.9）***************************
+配置文件/sumapay/config/sumapay-config.properties添加内容（ip地址和端口为haproxy中通知服务的相关配置地址和端口）
+
+hsb2Bankcheck.hsb.ProviderAccount.service.url=http://${trusteeship.springremote.haproxy.server}/p2pBankCheck/remote/p2pHsb2ProviderAccountProcessRemoteService
+hsb2Bankcheck.hsb.ProviderAccount.service.businessInterface = com.sumavision.ecommerce.plateform.core.trusteeship.bankcheck.service.ProviderAccountService
+
+***************************增加调度***************************************
+配置文件：hsb2ProviderCheckAccount.xml
+执行时间：0 30 4 * * ? *

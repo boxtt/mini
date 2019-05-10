@@ -1,0 +1,2 @@
+﻿#徽商2.0文件分发推迟时间（毫秒）
+hsb.batchFileResult.distribution.delayTime=300000

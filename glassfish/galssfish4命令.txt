@@ -1,0 +1,7 @@
+﻿asadmin deploy --port 5050 --user admin --force=true com.sumavision.tvpay.operation.manager.war
+
+asadmin deploy --port 5050 --user admin --force=true com.sumavision.tvpay.gateway.web.merchant.war
+
+
+
+asadmin undeploy --port 4848 com.sumapay.biz.withholding

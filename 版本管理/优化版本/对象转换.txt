@@ -1,0 +1,15 @@
+﻿Map<String, Object> map = null;
+		try{
+			map = this.accountService.getAccount(accountId);
+			if(map.get("ACTION_RESULT")!= null && (Integer)map.get("ACTION_RESULT") == 0 && map.get("ACCOUNT") != null){
+			     account = (Account)DomainEntityMapConverter.map2Entity((Map)map.get("ACCOUNT"), Account.class);
+			}
+		}catch(Exception e){
+			logger.error("调用账户服务查询账户失败!",e);
+			throw new PlateformProcessorException("200300000","调用账户服务查询账户失败",e);
+		}
+
+		if(null==account){
+			logger.error("调用账户服务查询账户失败!");
+			throw new PlateformProcessorException("200300000","调用账户服务查询账户失败");
+		}

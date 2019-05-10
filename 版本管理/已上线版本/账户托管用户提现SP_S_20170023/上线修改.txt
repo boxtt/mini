@@ -1,0 +1,33 @@
+﻿MQ消息队列添加内容：
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=PT1000
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=PT1001
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=PT1002
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=PT1003
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=PT1004
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=PT1005
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=PT1006
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=PT1007
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=PT1008
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=PT1009
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=PT1010
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=PT1011
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=PT1012
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=AN0017
+
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.integration routing_key=DJ0003
+
+所有应用排队机制的服务器
+将/sumapay25/config/trade_lock_resources_config.properties
+挪到（复制）/sumapayex/config/trade_lock_resources_config.properties
+同时添加如下内容
+DJ0003=fld8:ACCOUNT_ID
+
+/sumapayex/config/db-sensitivedata-config.properties文件添加内容
+BatchADUserWithdrawDetail=bankAccount,bankAccountName
+BankBatADUWithdrawDetail=bankAccount,bankAccountName
+sumapayex/config下添加db-sensitivedata-config-disburse.properties文件
+说明：内容只有下面一行
+AccDepUserWithdrawBankRelEx=bankAccountName,bankAccount
+
+/sumapayex/config/sumapay-config.properties
+separate.account.validate.tradeCode后面追加: ,PT1000

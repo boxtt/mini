@@ -1,0 +1,6 @@
+﻿		<!-- 公共业务组件 -->
+		<dependency org="com.sumapay.biz.commons.service" name="com.sumapay.biz.commons.service" rev="B.2.5-10"></dependency>
+				<!-- 交易控制器 -->
+		<dependency org="com.sumapay.biz" name="com.sumapay.biz.trade.controller" rev="B.2.5-10" changing="true"/>
+				<!-- 账务客户端 -->
+		<dependency org="com.sumapay.finance" name="com.sumapay.finance.client" rev="B.2.5-sumapay-10" changing="true"/>

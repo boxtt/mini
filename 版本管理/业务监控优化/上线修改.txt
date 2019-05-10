@@ -1,0 +1,21 @@
+﻿
+监控修改（代发系统，ip根据实际情况修改）
+/sumapayex/config/biz-monitor-client.properties 中添加配置
+#udp server ip
+biz_monitor.new.serverip=172.16.1.8
+#udp server port
+biz_monitor.new.serverport=9998
+
+
+
+org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer#0-1-20190130115245708031
+org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer#0-9-20190130115307337300
+org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer#0-8-20190130115327574322
+org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer#0-7-20190130115347483374
+org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer#0-6-20190130115405679685
+org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer#0-5-20190130115428195714
+org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer#0-4-20190130115446613277
+org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer#0-3-20190130115504397352
+org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer#0-2-20190130115523440069
+org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer#0-10-20190130115538649880
+org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer#0-1-20190130115245708031-20190130115601441189

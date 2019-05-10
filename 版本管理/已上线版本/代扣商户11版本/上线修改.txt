@@ -1,0 +1,3 @@
+﻿商户自助网站在/sumapayex/config/sumapay-config.properties添加内容
+#特殊的代扣商户交易查询处理为快捷（多个商户用","（英文逗号）分隔）
+merchant.specialDk.merchant.list=1110000258,1110000256 

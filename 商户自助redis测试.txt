@@ -1,0 +1,5 @@
+﻿<!-- 将session放入redis -->
+	<bean class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration"
+		id="redisHttpSessionConfiguration">
+		<property name="redisNamespace" value="test"></property>
+	</bean>

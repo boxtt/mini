@@ -1,0 +1,54 @@
+﻿当前为获取对账单失败后，继续下一天
+优化为：如果获取不到某天的，异常结束。第二天重新执行
+
+
+		// 指定返回队列
+		param.put("_replyTo","amq.direct://com.sumapay.mq.exchange.bankcheck/bankcheck");
+		
+同步
+synchronization
+
+
+异步
+asynchronization
+
+
+调度系统配置文件修改：				  
+sumapay-config文件修改
+#######添加内容############
+bankcheck.service.context=bankCheck
+haproxy.server=192.161.14.92
+bankcheck.springremote.server=${haproxy.server}:8787
+bankcheck.abc.getBankCheckRecord.service.url=http://${bankcheck.springremote.server}/${bankcheck.service.context}/remote/getBankCheckRecordAsyncRemoteService
+###########修改内容#########
+bankcheck.abc.getBankCheckRecord.service.businessInterface=com.sumavision.ecommerce.plateform.core.finance.bankcheck.service.GetBankCheckRecordAsyncService
+
+						  					  					  						  					  					  						  			  					  
+修改build.xml
+在生成2.0.3-sumapay.client.jar的类路径中添加						  					  					  						  					  					  						  					  					  
+<include name="**/com/sumavision/ecommerce/plateform/core/finance/bankcheck/service/GetBankCheckRecordAsyncService.class" />
+
+所以调度2.0系统需要重新打包（只需要第一个渠道时候打包一次即可，后续异步通知渠道可以不重新打包）
+
+
+渠道调度文件（每个渠道修改都需要改）：
+替换getUpdateBankCheckRecord为getBankCheckRecordAsync
+替换bankcheck.abc.getBankCheckRecord.service.urls 为bankcheck.abc.getBankCheckRecord.service.url
+
+
+
+bankCheck系统配置文件修改
+sumapay-config文件修改
+#######添加内容############
+#银行对账系统mq返回队列配置
+bankcheck.mq.replyTo.queue= amq.direct://com.sumapay.mq.exchange.bankcheck/bankcheck 
+sumapay.amqp.url=192.161.14.92:5672
+sumapay.amqp.virtualhost=pay
+sumapay.amqp.user=sumapay
+sumapay.amqp.password=58858547
+
+
+
+
+
+						  					  					  						  					  					  						  					  					  						  					  					  						  					  					  

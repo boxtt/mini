@@ -1,0 +1,22 @@
+﻿
+SQL> show parameter shared_pool_size;
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+shared_pool_size                     big integer 0
+SQL> alter system set shared_pool_size=512m;
+
+System altered.
+
+SQL> show parameter shared_pool_size;
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+shared_pool_size                     big integer 512M
+SQL> show parameter sga_;
+
+NAME                                 TYPE        VALUE
+------------------------------------ ----------- ------------------------------
+sga_max_size                         big integer 1200M
+sga_target                           big integer 1200M
+SQL>

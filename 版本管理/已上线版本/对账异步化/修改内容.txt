@@ -1,0 +1,37 @@
+﻿################调度系统###########
+修改sumapay-config文件（icbc根据渠道名称进行相应替换）：
+bankcheck.icbc.getBankCheckRecord.service.businessInterface=com.sumavision.ecommerce.plateform.core.finance.bankcheck.service.GetBankCheckRecordAsyncService
+bankcheck.icbc.getBankCheckRecord.service.haproxy.urls=http://${bankcheck.springremote.proxy.server}/bankCheck/remote/getBankCheckRecordAsyncRemoteService
+
+渠道调度文件（每个渠道修改都需要改）：
+替换getUpdateBankCheckRecord为getBankCheckRecordAsync
+删除原有调度，之后将新调度重新添加
+
+
+########bankCheck系统#################
+sumapay-config文件修改
+#######银行对账系统mq返回队列配置添加内容############
+bankcheck.mq.replyTo.queue= amq.direct://com.sumapay.mq.exchange.bankcheck/bankcheck 
+sumapay.amqp.url=192.161.14.92:5672
+sumapay.amqp.virtualhost=pay
+sumapay.amqp.user=sumapay
+sumapay.amqp.password=58858547
+sumapay.amqp.connection.cache.size=10
+
+###############执行获取对账单服务器添加内容################
+sumapay.amqp.initStartupFlag=true
+
+###############不执行获取对账单服务器添加内容################
+sumapay.amqp.initStartupFlag=false
+
+
+
+修改build.xml
+在生成2.0.3-sumapay.client.jar的类路径中添加						  					  					  						  					  					  					  					  					  
+<include name="**/com/sumavision/ecommerce/plateform/core/finance/bankcheck/service/GetBankCheckRecordAsyncService.class" />
+所以调度2.0系统需要重新打包（只需要第一个渠道时候打包一次即可，后续异步通知渠道可以不重新打包）
+
+
+
+server sumapay2cm1 192.161.14.94:8080 maxconn 8192 check inter 1000 rise 10 fall 2 weight 2
+

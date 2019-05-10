@@ -1,0 +1,17 @@
+﻿实现思路：
+第一步：先查询出商户所有的code码，结算的最终日期
+第二步：循环商户，找到每个商户的支持的支付类型，之后根据支付类型找到当天的所有的结算交易
+第三步：找到个人用户的代扣充值，网银充值的结算交易
+第四步：找到其余用户的代扣充值，网银充值的结算交易
+第五步：将第三四五步的所有交易类型分别导出为txt文件
+第六步：上传所有的文件
+第七步：日期加一，循环以上步骤，直到当前日期的前一天结束。
+select * from merchant  where status =1;
+select  * from merchant_checkaccount_progress where type =0;
+select * from merchant_paytype_association where merchant_id='104';
+select  * from pay_type  ;
+
+select  * from merchant_fee where merchant_id ='104';
+
+select * from MER_USER_SETTLEMENT_RESULT;
+select  * from settlement_result;

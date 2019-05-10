@@ -1,0 +1,5 @@
+﻿cd /var/lib/mysql/sumapay
+
+ln trade_record_a.ibd trade_record_a.ibd.hard
+
+service mysqld restart

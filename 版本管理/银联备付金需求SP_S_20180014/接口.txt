@@ -1,0 +1,7 @@
+﻿获取明细度账单，getAcsDetailCheckRecord   getAcsDetailCheckRecord    参数 Long provisionsAcsColCheckRecId
+明细核对，acsDetailBankCheckProcessRemoteService start   参数 Long provisionsAcsStatementReqId
+getAcsCollectCheckRecord getAcsCollectCheckRecord  
+
+
+    	<!--备付金存管对账系统-->
+    	<dependency org="com.sumavision.tvpay.finance" name="com.sumavision.tvpay.finance.provisionsbankcheck.client" rev="2.0.3-sumapay-gdb" changing="true"/>

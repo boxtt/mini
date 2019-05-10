@@ -1,0 +1,12 @@
+﻿lsnrctl status
+
+用系统管理员权限登陆
+  原因：没有启动监听器或者监听器损坏。如果是前者，使用命令net start OracleOraHome81TNSListener(名字可能有出入)即可;如果是后者，则使用“Net8 Configuration 
+  Assistant”工具向导之“监听程序配置”增加一个监听器即可(基本不用写任何信息，一路OK。在添加之前可能需要把所有的监听器先删除!) 
+  2、ORA-12500：TNS：监听程序无法启动专用服务器进程或ORA-12560：TNS：协议适配器错误 
+  原因：ORACLE的数据库服务没有启动。使用命令net start ORACLESERVICEORADB(ORADB为数据库名字)即可。如果仍没有解决，请继续向下看。 
+  3、如果数据库服务启动失败，则很有可能是其注册表项值损坏，最好的做法是以下两步： 
+  1)ORADIM -DELETE -SID oradb 删除数据库服务项   2)ORADIM -NEW -SID oradb 新增数据库服务项 
+
+----------------------------------------------------------
+startup

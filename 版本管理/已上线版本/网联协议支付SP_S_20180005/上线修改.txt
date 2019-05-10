@@ -1,0 +1,9 @@
+﻿fmepcc
+
+银行对账系统
+/sumapayex/config/sumapay-config.properties
+checkaccount.banks 追加,fmepcc
+#根据渠道请求流水号对账银行
+bankcheck.channelRequestId.bankCodes追加,fmepcc
+
+bankcheck.realRefund.bankCodes追加,fmepcc

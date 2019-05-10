@@ -1,0 +1,32 @@
+﻿查询固定程序id并kill
+ps -ef |grep java | grep -v 'grep' | grep -v 'payara41'|awk '{print $2}'| xargs kill -9
+#RS拿空格作为换行符
+ps -ef | grep java | awk -v RS='  '  '{print NR,$0}'
+[glassfish@HA1 bin]$ name=zhangsan
+[glassfish@HA1 bin]$ awk -v name=$name  'BEGIN{print name}'
+
+awk 'NF==4 {print $0}' test.txt
+awk -v FS=":"   'BEGIN{printf "%-s\t %-20s\t\n","name","id"}{printf "%s\t %-20s\t\n", $1,$3}' /etc/passwd
+awk -v FS=":" 'BEGIN{printf "%-10s%-10s\n","userName","PID"}/^tv/{printf "%-10s%-10s\n",$1,$3}' /etc/passwd
+#输出以XXX开头以XX结尾的行
+awk '/^ntp.*\/sbin\/nologin$/{print $0}' /etc/passwd
+
+
+#输出内容替换
+[sumapay@tvpay2_mobile_dev ~]$ echo "${path/a/gaodebao}"      
+/sumgaodebaopay/bin;/aaa/bbb
+[sumapay@tvpay2_mobile_dev ~]$ echo "${path//a/gaodebao}"
+/sumgaodebaopgaodebaoy/bin;/gaodebaogaodebaogaodebao/bbb
+[sumapay@tvpay2_mobile_dev ~]$ echo $path
+/sumapay/bin;/aaa/bbb
+
+
+
+
+
+
+
+
+
+
+http://www.zsythink.net/archives/1336

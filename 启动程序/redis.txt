@@ -1,0 +1,5 @@
+﻿cd /usr/local/redis/redis-4.0.2/src/
+redis-server 
+redis-server redis-conf
+
+ redis-server /usr/local/redis/redis-4.0.2/redis.conf 

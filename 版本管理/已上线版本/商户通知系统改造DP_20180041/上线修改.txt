@@ -1,0 +1,6 @@
+﻿
+#保存商户通知系统sumapay-config.perperties添加配置项(端口根据ha配置进行修改)
+#haproxy.server=192.161.14.92
+merchantNotice.send.springremote.server=${haproxy.server}:8589
+merchantNotice.send.service.haproxy.urls=http://${merchantNotice.send.springremote.server}/merchantNotice/remote/SendMerchantNoticeService
+merchantNotice.send.service.businessInterface=com.sumapay.platform.merchant.SendMerchantNoticeService

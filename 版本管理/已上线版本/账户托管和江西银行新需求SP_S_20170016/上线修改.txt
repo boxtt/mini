@@ -1,0 +1,5 @@
+﻿1、追偿文件分发，大商户文件夹名称为：COMPAYRES
+
+商户自助
+修改sumapayex/config/sumapay-config.properties文件，
+merchantActualSubledgerTradeCodes 追加,CZ0205  

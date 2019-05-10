@@ -1,0 +1,3 @@
+﻿172.16.219.103 对账系统、徽商对账系统   /opt/SUNWappserver/domains/domain1/autodeploy domian1
+
+172016.9.8

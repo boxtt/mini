@@ -1,0 +1,5 @@
+﻿public static long getTodayTime() throws ParseException {
+		LocalDate date = new LocalDate(new DateTime());
+		SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+		return df.parse(df.format(date.toDate())).getTime();
+	}

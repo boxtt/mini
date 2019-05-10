@@ -1,0 +1,16 @@
+﻿数据库操作：次数根据实际需要修改（stage写的是10）
+insert into settings (KEY, VALUE, REMARK, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS)
+values ('accDepUserInfoVerifyRetryCount', '5', '账户托管用户信息验证重试次数，移动端重置密码时使用', null, null, null, null);
+
+
+账户托管系统mq消息队列声明内容
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.depository routing_key=YH0042
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.depository routing_key=YH0043
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.depository routing_key=YH0044
+
+
+
+#用户身份验证冻结
+200500079=已被冻结,请联系管理员4008908970
+#用户身份验证重试次数
+200500078=还有{0}次重试机会

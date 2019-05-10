@@ -1,0 +1,35 @@
+﻿实现思路：就是循环获取到文件夹中的文件，然后逐一的进行文件复制。
+//复制文件夹
+package com.cdd.util;
+import java.io.*;
+public class FileUtil { 
+private static void copy(File[] files, File d) {
+if (!d.exists()) //如果指定目录不存在
+d.mkdir(); //创建目录
+for (int i = 0; i < files.length; i++) { //循环遍历要复制的文件夹
+if (files[i].isFile()) { //如果文件夹中是文件
+try {
+FileInputStream fis = new FileInputStream(files[i]); //创建FileInputStream对象
+FileOutputStream out = new FileOutputStream(new File(d
+.getPath()
++ File.separator + files[i].getName())); //复制后文件的保存路径
+int count = fis.available();
+byte[] data = new byte[count];
+while ((str = bre.readLine())!= null) //读取文件通过readline方法可以有效的避免乱码
+out.write(str ); //将读取的信息写入文件中
+} 
+out.close(); //关闭流
+fis.close();
+} catch (Exception e) {
+e.printStackTrace();
+}
+}
+if (files[i].isDirectory()) { //如果文件夹中是一个路径
+File des = new File(d.getPath() + File.separator
++ files[i].getName()); //在复制后路径中创建子文件夹
+des.mkdir();
+copy(files[i].listFiles(), des); //再次调用本方法
+} 
+}
+System.out.println("文件夹复制成功");
+}

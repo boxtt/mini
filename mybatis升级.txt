@@ -1,0 +1,13 @@
+﻿mysql数据库更新为8.0后，mybatis自动生成更新8.0的驱动，用到mysql数据库的工程都更新为新的驱动包，
+工程目录/dev/abatorConfig.properties更新以下配置：
+
+jdbc.mysql.driverClassName=com.mysql.jdbc.Driver
+更改为
+jdbc.mysql.driverClassName=com.mysql.cj.jdbc.Driver
+
+
+jdbc.mysql.jarlocation=D:/develop/mysql-connector-java-5.1.31.jar
+更改为
+jdbc.mysql.jarlocation=D:/develop/mysql-connector-java-8.0.15.jar
+
+同时把新驱动包mysql-connector-java-8.0.15.jar放到自己本地D:/develop/目录下

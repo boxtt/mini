@@ -1,0 +1,182 @@
+﻿DB2相关数据库命令
+
+1.数据库实例的启动
+首先要启动数据库的实例,即切换到db2inst1用户(注:db2inst1用户为当前数据库的实例),然后执行db2start启动数据库的实例
+[root@localhost instance]# su - db2inst1
+[db2inst1@localhost ~]$ db2start
+SQL1063N  DB2START processing was successful.
+[db2inst1@localhost ~]$ 
+
+
+2.数据库实例的关闭
+首先在db2inst1用户下强制关闭实例上的所有应用程序,然后再关闭数据库实例
+[db2inst1@localhost ~]$ db2 force application all
+DB20000I  The FORCE APPLICATION command completed successfully.
+DB21024I  This command is asynchronous and may not be effective immediately.
+
+[db2inst1@localhost ~]$ db2stop
+SQL1064N  DB2STOP processing was successful.
+[db2inst1@localhost ~]$ 
+
+强制停止
+[db2inst1@localhost DB2]$ db2stop force
+SQL1064N  DB2STOP processing was successful.
+[db2inst1@localhost DB2]$
+
+3.显示所有的实例
+[db2inst1@localhost ~]$ db2ilist
+db2inst1
+[db2inst1@localhost ~]$
+
+4.显示当前的实例
+[db2inst1@localhost ~]$ db2 get instance
+
+ The current database manager instance is:  db2inst1
+
+[db2inst1@localhost ~]$ 
+
+5.删除一个实例(注:需切换到root用户权限下)
+[root@localhost ~]# cd /opt/ibm/db2/V9.7/instance
+[root@localhost instance]# pwd
+/opt/ibm/db2/V9.7/instance
+[root@localhost instance]# ./db2idrop db2inst1
+DBI1070I  Program db2idrop completed successfully.
+
+
+[root@localhost instance]# 
+
+6.列出当前实例中有哪些数据库
+[root@localhost instance]# su - db2inst1
+[db2inst1@localhost ~]$ db2 list db directory
+SQL1031N  The database directory cannot be found on the indicated file system. 
+
+SQLSTATE=58031
+[db2inst1@localhost ~]$
+注:上面信息说明实例中没有数据库
+
+7.创建数据库
+[root@localhost instance]# su - db2inst1
+[db2inst1@localhost ~]$ db2 create database test
+SQL1032N  No start database manager command was issued.  SQLSTATE=57019
+[db2inst1@localhost ~]$
+[db2inst1@localhost ~]$ db2start
+SQL5043N  Support for one or more communications protocols failed to start successfully. However, core database manager functionality started successfully.
+[db2inst1@localhost ~]$ db2 create database test
+DB20000I  The CREATE DATABASE command completed successfully.
+[db2inst1@localhost ~]$ db2 list db directory
+
+ System Database Directory
+
+ Number of entries in the directory = 1
+
+Database 1 entry:
+
+ Database alias                       = TEST
+ Database name                        = TEST
+ Local database directory             = /home/db2inst1
+ Database release level               = d.00
+ Comment                              =
+ Directory entry type                 = Indirect
+ Catalog database partition number    = 0
+ Alternate server hostname            =
+ Alternate server port number         =
+
+[db2inst1@localhost ~]$
+注:上面通过创建一个test的数据库,并说明了创建数据库时,要先启动数据库,然后创建数据库test成功后并列出了当前实例中的所有数据库,只存在数据库test
+
+8.连接数据库
+[db2inst1@localhost ~]$ db2 connect to test
+
+   Database Connection Information
+
+ Database server        = DB2/LINUX 9.7.1
+ SQL authorization ID   = DB2INST1
+ Local database alias   = TEST
+
+[db2inst1@localhost ~]$ 
+
+注:用密码情况下格式[db2inst1@localhost ~]$ db2 connect to test user username using password
+
+db2 connect to <database> user <username> using  <password>
+
+9.查看表的空间
+[db2inst1@localhost ~]$ db2 list tablespaces [ show detail ]
+
+           Tablespaces for Current Database
+
+ Tablespace ID                        = 0
+ Name                                 = SYSCATSPACE
+ Type                                 = Database managed space
+ Contents                             = All permanent data. Regular table space.
+ State                                = 0x0000
+   Detailed explanation:
+     Normal
+
+ Tablespace ID                        = 1
+ Name                                 = TEMPSPACE1
+ Type                                 = System managed space
+ Contents                             = System Temporary data
+ State                                = 0x0000
+   Detailed explanation:
+     Normal
+
+ Tablespace ID                        = 2
+ Name                                 = USERSPACE1
+ Type                                 = Database managed space
+ Contents                             = All permanent data. Large table space.
+ State                                = 0x0000
+   Detailed explanation:
+     Normal
+
+[db2inst1@localhost ~]$
+注: show detail为可选项,显示更详细信息
+
+或者 db2pd -tablespaces -db 数据库名
+[db2inst1@localhost ~]$ db2pd -tablespaces -db test
+
+Database Partition 0 -- Database TEST -- Active -- Up 0 days 00:03:11
+
+Tablespace Configuration:
+Address    Id    Type Content PageSz ExtentSz Auto Prefetch BufID BufIDDisk FSC NumCntrs MaxStripe  LastConsecPg Name
+0x9DC2A060 0     DMS  Regular 4096   4        Yes  4        1     1         Off 1        0          3            SYSCATSPACE
+0x9DC2B4B0 1     SMS  SysTmp  4096   32       Yes  32       1     1         On  1        0          31           TEMPSPACE1
+0x9DC30940 2     DMS  Large   4096   32       Yes  32       1     1         Off 1        0          31           USERSPACE1
+
+Tablespace Statistics:
+Address    Id    TotalPgs   UsablePgs  UsedPgs    PndFreePgs FreePgs    HWM        Max HWM    State      MinRecTime NQuiescers PathsDropped
+0x9DC2A060 0     24576      24572      18712      0          5860       18712      18712      0x00000000 0          0          No         
+0x9DC2B4B0 1     1          1          1          0          0          0          0          0x00000000 0          0          No         
+0x9DC30940 2     8192       8160       96         0          8064       96         96         0x00000000 0          0          No         
+
+Tablespace Autoresize Statistics:
+Address    Id    AS  AR  InitSize    IncSize     IIP MaxSize     LastResize                 LRF
+0x9DC2A060 0     Yes Yes 33554432    -1          No  None        None                       No 
+0x9DC2B4B0 1     Yes No  0           0           No  0                    None                       No 
+0x9DC30940 2     Yes Yes 33554432    -1          No  None        None                       No 
+
+Containers:
+Address    TspId ContainNum Type    TotalPgs   UseablePgs PathID     StripeSet  Container
+0x9B218F00 0     0          File    24576      24572      0          0          /home/db2inst1/db2inst1/NODE0000/TEST/T0000000/C0000000.CAT
+0x9B219120 1     0          Path    1          1          0          0          /home/db2inst1/db2inst1/NODE0000/TEST/T0000001/C0000000.TMP
+0x9B219390 2     0          File    8192       8160       0          0          /home/db2inst1/db2inst1/NODE0000/TEST/T0000002/C0000000.LRG
+[db2inst1@localhost ~]$ 
+
+10.显示数据库里有哪些表
+[db2inst1@localhost ~]$ db2 connect to test
+
+   Database Connection Information
+
+ Database server        = DB2/LINUX 9.7.1
+ SQL authorization ID   = DB2INST1
+ Local database alias   = TEST
+
+[db2inst1@localhost ~]$  db2 list tables
+
+Table/View                      Schema          Type  Creation time            
+------------------------------- --------------- ----- --------------------------
+
+  0 record(s) selected.
+
+[db2inst1@localhost ~]$ 
+
+注:上面信息说明数据库test中还没有表

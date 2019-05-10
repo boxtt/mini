@@ -1,0 +1,34 @@
+﻿网银支付：ZF0201网银支付，银联支付ZF0301
+快捷支付：ZF0102快捷支付，ZF0108快捷支付M＋（丰付发短信），ZF0103快捷支付，ZF0109快捷支付M＋（银行发短信）
+select * from trade_type t where t.code in ('ZF0102','ZF0103','ZF0108','ZF0109','ZF0201','ZF0301');
+
+#格式为丰付商户编码:平安商户编码:到账标识,丰付商户编码:平安商户编码:到账标识,丰付商户编码:平安商户编码:到账标识。到账标识：0表示T+0，1表示T+1
+PAB_MERCHANT=CSSH:PLB0001:1,GDB:PLB0002:1
+#平安银行丰付代码
+PAB_FENGFU_CODE=CSSH
+
+
+
+    第一行为对账单条数
+    第二行开始为对账单明细，各字段以&分隔
+    三方支付平台代码：平安银行丰付代码
+    网贷平台代码：平安商户编码
+    支付订单号：交易流水的orderId
+    支付日期、支付时间：交易结束时间
+    付款账号：快捷为银行账号，全明文，网银为空
+    付款账号名称：快捷为用户姓名，全明文，网银为空
+    交易金额：交易流水的merFund
+    交易手续费为空
+    到账标识：商户的到账标识
+    
+    
+    调度2.0系统172.16.8.9添加调度文件（需要重新打徽商2.0的client包）：p2pPabBankCheckNotice.xml
+/sumapay/config/sumapay-config.properties文件添加配置参数（172.16.8.9）
+#平安存管对账通知服务，调度时间执行时间为：0 30 4 * * ? *
+p2pBankCheck.pabBankCheckNotice.service.url=http://${trusteeship.springremote.haproxy.server}/p2pBankCheck/remote/pabBankCheckNoticeService
+p2pBankCheck.pabBankCheckNotice.service.businessInterface = com.sumavision.ecommerce.plateform.core.trusteeship.bankcheck.service.PabBankCheckNoticeService
+
+#平安存管对账通知结果查询服务，调度时间执行时间为：0 30 4 * * ? *
+p2pBankCheck.pabBankCheckNoticeQuery.service.url=http://${trusteeship.springremote.haproxy.server}/p2pBankCheck/remote/pabBankCheckNoticeQueryService
+p2pBankCheck.pabBankCheckNoticeQuery.service.businessInterface = com.sumavision.ecommerce.plateform.core.trusteeship.bankcheck.service.PabBankCheckNoticeQueryService
+

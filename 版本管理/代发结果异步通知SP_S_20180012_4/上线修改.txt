@@ -1,0 +1,10 @@
+﻿rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.disburse routing_key=AN0020
+
+
+payeeAcctName payerAcctName
+
+payerAcctNo  payeeAcctNo
+
+
+
+SmallTransferValid

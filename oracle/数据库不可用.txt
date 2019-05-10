@@ -1,0 +1,91 @@
+﻿解决方法一：
+ERROR:
+ORA-01034: ORACLE not available
+ORA-27101: shared memory realm does not exist
+进程 ID: 0
+会话 ID: 0 序列号: 0
+因为这个小小的错误，折腾了我好几个小时，特记录如下。
+上网搜索了下解决方案，如下：
+sqlplus "sys/password as sysdba"
+连接成功，提示"已连接到空闲例程"
+SQL> startup
+ORACLE 例程已经启动。
+Total System Global Area  535662592 bytes
+Fixed Size                  1375792 bytes
+Variable Size             293601744 bytes
+Database Buffers          234881024 bytes
+Redo Buffers                5804032 bytes
+数据库装载完毕。
+ORA-03113: 通信通道的文件结尾
+进程 ID: 5412
+会话 ID: 5 序列号: 5
+出现一个新错误：ORA-03113: 通信通道的文件结尾；分析可能由于昨晚数据库强制关闭，导致文件状态可能不一致，因为正常关闭数据库会同步校验各文件，使得重新启动的时候文件时间点一致。
+找到解决方案如下：
+SQL> conn / as sysdba
+已连接到空闲例程。
+SQL> startup mount
+ORACLE 例程已经启动。
+Total System Global Area  535662592 bytes
+Fixed Size                  1375792 bytes
+Variable Size             293601744 bytes
+Database Buffers          234881024 bytes
+Redo Buffers                5804032 bytes
+数据库装载完毕。
+SQL> select * from v$log;
+    GROUP#    THREAD#  SEQUENCE#      BYTES  BLOCKSIZE    MEMBERS ARC
+---------- ---------- ---------- ---------- ---------- ---------- ---
+STATUS           FIRST_CHANGE# FIRST_TIME     NEXT_CHANGE# NEXT_TIME
+---------------- ------------- -------------- ------------ -------------
+         1          1        340   52428800        512          1 NO
+INACTIVE               8474486 02-4月 -11          8522856 02-4月 -11
+         3          1        342   52428800        512          1 NO
+INACTIVE               8555222 06-4月 -11          8565162 11-4月 -11
+         2          1        343   52428800        512          1 NO
+CURRENT                8565162 11-4月 -11       2.8147E+14
+SQL> alter database open resetlogs
+  2  ;
+alter database open resetlogs
+*
+第 1 行出现错误:
+ORA-01139: RESETLOGS 选项仅在不完全数据库恢复后有效
+SQL> recover database until time '2011-04-11 12:12:12'
+完成介质恢复。
+SQL> alter database open resetlogs;
+数据库已更改。
+SQL> shutdown
+数据库已经关闭。
+已经卸载数据库。
+ORACLE 例程已经关闭。
+SQL> startup
+ORACLE 例程已经启动。
+Total System Global Area  535662592 bytes
+Fixed Size                  1375792 bytes
+Variable Size             293601744 bytes
+Database Buffers          234881024 bytes
+Redo Buffers                5804032 bytes
+数据库装载完毕。
+数据库已经打开。
+ 
+
+解决方法：二
+
+ 字号：大 中 小
+在试图登录pl/sql时,输入用户名（system/pwd)后，Oracle报告下列错误：
+ERROR:
+ORA-27101 Shared memory realm does not exist
+ORA-01034 ORACLE not available &<60;
+
+
+查阅了相关
+ORA-27101 Shared memory realm does not exist
+ORA-01034 ORACLE not available &<60;
+的说明，解释为ORACLE_HOME或者ORACLE_SID设置不正确。
+但检查bash_profile以后没有发现错误;
+錯誤點，沒有開啟oracle服務；
+解決辦法，直接開啟oracle相關數據庫的服務；
+或按照下面的步驟操作:
+lsnrctl start
+sqlplus '/as sysdba'
+sql> startup
+emctl start dbconsole
+isqlplusctl start

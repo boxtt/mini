@@ -1,0 +1,54 @@
+﻿comment on column MERCHANT_CHECKACCOUNT_PROGRESS.type
+  is '对账单类型，0：交易对账单，1：结算对账单，2：代扣对账单，3：徽商2.0对账单,4:原生代扣对账单,5:晋城银行对账单';
+  
+  
+  
+  
+  调度2.5系统添加调度文件（不需要重新打徽商存管系统的client包）：
+
+/sumapayex/config/sumapay-config.properties文件添加配置参数（172.16.8.9）
+#导出对账单调度时间执行时间为：0 30 4 * * ? *
+p2pBankcheck.jcb.providerAccount.service.url=http://${trusteeship.springremote.haproxy.server}/p2pBankCheck/remote/jcbProviderAccountProcessRemoteService
+p2pBankcheck.jcb.providerAccount.service.businessInterface = com.sumavision.ecommerce.plateform.core.trusteeship.bankcheck.service.ProviderAccountService
+
+#获取对账单调度时间执行时间为：0 0 10 * * ? *
+p2pBankcheck.jcb.getBankCheckRecord.service.url=http://${trusteeship.springremote.haproxy.server}/p2pBankCheck/remote/getBankCheckRecordRemoteService
+p2pBankcheck.jcb.getBankCheckRecord.service.businessInterface=com.sumavision.ecommerce.plateform.core.trusteeship.bankcheck.service.GetUpdateBankCheckRecordService
+
+#执行对账调度时间执行时间为：0 0 11 * * ? *
+p2pBankcheck.jcb.bankCheckProcess.service.url=http://${trusteeship.springremote.haproxy.server}/p2pBankCheck/remote/jcbBankCheckProcessRemoteService
+p2pBankcheck.jcb.bankCheckProcess.service.businessInterface=com.sumavision.ecommerce.plateform.core.trusteeship.bankcheck.service.BankCheckProcessService
+
+
+
+#徽商银行对账系统
+#晋城银行sftp配置
+bankTrusteeship.jcb.sftp.hostname=124.164.235.51
+bankTrusteeship.jcb.sftp.ftpPort=26
+bankTrusteeship.jcb.sftpUser=FFPT
+bankTrusteeship.jcb.sftp.ftpPsw=FFPT123456
+bankTrusteeship.jcb.sftp.ftpPath=/home/sftp/FFPT/FENGFU/
+bankTrusteeship.jcb.sftp.loaclFilePath=/sumapayex/bankTrusteeship/jcb/statement/
+
+修改内容
+p2paccount.banks=hsb2_depository,jcb_depository
+
+添加内容：/sumapayex/config/db-sensitivedata-config.properties
+P2pJcbBankCheckRec=mediId
+P2pJcbRechargeRequest=bindAcctNo,payeeName,mediId,customerIdNbr,customerName,relCardNbr,customerPhoneNbr
+P2pJcbRechargePwdCheckReq=bindAcctNo,payeeName,mediId
+P2pJcbOpenAccountReq=customerIdNbr,customerName,relCardNbr,customerPhoneNbr,mediId
+P2pJcbMerchantUser=customerIdNbr,customerName,relCardNbr,customerPhoneNbr,mediId
+
+
+账务2.5系统：/sumapayex/config/sumapay-config.properties
+finance.innercheck.tradecodes后面追加内容：,JC0007,JC0011,JC0012,JC0019
+
+
+
+P2pJcbBankCheckRec=mediId
+P2pJcbRechargeRequest=bindAcctNo,payeeName,mediId,customerIdNbr,customerName,relCardNbr,customerPhoneNbr
+P2pJcbRechargePwdCheckReq=bindAcctNo,payeeName,mediId
+P2pJcbOpenAccountReq=customerIdNbr,customerName,relCardNbr,customerPhoneNbr,mediId
+P2pJcbMerchantUser=customerIdNbr,customerName,relCardNbr,customerPhoneNbr,mediId
+

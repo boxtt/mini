@@ -1,0 +1,2 @@
+﻿http://192.161.14.94:8080/schedual/config!login.action
+admin/admin

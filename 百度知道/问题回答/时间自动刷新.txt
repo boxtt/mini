@@ -1,0 +1,13 @@
+﻿利用死循环和线程，让线程在循环中每sleep1秒，重新获取下系统时间就是动态显示时间了。
+while(true){
+Date date=new Date(System.currentTimeMillis());
+SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+System.out.println(date);
+//每一秒刷新下时间
+try {
+Thread.sleep(1000);//sleep是以ms为单位
+} catch (InterruptedException e) {
+// TODO Auto-generated catch block
+e.printStackTrace();
+}
+}

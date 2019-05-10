@@ -1,0 +1,1 @@
+﻿redis.conf 中，根据说明，把daemonize设置为yes，如图：

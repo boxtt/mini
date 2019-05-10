@@ -1,0 +1,18 @@
+﻿ public static ModelAndView  buildFailJsonView(String msg){
+    	SortedMap<String, String> map = new TreeMap<>();
+        map.put("code","1");
+        map.put("body",  String.format("{\"errorMsg\":\"%s\"}",msg));
+        return new ModelAndView("jsonView",map);
+    }
+    
+    public static ModelAndView  buildSuccessJsonView(Object obj){
+    	SortedMap<String, String> map = new TreeMap<>();
+        map.put("code","0");
+        map.put("body", (String)obj);
+        return  new ModelAndView("jsonView",map);
+    }
+    
+    
+    
+    {"code":0,"body":"_input_charset=utf-8&subject=Wed+Nov+25+11%3A18%3A21+CST+2015&sign=jJqD3kPzhb82TxuRAhhNufdUcobqQI%2F8EvZCe%2FUKOGkSbeTKfm3U7zAhoNhExuOMVlAT3cwGqUfrBUGI6%2BYRRY3850u3mnr9chKUksr6r7pfuPLxYmCozHtG9YzYiLyg56zulDS5Y8lCHoHljx6dDpbv8po6tgbN%2B6Ijzh0UEKc%3D&it_b_pay=2015-11-25+11%3A26&body=Wed+Nov+25+11%3A18%3A21+CST+2015&notify_url=http%3A%2F%2Fpaytest.honglingjinclub.com%2Fpay%2Falipay%2Fnotify&payment_type=1&out_trade_no=536115957585892&partner=2088021386926953&service=mobile.securitypay.pay&total_fee=0.01&return_url=http%3A%2F%2Fweixin.honglingjinclub.com&sign_type=RSA&seller_id=2088021386926953&show_url=http%3A%2F%2Fpay.honglingjinclub.com","fail":false,"success":true}
+_input_charset=utf-8&subject=Wed+Nov+25+11%3A18%3A21+CST+2015&sign=jJqD3kPzhb82TxuRAhhNufdUcobqQI%2F8EvZCe%2FUKOGkSbeTKfm3U7zAhoNhExuOMVlAT3cwGqUfrBUGI6%2BYRRY3850u3mnr9chKUksr6r7pfuPLxYmCozHtG9YzYiLyg56zulDS5Y8lCHoHljx6dDpbv8po6tgbN%2B6Ijzh0UEKc%3D&it_b_pay=2015-11-25+11%3A26&body=Wed+Nov+25+11%3A18%3A21+CST+2015&notify_url=http%3A%2F%2Fpaytest.honglingjinclub.com%2Fpay%2Falipay%2Fnotify&payment_type=1&out_trade_no=536115957585892&partner=2088021386926953&service=mobile.securitypay.pay&total_fee=0.01&return_url=http%3A%2F%2Fweixin.honglingjinclub.com&sign_type=RSA&seller_id=2088021386926953&show_url=http%3A%2F%2Fpay.honglingjinclub.com

@@ -1,0 +1,58 @@
+﻿public static enum ClientAnchor.AnchorType
+extends java.lang.Enum<ClientAnchor.AnchorType>
+
+Enum Constants 
+Enum Constant and Description
+DONT_MOVE_AND_RESIZE
+Do Not Move or Resize With Underlying Rows/Columns (3)
+DONT_MOVE_DO_RESIZE
+Don't Move but do Resize With Anchor Cells (1)
+MOVE_AND_RESIZE
+Move and Resize With Anchor Cells (0)
+MOVE_DONT_RESIZE
+Move With Cells but Do Not Resize (2)	
+
+我这边有8本国信蓝点的入门书籍想卖掉（培训时候800多买的），有需要的可以联系我。
+javaSE，javaEE，Struts，spring，hibernate，oracle。
+除此之外还有部分电子资料可以提供给买者。价格：150。北京附近的可以直接地铁拿，距离远的自付邮费。
+
+
+
+				FileOutputStream fileOut = null;   
+			         BufferedImage bufferImg = null;   
+			        // 先把读进来的图片放到一个ByteArrayOutputStream中，以便产生ByteArray  
+			        try {
+			            String path=Thread.currentThread().getContextClassLoader().getResource("").getPath();
+			            log.info("path=="+ path);
+			    	String relativelyPath=System.getProperty("user.dir"); 
+			    	log.info("path=="+ relativelyPath);
+			            ByteArrayOutputStream byteArrayOut = new ByteArrayOutputStream();   
+			            String t=PoiUtils.class.getClassLoader().getResource("").getPath();
+			            log.info("t---"+t+"images/电子公章.png");
+			            bufferImg = ImageIO.read(new File("D:/电子公章.png"));   
+			            ImageIO.write(bufferImg, "png", byteArrayOut);
+			            
+			            // 画图的顶级管理器，一个sheet只能获取一个（一定要注意这点）
+			            Drawing patriarch = hssf_w_sheet.createDrawingPatriarch(); 
+			            HSSFClientAnchor anchor = null;
+			            //anchor主要用于设置图片的属性
+			            anchor = new HSSFClientAnchor(100, 100, 255, 255,(short) 0, 3, (short) 1, 10); 
+//			            anchor = new XSSFClientAnchor(0, 0, 1023, 0, 0, 0, 1, 3);
+			            // 插入图片  
+			            patriarch.createPicture(anchor, hssf_w_book.addPicture(byteArrayOut.toByteArray(), HSSFWorkbook.PICTURE_TYPE_JPEG)); 
+			           // 保持原图片效果
+//			            patriarch.createPicture(anchor, wb.addPicture(byteArrayOut.toByteArray(), Workbook.PICTURE_TYPE_JPEG)).resize(1); 
+//			            String fileName = "D:/测试Excel"+(int)(Math.random() * 100)+".xlsx";  
+//			            fileOut = new FileOutputStream(fileName); 
+//			             System.out.println("----Excle文件已生成:"+ fileName);
+			        } catch (Exception e) {
+			            e.printStackTrace();
+			        }finally{
+			            if(fileOut != null){
+			                 try {
+			                    fileOut.close();
+			                } catch (IOException e) {
+			                    e.printStackTrace();
+			                }
+			            }
+			        }

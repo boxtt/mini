@@ -1,0 +1,42 @@
+﻿rabbitmqadmin --vhost=pay --username=admin --password=58858547  declare queue name=com.sumapay.mq.queue.trade.settlement 
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.settlement routing_key=SEM0001
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.settlement routing_key=SEM0002
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.settlement routing_key=SEM0003
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.settlement routing_key=SEM0004
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.settlement routing_key=SEM0005
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.settlement routing_key=SEM0006
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.settlement routing_key=SEM0007
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.settlement routing_key=SEM0008
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.settlement routing_key=SEM0009
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.settlement routing_key=SEM0010
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.settlement routing_key=SEM0011
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.settlement routing_key=SEM0012
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.settlement routing_key=SEM0013
+
+
+
+
+
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.settlement routing_key=SEM0001
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.settlement routing_key=SEM0001
+rabbitmqadmin --vhost=pay --username=admin --password=58858547 declare binding  source=com.sumapay.mq.exchange.trade  destination=com.sumapay.mq.queue.trade.settlement routing_key=SEM0001
+
+
+biz.settlement.queue=com.sumapay.mq.queue.trade.settlement
+biz.settlement.processor.package=com.sumapay.hps.biz.settlement.processor
+
+
+
+
+SEM0001 交易分账处理器  TradeSeparateAccountProcessor
+SEM0002 退款手续费计算处理器 RefundFeeManageProcessor
+SEM0003 退款分账处理器  RefundSeparateAccountProcessor
+SEM0004 异步批量记账处理器  AsyncBatchFinanceProcessor
+SEM0005 同步单笔记账处理器  SyncSingleFinanceProcessor
+SEM0006 冻结处理器  FinanceFrozenBalanceProcessor
+SEM0007 解冻处理器  FinanceThawBalanceProcessor
+SEM0008 日终自动结算处理器 DailyAutoSettlementProcessor
+SEM0009 手工结算处理器 manualSettlementProcessor
+SEM0010 商户结算处理器  merchantSettlementProcessor
+ 
+SEM0006 冲销处理器 

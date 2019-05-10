@@ -1,0 +1,11 @@
+﻿徽商对账系统glassfish升级
+转移文件从sumapaye到sumapayex路径
+sumapayex/config/sumapay-config.properties
+sumapayex/config/sumpay-sensitivedata-rule-config.properties
+sumapayex/config/db-sensitivedata-config.properties
+sumapayex/config/log-sensitivedata-config.properties
+
+sumapayex/exception/bankcheck-exception.properties
+
+
+--------需要修改haproxy路径

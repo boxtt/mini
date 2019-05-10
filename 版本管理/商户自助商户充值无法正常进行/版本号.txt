@@ -1,0 +1,6 @@
+﻿2.0.120.1
+
+SP_S_20180012_6
+
+商户充值增加输入参数
+param.put("REQUEST_CHANNEL_TYPE", 2);

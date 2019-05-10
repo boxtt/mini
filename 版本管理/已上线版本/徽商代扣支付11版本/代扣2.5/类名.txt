@@ -1,0 +1,4 @@
+﻿DKProtocolSignProcessor 代扣支付协议签约处理器
+DKProtocolUpdateProcessor 代扣支付协议变更处理器
+DKProtocolCancelProcessor 代扣支付协议解约处理器
+DKProtocolQueryProcessor 代扣支付协议查询处理器

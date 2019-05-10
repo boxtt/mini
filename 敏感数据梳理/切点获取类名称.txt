@@ -1,0 +1,14 @@
+﻿String className=pjp.getTarget().getClass().getSimpleName(); 
+
+
+			Method[] methods =  point.getTarget().getClass().getDeclaredMethods();
+			Type returnType = null;
+			for(Method method : methods){
+				if(methodName.equals(method.getName())){
+					 returnType = method.getGenericReturnType();// 返回类型
+				}
+			}
+			    if(returnType instanceof List){
+
+
+			    }

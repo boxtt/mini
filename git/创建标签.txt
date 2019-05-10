@@ -1,0 +1,38 @@
+﻿然后，敲命令git tag name就可以打一个新标签：
+$ git tag v1.0
+可以用命令git tag查看所有标签：
+$ git tag
+v1.0
+
+默认标签是打在最新提交的commit上的。有时候，如果忘了打标签，⽐比如，现在已经是周
+五了，但应该在周⼀一打的标签没有打，怎么办？
+方法是找到历史提交的commit id，然后打上就可以了：
+$ git log --pretty=oneline --abbrev-commit
+6a5819e merged
+
+
+$ git tag v0.9 6a5819e
+
+
+注意，标签不是按时间顺序列出，⽽而是按字⺟母排序的。可以⽤用git show tagname查看标签信
+息：
+$ git show v0.9
+
+
+还可以创建带有说明的标签，⽤用-a指定标签名，-m指定说明⽂文字：
+$ git tag -a v0.1 -m "version 0.1 released" 3628164
+
+
+如果标签打错了，也可以删除：
+$ git tag -d v0.1
+Deleted tag 'v0.1' (was e078af9)
+
+如果要推送某个标签到远程，使⽤用命令git push origin tagname：
+$ git push origin v1.0
+
+
+如果标签已经推送到远程，要删除远程标签就⿇麻烦⼀一点，先从本地删除：
+$ git tag -d v0.9
+Deleted tag 'v0.9' (was 6224937)
+然后，从远程删除。删除命令也是push，但是格式如下：
+$ git push origin :refs/tags/v0.9

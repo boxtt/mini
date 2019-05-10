@@ -1,0 +1,111 @@
+﻿读写是两个不同的分支，通常都是分开单独使用的。
+可以通过BufferedReader 流的形式进行流缓存，之后通过readLine方法获取到缓存的内容。 
+BufferedReader bre = null;
+try {
+String file = "D:/test/test.txt";
+bre = new BufferedReader(new FileReader(file));//此时获取到的bre就是整个文件的缓存流
+while ((str = bre.readLine())!= null) // 判断最后一行不存在，为空结束循环
+{
+System.out.println(str);//原样输出读到的内容
+}；
+备注： 流用完之后必须close掉，如上面的就应该是：bre.close()，否则bre流会一直存在，直到程序运行结束。
+可以通过“FileOutputStream”创建文件实例，之后过“OutputStreamWriter”流的形式进行存储，举例：
+OutputStreamWriter pw = null;//定义一个流
+pw = new OutputStreamWriter(new FileOutputStream(“D:/test.txt”),"GBK");//确认流的输出文件和编码格式，此过程创建了“test.txt”实例
+pw.write("我是要写入到记事本文件的内容");//将要写入文件的内容，可以多次write
+pw.close();//关闭流
+备注：文件流用完之后必须及时通过close方法关闭，否则会一直处于打开状态，直至程序停止，增加系统负担。
+
+
+
+可以通过”Scanner“函数 直接输入参数的形式，来实现输入语句，举例：
+import java.util.Scanner;
+public class Test {
+public static void main(String[] args) {
+Scanner input=new Scanner(System.in);
+System.out.println("请输入一个整数：");
+int length=input.nextInt();//输入一个整数
+System.out.println("输入的整数是："+length);}
+}
+备注：Scanner函数就是用来进行语句输入的，上面举例的是整数类型，也可以用以下语句“String length=input.next()”，输入的就是字符串类型等。
+
+
+
+byte[] b = new byte[1024];
+        int len = 0;
+        while((len=is.read(b))!=-1){
+            System.out.println(new String(b,0,len));
+        }
+        is.close();
+        
+        
+        
+        
+        
+        
+        
+实现思路：就是将需要保留的内容写入另外一个xml文件中在满足条件处进行增加、删除、修改操作。
+可以通过BufferedReader 流的形式进行流缓存，之后通过readLine方法获取到缓存的内容。 
+BufferedReader bre = null;
+OutputStreamWriter pw = null;//定义一个流
+try {
+String file = "D:/test/test.xml";
+bre = new BufferedReader(new FileReader(file));//此时获取到的bre就是整个文件的缓存流
+pw = new OutputStreamWriter(new FileOutputStream(“D:/New.xml”),"GBK");//确认流的输出文件和编码格式，此过程创建了“test.txt”实例
+while ((str = bre.readLine())!= null) // 判断最后一行不存在，为空结束循环
+{
+if(!str.indexOf("<end>")){//判断如果不满足xml的条件就删除
+pw.write(str);//将要写入文件的内容，可以多次write
+}
+}；
+bre.close()；
+pw.close();//关闭流
+备注：文件流用完之后必须及时通过close方法关闭，否则会一直处于打开状态，直至程序停止，增加系统负担。
+
+
+
+
+
+
+
+
+
+
+实现思路：就是循环获取到文件夹中的文件，然后逐一的进行文件复制。
+//复制文件夹
+package com.cdd.util;
+import java.io.*;
+public class FileUtil { 
+private static void copy(File[] files, File d) {
+if (!d.exists()) //如果指定目录不存在
+d.mkdir(); //创建目录
+for (int i = 0; i < files.length; i++) { //循环遍历要复制的文件夹
+if (files[i].isFile()) { //如果文件夹中是文件
+try {
+FileInputStream fis = new FileInputStream(files[i]); //创建FileInputStream对象
+FileOutputStream out = new FileOutputStream(new File(d
+.getPath()
++ File.separator + files[i].getName())); //复制后文件的保存路径
+int count = fis.available();
+byte[] data = new byte[count];
+while ((str = bre.readLine())!= null) //读取文件通过readline方法可以有效的避免乱码
+out.write(str ); //将读取的信息写入文件中
+} 
+out.close(); //关闭流
+fis.close();
+} catch (Exception e) {
+e.printStackTrace();
+}
+}
+if (files[i].isDirectory()) { //如果文件夹中是一个路径
+File des = new File(d.getPath() + File.separator
++ files[i].getName()); //在复制后路径中创建子文件夹
+des.mkdir();
+copy(files[i].listFiles(), des); //再次调用本方法
+} 
+}
+System.out.println("文件夹复制成功");
+}
+
+
+

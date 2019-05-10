@@ -1,0 +1,6 @@
+﻿[root@HA1 ~]# vi /etc/vsftpd/vsftpd.conf
+格林时间转北京时间
+
+use_localtime=YES
+
+[root@HA1 ~]# service vsftpd restart

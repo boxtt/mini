@@ -1,0 +1,2 @@
+﻿idea官方下载地址：https://confluence.jetbrains.com/display/IntelliJIDEA/Previous+IntelliJ+IDEA+Releases；
+idea主题包：http://www.riaway.com/；

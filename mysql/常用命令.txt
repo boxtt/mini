@@ -1,0 +1,20 @@
+﻿查询默认引擎：show engines
+查询数据库所有表：show tables
+查询表字段：desc tablename
+查询表索引：show index from tablename
+
+
+show create table trade;
+
+show PROCESSLIST;
+select concat('KILL ',id,';') from information_schema.processlist where user='readonly';
+kill id;
+explain;
+
+查看sort_buffer_size、join_buffer_zise
+show variables like '%join_buffer_zise%';
+set SESSION sort_buffer_size=7000000;对话级修改，重启后失效
+set GLOBAL sort_buffer_size = 7000000;全局修改，修改后并不变化，重启后生效
+
+
+

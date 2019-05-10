@@ -1,0 +1,4 @@
+﻿like表示模糊查询：
+sql：select * from tablename where username like '%zhangsan%'；
+解释：以上语句中是查询出tablename表中username字段中有“zhangsan”的所有记录。
+备注：不管是存储过程、function、table中like的用法都是一致的。

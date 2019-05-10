@@ -1,0 +1,78 @@
+﻿下载openssl
+
+cd oneinstack/src
+wget https://www.openssl.org/source/openssl-1.0.2k.tar.gz
+tar -zvxf openssl-1.0.2k.tar.gz
+cd openssl-1.0.2k
+1
+2
+3
+4
+cd oneinstack/src
+wget https://www.openssl.org/source/openssl-1.0.2k.tar.gz
+tar -zvxf openssl-1.0.2k.tar.gz
+cd openssl-1.0.2k
+完成上面的步骤了，我们就可以编译新版本的openssl了!
+
+编译openssl
+
+./config
+make
+make test
+make install
+1
+2
+3
+4
+./config
+make
+make test
+make install
+编译完成后，再次查看openssl版本，你会发现，依然是老版本
+
+
+[root@gainetzmizea openssl-1.0.2k]# openssl version -v
+OpenSSL 1.0.1e-fips 11 Feb 2013
+1
+2
+[root@gainetzmizea openssl-1.0.2k]# openssl version -v
+OpenSSL 1.0.1e-fips 11 Feb 2013
+不要急，下面这个步骤你需要完成！
+
+
+mv /usr/bin/openssl /usr/bin/openssl.bak
+mv /usr/include/openssl /usr/include/openssl.bak
+ln -s /usr/local/ssl/bin/openssl /usr/bin/openssl
+ln -s /usr/local/ssl/include/openssl /usr/include/openssl
+echo “/usr/local/ssl/lib” >> /etc/ld.so.conf
+1
+2
+3
+4
+5
+mv /usr/bin/openssl /usr/bin/openssl.bak
+mv /usr/include/openssl /usr/include/openssl.bak
+ln -s /usr/local/ssl/bin/openssl /usr/bin/openssl
+ln -s /usr/local/ssl/include/openssl /usr/include/openssl
+echo “/usr/local/ssl/lib” >> /etc/ld.so.conf
+依次完成命令，再次查看版本
+
+
+[root@gainetzmizea openssl-1.0.2k]# openssl version
+OpenSSL 1.0.2k  26 Jan 2017
+1
+2
+[root@gainetzmizea openssl-1.0.2k]# openssl version
+OpenSSL 1.0.2k  26 Jan 2017
+可以看到openssl完美升级了！
+
+至于新版本编译到nginx中，因为本来nginx编译的就是这个版本，我就不多加赘述，大家自行依葫芦画瓢！
+
+
+
+
+回退的话》 
+
+
+mv /usr/bin/openssl /usr/bin/openssl.bak
+mv /usr/include/openssl /usr/include/openssl.bak

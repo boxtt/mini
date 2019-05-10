@@ -1,0 +1,46 @@
+﻿
+#############渠道通知系统修改数据库参数#######################
+update settings set key = 'lccb_noticeSendIncreaseTimes',remark='廊坊银行渠道通知发送递增次数（单位次）' where key='lfbNoticeSendIncreaseTimes';
+update settings set key = 'lccb_noticeSendInterval',remark='廊坊银行渠道通知发送间隔（单位分钟）' where key='lfbNoticeSendInterval';
+update settings set key = 'lccb_noticeRetryTimes',remark='廊坊银行渠道通知最大发送次数' where key='lfbNoticeRetryTimes';
+
+insert into settings (KEY, VALUE, REMARK, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS)
+values ('pab_noticeSendIncreaseTimes', '48', '平安银行渠道通知发送递增次数（单位次）', null, null, null, null);
+
+insert into settings (KEY, VALUE, REMARK, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS)
+values ('pab_noticeSendInterval', '30', '平安银行渠道通知发送间隔（单位分钟）', null, null, null, null);
+
+insert into settings (KEY, VALUE, REMARK, VERIFY_CODE, LAST_EDIT_TIME, LAST_EDITOR, LAST_EDIT_PROCESS)
+values ('pab_noticeRetryTimes', '48', '平安银行渠道通知最大发送次数', null, null, null, null);
+
+
+
+#############徽商对账系统修改配置文件（172.16.219.103）############
+#/sumapay/config/sumapay-config.properties文件添加配置参数
+#格式为丰付商户编码:平安商户编码:到账标识,丰付商户编码:平安商户编码:到账标识,丰付商户编码:平安商户编码:到账标识。到账标识：0表示T+0，1表示T+1
+PAB_MERCHANT=CSSH:6034:1,GDB:PLB0002:1
+#平安银行丰付代码
+PAB_FENGFU_CODE=6913
+
+其他（连接器需要ftp的路径）。文件上传的路径是：/bankTrusteeship/pab/statment/
+
+
+    
+    调度2.0系统172.16.8.9添加调度文件（需要重新打徽商2.0的client包）：p2pPabBankCheckNotice.xml
+/sumapay/config/sumapay-config.properties文件添加配置参数（172.16.8.9）
+#平安存管对账通知服务，调度时间执行时间为：0 30 4 * * ? *
+p2pBankCheck.pabBankCheckNotice.service.url=http://${trusteeship.springremote.haproxy.server}/p2pBankCheck/remote/pabBankCheckNoticeService
+p2pBankCheck.pabBankCheckNotice.service.businessInterface = com.sumavision.ecommerce.plateform.core.trusteeship.bankcheck.service.PabBankCheckNoticeService
+
+#平安存管对账通知结果查询服务，调度时间执行时间为：0 0 0/1 * * ? *
+p2pBankCheck.pabBankCheckNoticeQuery.service.url=http://${trusteeship.springremote.haproxy.server}/p2pBankCheck/remote/pabBankCheckNoticeQueryService
+p2pBankCheck.pabBankCheckNoticeQuery.service.businessInterface = com.sumavision.ecommerce.plateform.core.trusteeship.bankcheck.service.PabBankCheckNoticeQueryService
+
+
+异常文件/sumapay/exception/bankcheck-exception.properties添加内容：
+230000023=银行对账进度日期与获取到的对账日期不一致
+#异步结果处理时间超过设置的失效时间
+230000024=无效的请求
+230000025=银行接口通信异常
+#商户代码对应的商户在数据库中不存在，抛出异常
+230000026=商户代码不正确
